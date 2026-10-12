@@ -1,5 +1,5 @@
 /*
-    Football Management System
+    Football League Management System
     DML Practice
 
     This file contains:
@@ -13,7 +13,7 @@
 */
 
 
-USE FOOTBALL_MANAGEMENT_SYSTEM;
+USE FOOTBALL_LEAGUE_DB;
 GO
 
 
@@ -163,10 +163,10 @@ GO
 
 
 /*
-    Insert coach-club assignments.
+    Insert club-coach assignments.
 */
 
-INSERT INTO COACH_CLUB
+INSERT INTO CLUB_COACHES
 (
     COACH_ID,
     CLUB_ID,
@@ -212,7 +212,7 @@ GO
     Insert league standings.
 */
 
-INSERT INTO LEAGUE_STANDINGS
+INSERT INTO STANDINGS
 (
     CLUB_ID,
     SEASON_YEAR,
@@ -432,7 +432,7 @@ VALUES
 );
 GO
 
-UPDATE COACH_CLUB
+UPDATE CLUB_COACHES
 SET COACH_ID = 'COACH07'
 WHERE CLUB_ID =
 (
@@ -444,7 +444,7 @@ AND ROLE = N'Head Coach';
 GO
 
 SELECT *
-FROM COACH_CLUB;
+FROM CLUB_COACHES;
 GO
 
 

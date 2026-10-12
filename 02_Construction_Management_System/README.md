@@ -14,6 +14,15 @@ The database is designed to manage information related to construction projects 
 
 The database structure and requirements are based on the exercises provided in the textbook.
 
+The database manages information about:
+
+- Architects
+- Contractors
+- Clients
+- Workers
+- Construction_Projects
+- Worker_Participation
+- Project_Design
 ---
 
 ## 2. Source

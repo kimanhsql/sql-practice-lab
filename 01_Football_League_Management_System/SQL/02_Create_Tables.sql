@@ -1,10 +1,10 @@
 -- ============================================================
--- FOOTBALL MANAGEMENT SYSTEM
+-- FOOTBALL LEAGUE MANAGEMENT SYSTEM
 -- CREATE TABLES
 -- ============================================================
 
 
-USE FOOTBALL_MANAGEMENT_SYSTEM;
+USE FOOTBALL_LEAGUE_DB;
 GO
 
 
@@ -52,7 +52,8 @@ GO
 
 
 -- Create the CLUBS table.
--- Stores football club information and its stadium/province relationships.
+-- Stores football club information and
+-- its stadium/province relationships.
 
 CREATE TABLE CLUBS
 (
@@ -125,23 +126,23 @@ CREATE TABLE COACHES
 GO
 
 
--- Create the COACH_CLUB table.
+-- Create the CLUB_COACHES table.
 -- Associates coaches with clubs and stores their roles.
 
-CREATE TABLE COACH_CLUB
+CREATE TABLE CLUB_COACHES
 (
     COACH_ID VARCHAR(5),
     CLUB_ID VARCHAR(5),
     ROLE NVARCHAR(100) NOT NULL,
 
-    CONSTRAINT PK_COACH_CLUB
+    CONSTRAINT PK_CLUB_COACHES
         PRIMARY KEY (COACH_ID, CLUB_ID),
 
-    CONSTRAINT FK_COACHES_COACH_CLUB
+    CONSTRAINT FK_COACHES_CLUB_COACHES
         FOREIGN KEY (COACH_ID)
         REFERENCES COACHES(COACH_ID),
 
-    CONSTRAINT FK_CLUBS_COACH_CLUB
+    CONSTRAINT FK_CLUBS_CLUB_COACHES
         FOREIGN KEY (CLUB_ID)
         REFERENCES CLUBS(CLUB_ID)
 );

@@ -1,4 +1,4 @@
-# QLBongDa - Football Management System
+# QLBongDa - Football League Management System
 
 ## Bài 1. Cơ sở dữ liệu về Quản lý giải bóng đá (QLBongDa) 
 
@@ -254,7 +254,7 @@ Phần giáo trình có các hình minh họa cấu trúc bảng:
 
 Hình ảnh gốc được giữ trong:
 
-17_Database_Projects\01_Football_Management_System\Images.
+sql-practie-lab\01_Football_League_Management_System\Images.
 
 ---
 
@@ -347,6 +347,7 @@ Xóa các cầu thủ:
 
 - Có tuổi trên 35
 - Thuộc câu lạc bộ có tên:
+
 BECAMEX BÌNH DƯƠNG
 
 ---

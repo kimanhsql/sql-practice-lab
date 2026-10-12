@@ -1,10 +1,10 @@
 -- ============================================================
--- FOOTBALL MANAGEMENT SYSTEM
+-- FOOTBALL LEAGUE MANAGEMENT SYSTEM
 -- CREATE DATABASE
 -- ============================================================
 
-CREATE DATABASE FOOTBALL_MANAGEMENT_SYSTEM;
+CREATE DATABASE FOOTBALL_LEAGUE_DB;
 GO
 
-USE FOOTBALL_MANAGEMENT_SYSTEM;
+USE FOOTBALL_LEAGUE_DB;
 GO

@@ -1,6 +1,6 @@
-# Football Management System
+# Football League Management System
 
-This project is a SQL Server database project based on the **QLBongDa (Football Management System)** exercises from the *Database Fundamentals* textbook.
+This project is a SQL Server database project based on the **QLBongDa (Football League Management System)** exercises from the *Database Fundamentals* textbook.
 
 The project is used to practice database design, SQL queries, and data manipulation on a football management database.
 
@@ -18,9 +18,9 @@ The database manages information about:
 - Football clubs
 - Players
 - Coaches
-- Coach-club assignments
+- Club_Coaches
 - Matches
-- League standings
+- Standings
 
 ---
 
@@ -57,7 +57,7 @@ The original exercises are from the Vietnamese textbook and are translated into 
 
 ## 3. Project Structure
 
-Football Management System/
+Football league Management System/
 ├── Images/
 |
 ├── SQL/
