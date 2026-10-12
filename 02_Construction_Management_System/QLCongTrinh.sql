@@ -1,6 +1,10 @@
 USE master
 GO
 
+-- ============================================================
+-- PHẦN I - TẠO CƠ SỞ DỮ LIỆU VÀ CÁC BẢNG
+-- ============================================================
+
 -- Câu 1:
 -- Tạo CSDL có tên là QL_CONGTRINH.
 
@@ -126,4 +130,5 @@ GO
 -- Câu 4:
 -- Xem mô hình liên kết giữa các Table trong CSDL.
 
--- Thực hiện bằng Database Diagrams trong SQL Server Management Studio.
+-- Thực hiện bằng Database Diagrams trong
+-- SQL Server Management Studio.

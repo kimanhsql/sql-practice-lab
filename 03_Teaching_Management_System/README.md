@@ -19,7 +19,7 @@ The database manages information about:
 - Classes
 - Teaching schedules
 
-### Original Tables
+### Tables
 
 ```text
 GIAOVIEN
@@ -29,15 +29,6 @@ KHOA
 LOP
 LICHDAY
 ```
-
-Main Relationships:
-
-- A teacher belongs to a department.
-- A class belongs to a department.
-- A teaching schedule is associated with a teacher.
-- A teaching schedule is associated with a subject.
-- A teaching schedule is associated with a classroom.
-- A teaching schedule is associated with a class.
   
 ---
 
@@ -57,83 +48,19 @@ The repository version is translated into English for easier use in the SQL proj
 
 ---
 
-## 3. Database Structure
+## 3. Project Structure
 
-- GIAOVIEN
+Teaching_Management_System/
+│
+├── SQL/
+|
+├── Notes.md
+├── QLGiangDay.sql
+└── README.md
 
-```sql
-GIAOVIEN(
-    MaGV,
-    HoTen,
-    MaKhoa
-)
-```
+`QLGiangDay.sql` contains the complete SQL work for the database.
 
-Stores teacher information and the department to which each teacher belongs.
-
-- MONHOC
-
-```sql
-MONHOC(
-    MaMH,
-    TenMH
-)
-```
-
-Stores subject information.
-
-- PHONGHOC
-
-```sql
-PHONGHOC(
-    Phong,
-    ChucNang
-)
-```
-
-Stores classroom information and its function.
-
-- KHOA
-
-```sql
-KHOA(
-    MaKhoa,
-    TenKhoa
-)
-```
-
-Stores department information.
-
-- LOP
-
-```sql
-LOP(
-    MaLop,
-    TenLop,
-    MaKhoa
-)
-```
-
-Stores class information and the department to which each class belongs.
-
-- LICHDAY
-
-```sql
-LICHDAY(
-    MaGV,
-    MaMH,
-    Phong,
-    MaLop,
-    NgayDay,
-    TuTiet,
-    DenTiet,
-    BaiDay,
-    LyThuyet,
-    GhiChu
-)
-```
-
-Stores teaching schedule information, including the teacher, subject, classroom, class, teaching date, periods, lesson, theory information, and notes.
+The SQL/ directory contains the separated and translated SQL scripts used for the project.
 
 ---
 
@@ -183,19 +110,7 @@ The textbook exercise requires the following tasks:
 
 ---
 
-## 5. Project Files
 
-Teaching_Management_System/
-│
-├── SQL/
-|
-├── Notes.md
-├── QLGiangDay.sql
-└── README.md
-
-`QLGiangDay.sql` contains the complete SQL work for the database.
-
-The SQL/ directory contains the separated and translated SQL scripts used for the project.
 
 ---
 

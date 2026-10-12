@@ -57,7 +57,7 @@ The original exercises are from the Vietnamese textbook and are translated into 
 
 ## 3. Project Structure
 
-Football league Management System/
+Football League Management System/
 ├── Images/
 |
 ├── SQL/

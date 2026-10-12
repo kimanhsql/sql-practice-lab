@@ -10,10 +10,6 @@ The project is used to practice database design, table creation, relationships, 
 
 **Database:** `QLCongTrinh`
 
-The database is designed to manage information related to construction projects and the entities involved in them.
-
-The database structure and requirements are based on the exercises provided in the textbook.
-
 The database manages information about:
 
 - Architects
@@ -23,6 +19,21 @@ The database manages information about:
 - Construction_Projects
 - Worker_Participation
 - Project_Design
+
+---
+
+### Tables
+
+```sql
+KTRUCSU
+CHUTHAU
+CHUNHAN
+CONGNHAN
+CONGTRINH
+THAMGIA
+THIETKE
+```
+
 ---
 
 ## 2. Source
@@ -41,7 +52,7 @@ The SQL implementation in this project is written in English for consistency wit
 
 ---
 
-## 3. Project Files
+## 3. Project Structure
 
 ```text
 Construction Management System/

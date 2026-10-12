@@ -3,7 +3,7 @@
 -- CREATE TABLES
 -- ============================================================
 
-USE CONSTRUCTION_MANAGEMENT_SYSTEM;
+USE CONSTRUCTION_DB;
 GO
 
 

@@ -1,12 +1,15 @@
-CREATE DATABASE QLBongDa
-GO
-
-USE QLBongDa
+USE master
 GO
 
 -- ============================================================
 -- PHẦN I - TẠO CƠ SỞ DỮ LIỆU VÀ CÁC BẢNG
 -- ============================================================
+
+CREATE DATABASE QLBongDa
+GO
+
+USE QLBongDa
+GO
 
 CREATE TABLE QUOCGIA
 (
