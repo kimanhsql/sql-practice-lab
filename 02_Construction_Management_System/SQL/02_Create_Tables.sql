@@ -7,7 +7,7 @@ USE CONSTRUCTION_DB;
 GO
 
 
--- ARCHITECTS
+-- Create table for Architects
 
 CREATE TABLE ARCHITECTS
 (
@@ -23,7 +23,7 @@ CREATE TABLE ARCHITECTS
 GO
 
 
--- CONTRACTORS
+-- Create table for Contractors
 
 CREATE TABLE CONTRACTORS
 (
@@ -37,7 +37,7 @@ CREATE TABLE CONTRACTORS
 GO
 
 
--- CLIENTS
+-- Create table for Clients
 
 CREATE TABLE CLIENTS
 (
@@ -50,7 +50,7 @@ CREATE TABLE CLIENTS
 GO
 
 
--- WORKERS
+-- Create table for Workers
 
 CREATE TABLE WORKERS
 (
@@ -65,7 +65,7 @@ CREATE TABLE WORKERS
 GO
 
 
--- CONSTRUCTION PROJECTS
+-- Create table for Construction Projects
 
 CREATE TABLE CONSTRUCTION_PROJECTS
 (
@@ -92,7 +92,7 @@ CREATE TABLE CONSTRUCTION_PROJECTS
 GO
 
 
--- WORKER PARTICIPATION
+-- Create table for Worker Participation in Projects
 
 CREATE TABLE WORKER_PARTICIPATION
 (
@@ -115,7 +115,7 @@ CREATE TABLE WORKER_PARTICIPATION
 GO
 
 
--- PROJECT DESIGN
+-- Create table for Project Designs
 
 CREATE TABLE PROJECT_DESIGN
 (

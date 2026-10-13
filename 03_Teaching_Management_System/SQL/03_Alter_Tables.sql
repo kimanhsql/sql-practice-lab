@@ -8,7 +8,7 @@
     QLGiangDay exercise - Page 100
 */
 
-USE TEACHING_MANAGEMENT_SYSTEM;
+USE TEACHING_DB;
 GO
 
 
@@ -105,16 +105,16 @@ ALTER TABLE Classes
 GO
 
 
--- ============================================================
--- Requirement 8
--- Integrity constraints required for:
--- ClassSize
--- TotalCredits
--- TheoryCredits
--- PracticalCredits
--- Capacity
--- Age
--- ============================================================
+/*
+    Requirement 8
+    Add integrity constraints for the following columns:
+        ClassSize
+        TotalCredits
+        TheoryCredits
+        PracticalCredits
+        Capacity
+        Age
 
--- The constraints for these columns were created
--- together with the corresponding ALTER TABLE statements above.
+    The constraints for these columns were created
+    together with the corresponding ALTER TABLE statements above.
+*/

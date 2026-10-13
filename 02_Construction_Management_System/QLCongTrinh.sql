@@ -5,8 +5,10 @@ GO
 -- PHẦN I - TẠO CƠ SỞ DỮ LIỆU VÀ CÁC BẢNG
 -- ============================================================
 
--- Câu 1:
--- Tạo CSDL có tên là QL_CONGTRINH.
+/*
+	Câu 1
+	Tạo CSDL có tên là QL_CONGTRINH.
+*/
 
 CREATE DATABASE QL_CONGTRINH
 GO
@@ -15,19 +17,19 @@ USE QL_CONGTRINH
 GO
 
 
--- ============================================================
--- Câu 2:
--- Tạo các Table trong cơ sở dữ liệu QL_CONGTRINH.
---
--- Các bảng cần tạo:
--- KTRUCSU
--- CHUTHAU
--- CHUNHAN
--- CONGNHAN
--- CONGTRINH
--- THAMGIA
--- THIETKE
--- ============================================================
+/*
+	Câu 2
+	Tạo các Table trong cơ sở dữ liệu QL_CONGTRINH.
+
+	Các bảng cần tạo:
+	KTRUCSU
+	CHUTHAU
+	CHUNHAN
+	CONGNHAN
+	CONGTRINH
+	THAMGIA
+	THIETKE
+*/
 
 CREATE TABLE KTRUCSU
 (
@@ -113,22 +115,24 @@ CREATE TABLE THIETKE
 GO
 
 
--- Câu 3:
--- Tạo liên kết giữa các Table trong cơ sở dữ liệu QL_CONGTRINH.
+/*
+	Câu 3
+	Tạo liên kết giữa các Table trong cơ sở dữ liệu QL_CONGTRINH.
 
--- Các liên kết được tạo thông qua FOREIGN KEY:
--- 	CONGTRINH.TEN_CHU  -> CHUNHAN.TEN_CHU
--- 	CONGTRINH.TEN_THAU -> CHUTHAU.TEN_THAU
--- 	THAMGIA.HOTEN_CN   -> CONGNHAN.HOTEN_CN
--- 	THAMGIA.STT_CTR    -> CONGTRINH.STT_CTR
--- 	THIETKE.HOTEN_KTS  -> KTRUCSU.HOTEN_KTS
--- 	THIETKE.STT_CTR    -> CONGTRINH.STT_CTR
+	Các liên kết được tạo thông qua FOREIGN KEY:
+		CONGTRINH.TEN_CHU  -> CHUNHAN.TEN_CHU
+		CONGTRINH.TEN_THAU -> CHUTHAU.TEN_THAU
+		THAMGIA.HOTEN_CN   -> CONGNHAN.HOTEN_CN
+		THAMGIA.STT_CTR    -> CONGTRINH.STT_CTR
+		THIETKE.HOTEN_KTS  -> KTRUCSU.HOTEN_KTS
+		THIETKE.STT_CTR    -> CONGTRINH.STT_CTR
 
--- Các FOREIGN KEY đã được khai báo trực tiếp trong CREATE TABLE.
+	Các FOREIGN KEY đã được khai báo trực tiếp trong CREATE TABLE.
 
 
--- Câu 4:
--- Xem mô hình liên kết giữa các Table trong CSDL.
+	Câu 4
+	Xem mô hình liên kết giữa các Table trong CSDL.
 
--- Thực hiện bằng Database Diagrams trong
--- SQL Server Management Studio.
+	Thực hiện bằng Database Diagrams trong
+	SQL Server Management Studio.
+*/

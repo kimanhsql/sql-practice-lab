@@ -135,7 +135,7 @@ GO
 
 -- ============================================================
 -- PHẦN II - NHẬP DỮ LIỆU
--- CÂU 1
+-- Câu 1
 -- Nhập dữ liệu vào các bảng của CSDL QLBongDa.
 -- ============================================================
 
@@ -332,10 +332,8 @@ GO
 -- PHẦN III - BÀI TẬP DML
 -- ============================================================
 
--- ============================================================
--- CÂU 2
+-- Câu 2
 -- Xóa cầu thủ 'Nguyễn Vũ Phong'.
--- ============================================================
 
 DELETE
     FROM CAUTHU
@@ -345,10 +343,8 @@ GO
 SELECT * FROM CAUTHU
 GO
 
--- ============================================================
--- CÂU 3
+-- Câu 3
 -- Xóa các cầu thủ có tuổi trên 40.
--- ============================================================
 
 DELETE
     FROM CAUTHU
@@ -358,10 +354,8 @@ GO
 SELECT * FROM CAUTHU
 GO
 
--- ============================================================
--- CÂU 4
+-- Câu 4
 -- Xóa các cầu thủ có tuổi trên 35 ở câu lạc bộ 'BBD'.
--- ============================================================
 
 DELETE
     FROM CAUTHU
@@ -372,11 +366,9 @@ GO
 SELECT * FROM CAUTHU
 GO
 
--- ============================================================
--- CÂU 5
+-- Câu 5
 -- Xóa các cầu thủ có tuổi trên 35 ở câu lạc bộ
 -- 'BECAMEX BÌNH DƯƠNG'.
--- ============================================================
 
 DELETE
     FROM CAUTHU
@@ -392,11 +384,9 @@ GO
 SELECT * FROM CAUTHU
 GO
 
--- ============================================================
--- CÂU 6
+-- Câu 6
 -- Đổi vị trí thi đấu của cầu thủ
 -- 'Nguyễn Trường Sơn' thành 'Tiền đạo'.
--- ============================================================
 
 UPDATE CAUTHU
     SET VITRI=N'Tiền đạo'
@@ -406,11 +396,8 @@ GO
 SELECT * FROM CAUTHU
 GO
 
--- ============================================================
--- CÂU 7
--- Ghi nhận địa chỉ của huấn luyện viên
--- 'Lê Huỳnh Đức' là 'TP.HCM'.
--- ============================================================
+-- Câu 7
+-- Ghi nhận địa chỉ của huấn luyện viên 'Lê Huỳnh Đức' là 'TP.HCM'.
 
 UPDATE HUANLV
     SET DIACHI='TP.HCM'
@@ -420,11 +407,9 @@ GO
 SELECT * FROM HUANLV
 GO
 
--- ============================================================
--- CÂU 8
+-- Câu 8
 -- Đổi vị trí của cầu thủ 'Nguyễn Công Vinh'
 -- với cầu thủ 'Trần Tấn Tài'.
--- ============================================================
 
 SELECT HOTEN,VITRI
     FROM CAUTHU
@@ -448,11 +433,9 @@ GO
 SELECT * FROM CAUTHU
 GO
 
--- ============================================================
--- CÂU 9
--- Thay huấn luyện viên mới của 'GẠCH ĐỒNG TÂM LONG AN'
--- là 'Nguyễn Đức Thắng'.
--- ============================================================
+-- Câu 9
+-- Thay huấn luyện viên mới của
+-- 'GẠCH ĐỒNG TÂM LONG AN' là 'Nguyễn Đức Thắng'.
 
 SELECT MAHLV,TENHLV
     FROM HUANLV
@@ -480,11 +463,8 @@ GO
 SELECT * FROM HLV_CLB
 GO
 
--- ============================================================
--- CÂU 10
--- Đổi tên câu lạc bộ 'BECAMEX BÌNH DƯƠNG'
--- thành 'BÌNH DƯƠNG'.
--- ============================================================
+-- Câu 10
+-- Đổi tên câu lạc bộ 'BECAMEX BÌNH DƯƠNG' thành 'BÌNH DƯƠNG'.
 
 UPDATE CAULACBO
     SET TENCLB=N'BÌNH DƯƠNG'

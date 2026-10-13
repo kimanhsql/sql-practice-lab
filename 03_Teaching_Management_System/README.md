@@ -38,7 +38,7 @@ Document: `TH1207_GT.pdf`
 
 Relevant Page:
 
- Pages | Content |
+Pages | Content |
 |---|---|
 | 100 | QLGiangDay database and exercises |
 
@@ -107,10 +107,6 @@ The textbook exercise requires the following tasks:
 - TCTH
 - SucChua
 - TuoiGV
-
----
-
-
 
 ---
 

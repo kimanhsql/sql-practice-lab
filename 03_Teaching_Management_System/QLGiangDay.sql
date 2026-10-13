@@ -2,11 +2,13 @@ USE master
 GO
 
 -- ============================================================
--- BÀI 3 - CƠ SỞ DỮ LIỆU QLGiangDay
--- Trang 100 - Giáo trình TH1207_GT.pdf
---
--- Câu 1: Tạo CSDL QLGiangDay.
+-- PHẦN I - TẠO CƠ SỞ DỮ LIỆU VÀ CÁC BẢNG
 -- ============================================================
+
+/*
+    Câu 1
+    Tạo CSDL QLGiangDay.
+*/
 
 CREATE DATABASE QLGiangDay
 GO
@@ -15,9 +17,10 @@ USE QLGiangDay
 GO
 
 
--- ============================================================
--- Câu 2: Tạo các table và thiết lập khóa chính, khóa ngoại.
--- ============================================================
+/*
+    Câu 2
+    Tạo các table và thiết lập khóa chính, khóa ngoại.
+*/
 
 CREATE TABLE KHOA
 (
@@ -90,9 +93,10 @@ CREATE TABLE LICHDAY
 GO
 
 
--- ============================================================
--- Câu 4: Thêm cột ngày sinh, giới tính, tuổi vào GIAOVIEN.
--- ============================================================
+/*
+    Câu 4
+    Thêm cột ngày sinh, giới tính, tuổi vào GIAOVIEN.
+*/
 
 ALTER TABLE GIAOVIEN
     ADD NGSINH DATE
@@ -113,23 +117,26 @@ ALTER TABLE GIAOVIEN
 GO
 
 
--- ============================================================
--- Câu 5: Thêm cột SucChua (sức chứa) vào PHONGHOC.
--- ============================================================
+/*
+    Câu 5
+    Thêm cột SucChua (sức chứa) vào PHONGHOC.
+*/
 
 ALTER TABLE PHONGHOC
     ADD SUCCHUA INT
 GO
 
 -- Sức chứa phòng học phải lớn hơn 0.
+
 ALTER TABLE PHONGHOC
     ADD CONSTRAINT CHK_PHONGHOC CHECK(SUCCHUA > 0)
 GO
 
 
--- ============================================================
--- Câu 6: Thêm SoTC, số TCLT, số TCTH vào MONHOC.
--- ============================================================
+/*
+    Câu 6
+    Thêm SoTC, số TCLT, số TCTH vào MONHOC.
+*/
 
 ALTER TABLE MONHOC
     ADD SOTC INT
@@ -161,17 +168,18 @@ ALTER TABLE MONHOC
     ADD CONSTRAINT CHK_TCTH CHECK(TCTH BETWEEN 0 AND 4)
 GO
 
--- Tổng số tín chỉ phải bằng số tín chỉ lý thuyết
--- cộng với số tín chỉ thực hành.
+-- Tổng số tín chỉ phải bằng
+-- số tín chỉ lý thuyết cộng với số tín chỉ thực hành.
 
 ALTER TABLE MONHOC
     ADD CONSTRAINT CHK_TONGTC CHECK(SOTC = TCLT + TCTH)
 GO
 
 
--- ============================================================
--- Câu 7: Thêm SiSo vào LOP.
--- ============================================================
+/*
+    Câu 7
+    Thêm SiSo vào LOP.
+*/
 
 ALTER TABLE LOP
     ADD SISO INT
@@ -184,10 +192,11 @@ ALTER TABLE LOP
 GO
 
 
--- ============================================================
--- Câu 8: Thêm ràng buộc toàn vẹn cho các cột:
---        SiSo, SoTC, TCLT, TCTH, SucChua, TuoiGV.
---
--- Các ràng buộc đã được thiết lập ở các câu tương ứng
--- phía trên.
--- ============================================================
+/*
+    Câu 8
+    Thêm ràng buộc toàn vẹn cho các cột:
+        SiSo, SoTC, TCLT, TCTH, SucChua, TuoiGV.
+    
+    Các ràng buộc đã được thiết lập ở
+    các câu tương ứng phía trên.
+*/

@@ -64,20 +64,6 @@ Construction Management System/
 └── README.md
 ```
 
-- File Description
-
-* README.md
-
-Provides an overview of the project and its organization.
-
-* Notes.md
-
-Contains the original Vietnamese exercise requirements from the textbook.
-
-* SQL/
-
-Contains the SQL implementation of the database and its exercises.
-
 ---
 
 ## 4. Project Workflow

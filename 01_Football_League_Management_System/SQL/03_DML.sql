@@ -22,9 +22,7 @@ GO
    ============================================================ */
 
 
-/*
-    Insert data into COUNTRIES.
-*/
+-- Insert data into COUNTRIES.
 
 INSERT INTO COUNTRIES (COUNTRY_ID, COUNTRY_NAME)
 VALUES
@@ -38,9 +36,7 @@ VALUES
 GO
 
 
-/*
-    Insert data into STADIUMS.
-*/
+-- Insert data into STADIUMS.
 
 INSERT INTO STADIUMS (STADIUM_ID, STADIUM_NAME, ADDRESS)
 VALUES
@@ -53,9 +49,7 @@ VALUES
 GO
 
 
-/*
-    Insert data into PROVINCES.
-*/
+-- Insert data into PROVINCES.
 
 INSERT INTO PROVINCES (PROVINCE_ID, PROVINCE_NAME)
 VALUES
@@ -68,9 +62,7 @@ VALUES
 GO
 
 
-/*
-    Insert data into CLUBS.
-*/
+-- Insert data into CLUBS.
 
 INSERT INTO CLUBS (CLUB_ID, CLUB_NAME, STADIUM_ID, PROVINCE_ID)
 VALUES
@@ -115,9 +107,7 @@ SET IDENTITY_INSERT PLAYERS OFF;
 GO
 
 
-/*
-    Insert additional players.
-*/
+-- Insert additional players.
 
 INSERT INTO PLAYERS
 (
@@ -139,9 +129,7 @@ VALUES
 GO
 
 
-/*
-    Insert data into COACHES.
-*/
+-- Insert data into COACHES.
 
 INSERT INTO COACHES
 (
@@ -162,9 +150,7 @@ VALUES
 GO
 
 
-/*
-    Insert club-coach assignments.
-*/
+-- Insert club-coach assignments.
 
 INSERT INTO CLUB_COACHES
 (
@@ -182,9 +168,7 @@ VALUES
 GO
 
 
-/*
-    Insert match data.
-*/
+-- Insert match data.
 
 INSERT INTO MATCHES
 (
@@ -208,9 +192,7 @@ VALUES
 GO
 
 
-/*
-    Insert league standings.
-*/
+-- Insert league standings.
 
 INSERT INTO STANDINGS
 (
@@ -370,10 +352,7 @@ WHERE PLAYER_NAME IN
 GO
 
 
-/*
-    Temporary value is used to safely swap
-    the two positions.
-*/
+-- Temporary value is used to safely swap the two positions.
 
 DECLARE @TemporaryPosition NVARCHAR(20);
 
@@ -408,8 +387,7 @@ GO
 /*
     Exercise 9
     Replace the current head coach of
-    'GACH DONG TAM LONG AN'
-    with 'Nguyen Duc Thang'.
+    'GACH DONG TAM LONG AN' with 'Nguyen Duc Thang'.
 */
 
 INSERT INTO COACHES
@@ -451,8 +429,7 @@ GO
 /*
     Exercise 10
     Rename the club
-    'BECAMEX BINH DUONG'
-    to 'BINH DUONG'.
+    'BECAMEX BINH DUONG' to 'BINH DUONG'.
 */
 
 UPDATE CLUBS

@@ -3,11 +3,11 @@
 -- CREATE TABLES
 -- ============================================================
 
-USE TEACHING_MANAGEMENT_SYSTEM;
+USE TEACHING_DB;
 GO
 
 
--- DEPARTMENTS
+-- Create table for Departments
 
 CREATE TABLE DEPARTMENTS
 (
@@ -20,7 +20,7 @@ CREATE TABLE DEPARTMENTS
 GO
 
 
--- TEACHERS
+-- Create table for Teachers
 
 CREATE TABLE TEACHERS
 (
@@ -38,7 +38,7 @@ CREATE TABLE TEACHERS
 GO
 
 
--- SUBJECTS
+-- Create table for Subjects
 
 CREATE TABLE SUBJECTS
 (
