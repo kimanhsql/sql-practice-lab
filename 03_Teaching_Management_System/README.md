@@ -1,14 +1,14 @@
 # Teaching Management System
 
-This project is a SQL Server database project based on the **QLGiangDay (Teaching Management System)** exercise from the *Database Fundamentals* textbook.
+This project is a SQL Server database project based on the QLGiangDay exercises from the *Database Fundamentals* textbook.
 
-The project focuses on designing a database for managing teachers, subjects, classrooms, departments, classes, and teaching schedules.
+It is designed to practice relational database design, table relationships, schema modification, integrity constraints, and SQL data management through a teaching management database.
 
 ---
 
 ## 1. Database Overview
 
-**Original Database:** `QLGiangDay`
+**Database:** `QLGiangDay`
 
 The database manages information about:
 
@@ -17,7 +17,7 @@ The database manages information about:
 - Classrooms
 - Departments
 - Classes
-- Teaching schedules
+- Teaching Schedules
 
 ### Tables
 
@@ -29,119 +29,99 @@ KHOA
 LOP
 LICHDAY
 ```
-  
+
+### Requirements
+
+The textbook exercises cover the following tasks:
+
+1. Create the `QLGiangDay` database.
+2. Create the required tables.
+3. Define primary keys and foreign keys.
+4. Review the relationships between tables.
+5. Add the following columns to `GIAOVIEN`:
+   - Date of birth
+   - Gender
+   - Age
+6. Add the `SucChua` (capacity) column to `PHONGHOC`.
+7. Add the following columns to `MONHOC`:
+   - `SoTC`
+   - `TCLT`
+   - `TCTH`
+8. Add the `SiSo` (class size) column to `LOP`.
+9. Define integrity constraints for:
+   - `SiSo`
+   - `SoTC`
+   - `TCLT`
+   - `TCTH`
+   - `SucChua`
+   - `TuoiGV`
+
 ---
 
 ## 2. Source
 
-Document: `TH1207_GT.pdf`
+**Document:** `TH1207_GT.pdf`
 
-Relevant Page:
-
-Pages | Content |
+| Pages | Content |
 |---|---|
-| 100 | QLGiangDay database and exercises |
+| 100 | QLGiangDay database structure and exercises |
 
-The original exercise is written in Vietnamese.
-
-The repository version is translated into English for easier use in the SQL project.
+The project is based on the original Vietnamese textbook exercises. The original terminology is preserved in the reference notes, while the SQL implementation is organized in English where appropriate.
 
 ---
 
 ## 3. Project Structure
 
+```text
 Teaching_Management_System/
-│
 ├── SQL/
 |
 ├── Notes.md
 ├── QLGiangDay.sql
 └── README.md
+```
 
-`QLGiangDay.sql` contains the complete SQL work for the database.
+- `SQL/`: SQL scripts organized by topic or exercise.
+- `Notes.md`: Notes, explanations, and relevant information from the original exercises.
+- `QLGiangDay.sql`: Complete SQL script containing the database implementation and exercises.
+- `README.md`: Project documentation.
 
-The SQL/ directory contains the separated and translated SQL scripts used for the project.
-
----
-
-## 4. Requirements
-
-The textbook exercise requires the following tasks:
-
-1. Create a database named QLGiangDay.
-
-2. Create the following tables:
-
-- GIAOVIEN
-- MONHOC
-- PHONGHOC
-- KHOA
-- LOP
-- LICHDAY
-
-3. Configure primary keys and foreign keys between the tables.
-
-4. View the relationship model between the tables.
-
-5. Add the following columns to GIAOVIEN:
-
-- Date of birth
-- Gender
-- Age
-
-6. Add SucChua (capacity) to PHONGHOC.
-
-7. Add the following columns to MONHOC:
-
-- SoTC
-- TCLT
-- TCTH
-
-8. Add SiSo (class size) to LOP.
-
-9. Add integrity constraints for:
-
-- SiSo
-- SoTC
-- TCLT
-- TCTH
-- SucChua
-- TuoiGV
+The complete SQL script is preserved as a reference, while individual exercises are organized into separate files in the `SQL/` directory.
 
 ---
 
-## 6. Project Workflow
+## 4. Project Workflow
 
-The project follows this general workflow:
+The project follows these steps:
 
-1. Create the database.
-2. Create the tables.
-3. Define primary keys.
-4. Define foreign keys.
-5. Review the table relationships.
-6. Modify the existing tables by adding required columns.
-7. Add integrity constraints.
-8. Test the database.
-
----
-
-## 7.  Current Progress
-
-Database creation: ✅ Completed
-Table creation: ✅ Completed
-Primary keys: ✅ Completed
-Foreign keys: ✅ Completed
-Table relationships: ✅ Completed
-Additional columns: ✅ Completed
-Integrity constraints: ✅ Completed
-SQL file organization: ✅ Completed
+1. Analyze the database requirements.
+2. Create the database and tables.
+3. Define primary keys, foreign keys, and constraints.
+4. Review the relationships between tables.
+5. Modify the existing tables by adding the required columns.
+6. Define and test integrity constraints.
+7. Verify the database structure and behavior.
+8. Organize SQL scripts and document the solutions.
 
 ---
 
-## 8. Notes
+## 5. Current Progress
 
-This project is based on the QLGiangDay exercise from the textbook.
+- [x] Database creation
+- [x] Table creation
+- [x] Primary keys, foreign keys, and constraints
+- [x] Table relationship review
+- [x] Additional columns
+- [x] Integrity constraints
+- [x] SQL script organization
+- [x] Project documentation
 
-The original Vietnamese terminology is preserved in the reference notes, while the separated SQL files use English naming for tables, columns, and constraints.
+---
 
-The project will be expanded gradually as additional exercises are reviewed and implemented.
+## 6. Notes
+
+This project is part of a collection of SQL Server database projects used to practice database design and SQL programming.
+
+The database structure and requirements are based on the textbook exercises. The project also focuses on understanding relational integrity, schema modification, and the practical application of SQL constraints.
+
+The original complete SQL script is preserved in `QLGiangDay.sql` for reference.

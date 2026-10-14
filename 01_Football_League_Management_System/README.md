@@ -1,8 +1,8 @@
 # Football League Management System
 
-This project is a SQL Server database project based on the **QLBongDa (Football League Management System)** exercises from the *Database Fundamentals* textbook.
+This project is a SQL Server database project based on the QLBongDa exercises from the *Database Fundamentals* textbook.
 
-The project is used to practice database design, SQL queries, and data manipulation on a football management database.
+It is designed to practice relational database design, SQL queries, data manipulation, and database management using a football league database.
 
 ---
 
@@ -15,14 +15,12 @@ The database manages information about:
 - Countries
 - Stadiums
 - Provinces
-- Football clubs
+- Football Clubs
 - Players
 - Coaches
-- Club_Coaches
+- Club-Coach Assignments
 - Matches
-- Standings
-
----
+- League Standings
 
 ### Tables
 
@@ -42,76 +40,69 @@ BANGXH
 
 ## 2. Source
 
-Document: TH1207_GT.pdf
+**Document:** `TH1207_GT.pdf`
 
-Relevant pages:
-
- Pages | Content |
+| Pages | Content |
 |---|---|
 | 96–99 | Database structure and QLBongDa exercises |
 | 105–108 | Data manipulation exercises |
 
-The original exercises are from the Vietnamese textbook and are translated into English when organized into separate SQL files.
+The project is based on the original Vietnamese textbook exercises. The SQL implementation is organized and written in English where appropriate, while the original table names and database name are preserved for reference.
 
 ---
 
 ## 3. Project Structure
 
+```text
 Football League Management System/
 ├── Images/
-|
 ├── SQL/
 |
 ├── Notes.md
 ├── QLBongDa.sql
 └── README.md
+```
 
-`QLBongDa.sql` contains the complete SQL script for the database, including:
+- `Images/`: Images and database diagrams.
+- `SQL/`: SQL scripts organized by topic or exercise.
+- `Notes.md`: Notes, explanations, and relevant information from the original exercises.
+- `QLBongDa.sql`: Complete SQL script containing the database implementation and exercises.
+- `README.md`: Project documentation.
 
-- Database creation
-- Table creation
-- Primary keys and foreign keys
-- Data insertion
-- Data modification
-- Data deletion
-- Verification queries
-- Completed textbook exercises
-- SQL/
-
-Contains separated SQL exercises and related files organized by topic.
-
-The complete `QLBongDa.sql` file is kept as the original reference script.
+The complete SQL script is preserved as a reference, while individual exercises are organized into separate files in the `SQL/` directory.
 
 ---
 
 ## 4. Project Workflow
 
-The project is developed from the original textbook exercises and organized gradually:
+The project follows these steps:
 
-- Create the database
-- Create tables and constraints
-- Insert sample data
-- Practice SQL queries
-- Practice data manipulation
-- Separate exercises into organized SQL files
-- Review and improve the solutions
+1. Analyze the database requirements.
+2. Create the database and tables.
+3. Define primary keys, foreign keys, and constraints.
+4. Insert sample data.
+5. Practice SQL queries and data manipulation.
+6. Complete the textbook exercises.
+7. Organize SQL scripts and document the solutions.
 
 ---
 
 ## 5. Current Progress
 
-- Database creation: ✅ Completed
-- Table creation: ✅ Completed
-- Primary keys and foreign keys: ✅ Completed
-- Sample data: ✅ Completed
-- DML exercises: ✅ Completed
-- SQL organization: ✅ Completed
-- Project documentation: ✅ Completed
+- [x] Database creation
+- [x] Table creation
+- [x] Primary keys, foreign keys, and constraints
+- [x] Sample data
+- [x] DML exercises
+- [x] SQL script organization
+- [x] Project documentation
 
 ---
 
 ## 6. Notes
 
-This project is based on textbook exercises, but the goal is also to understand how the database works and how SQL concepts are applied to a practical relational database.
+This project is part of a collection of SQL Server database projects used to practice database design and SQL programming.
 
-The original complete SQL script is preserved in `QLBongDa.sql` as a reference.
+The database structure is based on the textbook exercises. The project also focuses on understanding table relationships, query logic, and the practical application of SQL concepts.
+
+The original complete SQL script is preserved in `QLBongDa.sql` for reference.

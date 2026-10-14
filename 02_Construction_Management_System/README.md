@@ -1,8 +1,8 @@
 # Construction Management System
 
-This project is a SQL Server database project based on the **QLCongTrinh (Construction Management System)** exercise from the *Database Fundamentals* textbook.
+This project is a SQL Server database project based on the QLCongTrinh exercises from the *Database Fundamentals* textbook.
 
-The project is used to practice database design, table creation, relationships, and SQL data management through a construction management database.
+It is designed to practice relational database design, table relationships, SQL queries, and data management using a construction project database.
 
 ---
 
@@ -16,15 +16,13 @@ The database manages information about:
 - Contractors
 - Clients
 - Workers
-- Construction_Projects
-- Worker_Participation
-- Project_Design
-
----
+- Construction Projects
+- Worker Participation
+- Project Design Assignments
 
 ### Tables
 
-```sql
+```text
 KTRUCSU
 CHUTHAU
 CHUNHAN
@@ -40,15 +38,11 @@ THIETKE
 
 **Document:** `TH1207_GT.pdf`
 
-Relevant textbook pages:
-
 | Pages | Content |
 |---|---|
-| 99–100 | QLCongTrinh database description, requirements, tables, and related exercises |
+| 99–100 | Database structure, requirements, and QLCongTrinh exercises |
 
-The original Vietnamese exercise is preserved separately in `Notes.md`.
-
-The SQL implementation in this project is written in English for consistency with the rest of the repository.
+The original Vietnamese exercise is preserved in `Notes.md`. The SQL implementation is written in English where appropriate, while the original table names and database name are preserved for reference.
 
 ---
 
@@ -56,7 +50,6 @@ The SQL implementation in this project is written in English for consistency wit
 
 ```text
 Construction Management System/
-│
 ├── SQL/
 |
 ├── Notes.md
@@ -64,40 +57,46 @@ Construction Management System/
 └── README.md
 ```
 
+- `SQL/`: SQL scripts organized by topic or exercise.
+- `Notes.md`: Notes, explanations, and relevant information from the original exercises.
+- `QLCongTrinh.sql`: Complete SQL script containing the database implementation and exercises.
+- `README.md`: Project documentation.
+
+The complete SQL script is preserved as a reference, while individual exercises are organized into separate files in the `SQL/` directory.
+
 ---
 
 ## 4. Project Workflow
 
-The project follows this general workflow:
+The project follows these steps:
 
-- Analyze the database requirements.
-- Identify the entities and relationships.
-- Create the database.
-- Create the required tables.
-- Define primary keys and foreign keys.
-- Insert sample data.
-- Perform the required SQL exercises.
-- Organize the SQL implementation into separate files when necessary.
-
-The original complete SQL script may be kept as a reference while individual sections are organized into separate files.
+1. Analyze the database requirements.
+2. Create the database and tables.
+3. Define primary keys, foreign keys, and constraints.
+4. Insert sample data.
+5. Practice SQL queries and data manipulation.
+6. Complete the textbook exercises.
+7. Organize SQL scripts and document the solutions.
 
 ---
 
 ## 5. Current Progress
 
-- Database analysis: ✅ Completed
-- Table creation: ✅ Completed
-- Primary keys and foreign keys: ✅ Completed
-- Sample data: ✅ Completed
-- SQL exercises: ✅ Completed
-- Project documentation: ✅ Completed
+- [x] Database analysis
+- [x] Database creation
+- [x] Table creation
+- [x] Primary keys, foreign keys, and constraints
+- [x] Sample data
+- [x] SQL exercises
+- [x] SQL script organization
+- [x] Project documentation
 
 ---
 
 ## 6. Notes
 
-This project is part of a collection of SQL database projects used to practice database design and SQL Server.
+This project is part of a collection of SQL Server database projects used to practice database design and SQL programming.
 
-The database structure is based on the textbook exercises, while the SQL implementation is written in English to maintain consistency across the repository.
+The database structure is based on the textbook exercises. The project also focuses on understanding entity relationships, database constraints, and the practical application of SQL concepts.
 
-The project will be organized gradually as each part of the database is reviewed and implemented.
+The original complete SQL script is preserved in `QLCongTrinh.sql` for reference.

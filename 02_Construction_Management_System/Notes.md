@@ -4,142 +4,196 @@
 
 ---
 
-## 1. MÔ TẢ CƠ SỞ DỮ LIỆU
+# Phần I - Xây dựng cơ sở dữ liệu QLCongTrinh
 
-### KTRUCSU
+## 1. Mô tả cơ sở dữ liệu
 
-`KTRUCSU(HOTEN_KTS, NAMS_KTS, PHAI, NOI_TN, DCHI_LL_KTS)`
-
-Mỗi kiến trúc sư có:
-
-- Họ tên
-- Năm sinh
-- Phái
-- Nơi tốt nghiệp
-- Địa chỉ liên lạc
-
-Giả sử không có hai kiến trúc sư trùng tên.
+Cơ sở dữ liệu **QL_CONGTRINH** dùng để quản lý thông tin về các công trình xây dựng, bao gồm kiến trúc sư, chủ thầu, chủ nhân công trình, công nhân, công trình, quá trình tham gia thi công và thông tin thiết kế.
 
 ---
 
-### CHUTHAU
+### 1.1. Bảng KTRUCSU
 
-`CHUTHAU(TEN_THAU, TEL, DCHI_THAU)`
-
-Mỗi chủ thầu xây dựng công trình có:
-
-- Tên thầu
-- Số điện thoại
-- Địa chỉ
-
-Giả sử không có hai chủ thầu trùng tên.
-
----
-
-### CHUNHAN
-
-`CHUNHAN(TEN_CHU, DCHI_CHU)`
-
-Mỗi chủ nhân của một công trình có:
-
-- Tên chủ nhân
-- Địa chỉ
-
-Giả sử không có hai chủ nhân trùng tên.
-
----
-
-### CONGNHAN
-
-`CONGNHAN(HOTEN_CN, NAMS_CN, NAM_VAO_N, CH_MON)`
-
-Mỗi công nhân tham gia xây dựng các công trình có:
-
-- Họ tên
-- Năm sinh
-- Năm vào nghề
-- Chuyên môn
-
-Giả sử không có hai công nhân trùng họ tên.
-
----
-
-### CONGTRINH
-
-`CONGTRINH(STT_CTR, TEN_CTR, DCHI_CTR, TINH_THANH, KINH_PHI, TEN_CHU, TEN_THAU, NGAY_BD)`
-
-Mỗi công trình có:
-
-- Số thứ tự
-- Tên công trình
-- Địa chỉ
-- Tỉnh/thành
-- Kinh phí xây dựng, đơn vị tính là triệu đồng
-- Chủ nhân
-- Chủ thầu xây dựng
-- Ngày bắt đầu xây dựng
-
----
-
-### THAMGIA
-
-`THAMGIA(HOTEN_CN, STT_CTR, NGAY_TGIA, SO_NGAY)`
-
-Một công nhân có thể tham gia xây dựng nhiều công trình.
-
-Một công trình cũng có nhiều công nhân tham gia.
-
-Khi một công nhân tham gia vào một công trình, thông tin được ghi nhận gồm:
-
-- Ngày bắt đầu tham gia
-- Số ngày tham gia
-
----
-
-### THIETKE
-
-`THIETKE(HOTEN_KTS, STT_CTR, THU_LAO)`
-
-Một kiến trúc sư có thể thiết kế nhiều công trình.
-
-Một công trình cũng có thể do nhiều kiến trúc sư cùng thiết kế.
-
-Khi một kiến trúc sư thiết kế một công trình, thông tin về thù lao tương ứng được ghi nhận.
-
----
-
-## 2. YÊU CẦU
-
-### 1. Tạo cơ sở dữ liệu
-
-Tạo CSDL có tên:
-
-`QL_CONGTRINH`
-
-### 2. Tạo các Table
-
-Tạo các Table trong cơ sở dữ liệu `QL_CONGTRINH`.
-
-Các Table được mô tả trong phần trên:
-
-```text
-KTRUCSU
-CHUTHAU
-CHUNHAN
-CONGNHAN
-CONGTRINH
-THAMGIA
-THIETKE
+```sql
+KTRUCSU(
+    HOTEN_KTS NVARCHAR(100),
+    NAMS_KTS INT,
+    PHAI NVARCHAR(3),
+    NOI_TN NVARCHAR(200),
+    DCHI_LL_KTS NVARCHAR(200),
+)
 ```
 
+Bảng KTRUCSU lưu trữ thông tin về các kiến trúc sư tham gia thiết kế công trình.
+
+Thông tin gồm:
+
+- Mã kiến trúc sư.
+- Họ tên kiến trúc sư.
+- Năm sinh.
+- Năm tốt nghiệp.
+
 ---
 
-## 3. Tạo liên kết giữa các Table
+### 1.2. Bảng CHUTHAU
 
-Tạo liên kết giữa các Table trong CSDL `QL_CONGTRINH`.
+```sql
+CHUTHAU(
+    TEN_THAU NVARCHAR(100),
+    TEL NVARCHAR(20) NOT NULL,
+    DCHI_THAU NVARCHAR(200)
+)
+```
+
+Bảng CHUTHAU lưu trữ thông tin về các chủ thầu chịu trách nhiệm thi công công trình.
+
+Thông tin gồm:
+
+- Mã chủ thầu.
+- Họ tên chủ thầu.
+- Địa chỉ.
+- Điện thoại.
 
 ---
 
-## 4. Xem mô hình liên kết
+### 1.3. Bảng CHUNHAN
 
-Xem mô hình liên kết giữa các Table.
+```sql
+CHUNHAN(
+    TEN_CHU NVARCHAR(100),
+    DCHI_CHU NVARCHAR(200) NOT NULL,
+)
+```
+
+Bảng CHUNHAN lưu trữ thông tin về các chủ nhân sở hữu công trình.
+
+Thông tin gồm:
+
+- Mã chủ nhân.
+- Họ tên chủ nhân.
+- Địa chỉ.
+- Điện thoại.
+
+---
+
+### 1.4. Bảng CONGNHAN
+
+```sql
+CONGNHAN(
+    HOTEN_CN NVARCHAR(100),
+    NAMS_CN INT,
+    NAM_VAO_N DATETIME,
+    CH_MON NVARCHAR(200)       
+)
+```
+
+Bảng CONGNHAN lưu trữ thông tin về các công nhân tham gia thi công công trình.
+
+Thông tin gồm:
+
+- Mã công nhân.
+- Họ tên công nhân.
+- Năm sinh.
+- Nghề nghiệp.
+
+---
+
+### 1.5. Bảng CONGTRINH
+
+```sql
+CONGTRINH(
+    STT_CTR NUMERIC IDENTITY(1,1),
+    TEN_CTR NVARCHAR(200) NOT NULL,
+    DCHI_CTR NVARCHAR(200),
+    TINH_THANH NVARCHAR(100),
+    KINH_PHI FLOAT,
+    TEN_CHU NVARCHAR(100) NOT NULL,
+    TEN_THAU NVARCHAR(100) NOT NULL,
+    NGAY_BD DATETIME,
+)
+```
+
+Bảng CONGTRINH lưu trữ thông tin về các công trình xây dựng.
+
+Thông tin gồm:
+
+- Mã công trình.
+- Tên công trình.
+- Địa điểm xây dựng.
+- Ngày khởi công.
+- Ngày kết thúc.
+- Mã chủ thầu.
+- Mã chủ nhân.
+
+---
+
+### 1.6. Bảng THAMGIA
+
+```sql
+THAMGIA(
+    HOTEN_CN NVARCHAR(100),
+    STT_CTR NUMERIC,
+    NGAY_TGIA DATETIME,
+    SO_NGAY INT,
+)
+```
+
+Bảng THAMGIA thể hiện mối quan hệ giữa công nhân và công trình mà họ tham gia thi công.
+
+Thông tin gồm:
+
+- Mã công nhân.
+- Mã công trình.
+- Thời gian tham gia.
+
+Bảng này dùng để ghi nhận quá trình tham gia thi công của công nhân tại các công trình.
+
+---
+
+### 1.7. Bảng THIETKE
+
+```sql
+THIETKE(
+
+)
+```
+
+Bảng THIETKE thể hiện mối quan hệ giữa kiến trúc sư và công trình được thiết kế.
+
+Thông tin gồm:
+
+- Mã kiến trúc sư.
+- Mã công trình.
+- Ngày thiết kế.
+
+Bảng này dùng để ghi nhận kiến trúc sư tham gia thiết kế từng công trình.
+
+---
+
+## 2. Yêu cầu
+
+**Yêu cầu 1. Tạo cơ sở dữ liệu**
+
+Tạo cơ sở dữ liệu có tên:
+
+QL_CONGTRINH
+
+**Yêu cầu 2. Tạo các bảng**
+
+Tạo các bảng sau trong cơ sở dữ liệu QL_CONGTRINH:
+
+- KTRUCSU
+- CHUTHAU
+- CHUNHAN
+- CONGNHAN
+- CONGTRINH
+- THAMGIA
+- THIETKE
+
+**Yêu cầu 3. Tạo liên kết giữa các bảng**
+
+Thiết lập các mối quan hệ giữa những bảng trong cơ sở dữ liệu theo yêu cầu của bài thực hành.
+
+**Yêu cầu 4. Xem mô hình liên kết giữa các bảng**
+
+Hiển thị mô hình quan hệ giữa các bảng để kiểm tra các liên kết đã thiết lập trong cơ sở dữ liệu.
