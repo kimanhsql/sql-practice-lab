@@ -1,25 +1,15 @@
-/*
-    Football League Management System
-    DML Practice
-
-    This file contains:
-    - Sample data insertion
-    - DELETE statements
-    - UPDATE statements
-    - Verification queries
-
-    Source:
-    QLBongDa exercises from the Database Fundamentals textbook.
-*/
-
+-- ============================================================
+-- FOOTBALL LEAGUE MANAGEMENT SYSTEM
+-- DATA MANIPULATION LANGUAGE (DML)
+-- ============================================================
 
 USE FOOTBALL_LEAGUE_DB;
 GO
 
 
-/* ============================================================
-   1. INSERT SAMPLE DATA
-   ============================================================ */
+-- ============================================================
+-- 1. INSERT SAMPLE DATA
+-- ============================================================
 
 
 -- Insert data into COUNTRIES.
@@ -150,7 +140,7 @@ VALUES
 GO
 
 
--- Insert club-coach assignments.
+-- Insert club coach assignments.
 
 INSERT INTO CLUB_COACHES
 (
@@ -234,9 +224,9 @@ VALUES
 GO
 
 
-/* ============================================================
-   2. DELETE AND UPDATE EXERCISES
-   ============================================================ */
+-- ============================================================
+-- 2. DELETE AND UPDATE EXERCISES
+-- ============================================================
 
 
 /*

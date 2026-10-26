@@ -152,7 +152,8 @@ GO
 
 -- ============================================================
 -- PHẦN II: NHẬP DỮ LIỆU
--- Câu 1: Nhập dữ liệu vào các bảng của CSDL QLBongDa.
+-- Câu 1
+-- Nhập dữ liệu vào các bảng của CSDL QLBongDa.
 -- ============================================================
 
 INSERT INTO QUOCGIA (MAQG, TENQG)
@@ -165,9 +166,6 @@ VALUES
     ('ITA', N'Ý'),
     ('THA', N'Thái Lan');
 GO
-
--- Chuẩn hóa lại tên quốc gia bằng chuỗi Unicode.
--- Các UPDATE này được giữ lại theo script gốc.
 
 UPDATE QUOCGIA
 SET TENQG = N'Anh Quốc'
@@ -254,11 +252,6 @@ VALUES
     (N'Nguyễn Trường Sơn', N'Hậu vệ', '1993-08-26', NULL, 'BBD', 'VN', 4);
 GO
 
--- Các lệnh xóa MACT 15-20 được giữ lại để dọn dữ liệu
--- nếu các mã này tồn tại.
--- Trong dữ liệu mẫu mới tạo, các mã này
--- thường chưa tồn tại nên DELETE không xóa dòng nào.
-
 DELETE FROM CAUTHU WHERE MACT = 15;
 GO
 DELETE FROM CAUTHU WHERE MACT = 16;
@@ -273,7 +266,6 @@ DELETE FROM CAUTHU WHERE MACT = 20;
 GO
 
 -- Đặt lại bộ đếm IDENTITY theo MACT lớn nhất đang tồn tại.
--- Không reseed cố định về 4 vì các MACT 5-10 vẫn đang tồn tại.
 
 DBCC CHECKIDENT ('CAUTHU', RESEED);
 GO
@@ -361,7 +353,8 @@ GO
 -- PHẦN III: BÀI TẬP DML
 -- ============================================================
 
--- Câu 2: Xóa cầu thủ Nguyễn Vũ Phong.
+-- Câu 2
+-- Xóa cầu thủ Nguyễn Vũ Phong.
 
 DELETE FROM CAUTHU
 WHERE HOTEN = N'Nguyễn Vũ Phong';
@@ -370,7 +363,8 @@ GO
 SELECT * FROM CAUTHU;
 GO
 
--- Câu 3: Xóa các cầu thủ có tuổi trên 40.
+-- Câu 3
+-- Xóa các cầu thủ có tuổi trên 40.
 
 DELETE FROM CAUTHU
 WHERE NGAYSINH < DATEADD(YEAR, -40, GETDATE());
@@ -379,20 +373,19 @@ GO
 SELECT * FROM CAUTHU;
 GO
 
--- Câu 4: Xóa các cầu thủ có tuổi trên 35 ở câu lạc bộ BBD.
+-- Câu 4
+-- Xóa các cầu thủ có tuổi trên 35 ở câu lạc bộ BBD.
 
 DELETE FROM CAUTHU
 WHERE NGAYSINH < DATEADD(YEAR, -35, GETDATE())
-  AND MACLB = 'BBD';
+    AND MACLB = 'BBD';
 GO
 
 SELECT * FROM CAUTHU;
 GO
 
--- Câu 5: Xóa các cầu thủ có tuổi trên 35 ở
--- câu lạc bộ BECAMEX BÌNH DƯƠNG.
--- Lưu ý: câu lệnh này tìm theo tên câu lạc bộ; tên vẫn là
--- BECAMEX BÌNH DƯƠNG cho đến khi thực hiện Câu 10.
+-- Câu 5
+-- Xóa các cầu thủ có tuổi trên 35 ở câu lạc bộ BECAMEX BÌNH DƯƠNG.
 
 DELETE FROM CAUTHU
 WHERE NGAYSINH < DATEADD(YEAR, -35, GETDATE())
@@ -407,7 +400,8 @@ GO
 SELECT * FROM CAUTHU;
 GO
 
--- Câu 6: Đổi vị trí thi đấu của Nguyễn Trường Sơn thành Tiền đạo.
+-- Câu 6
+-- Đổi vị trí thi đấu của Nguyễn Trường Sơn thành Tiền đạo.
 
 UPDATE CAUTHU
 SET VITRI = N'Tiền đạo'
@@ -417,8 +411,8 @@ GO
 SELECT * FROM CAUTHU;
 GO
 
--- Câu 7: Ghi nhận địa chỉ của
--- huấn luyện viên Lê Huỳnh Đức là TP.HCM.
+-- Câu 7
+-- Ghi nhận địa chỉ của huấn luyện viên Lê Huỳnh Đức là TP.HCM.
 
 UPDATE HUANLV
 SET DIACHI = N'TP.HCM'
@@ -428,16 +422,13 @@ GO
 SELECT * FROM HUANLV;
 GO
 
--- Câu 8: Đổi vị trí của Nguyễn Công Vinh và Trần Tấn Tài cho nhau.
+-- Câu 8
+-- Đổi vị trí của Nguyễn Công Vinh và Trần Tấn Tài cho nhau.
 
 SELECT MACT, HOTEN, VITRI
 FROM CAUTHU
 WHERE HOTEN IN (N'Nguyễn Công Vinh', N'Trần Tấn Tài');
 GO
-
--- Chỉ thêm Trần Tấn Tài nếu chưa có trong dữ liệu.
--- Dữ liệu mẫu phía trên đã có cầu thủ này, nên bình thường
--- INSERT sẽ được bỏ qua.
 
 IF NOT EXISTS
 (
@@ -450,10 +441,6 @@ BEGIN
     VALUES (N'Trần Tấn Tài', N'Tiền vệ', '1989-11-12', NULL, 'BBD', 'VN', 8);
 END;
 GO
-
--- Nguyễn Công Vinh ban đầu là Tiền đạo, Trần Tấn Tài là Tiền vệ.
--- Cập nhật vị trí theo tên cầu thủ, tránh chèn thêm
--- bản ghi trùng tên.
 
 UPDATE CAUTHU
 SET VITRI =
@@ -469,7 +456,8 @@ FROM CAUTHU
 WHERE HOTEN IN (N'Nguyễn Công Vinh', N'Trần Tấn Tài');
 GO
 
--- Câu 9: Thay huấn luyện viên của GẠCH ĐỒNG TÂM LONG AN
+-- Câu 9
+-- Thay huấn luyện viên của GẠCH ĐỒNG TÂM LONG AN
 -- bằng Nguyễn Đức Thắng.
 
 SELECT MAHLV, TENHLV
@@ -484,8 +472,6 @@ GO
 
 SELECT * FROM HUANLV;
 GO
-
--- Chỉ thêm huấn luyện viên nếu chưa tồn tại để tránh trùng MAHLV.
 
 IF NOT EXISTS
 (
@@ -508,7 +494,8 @@ GO
 SELECT * FROM HLV_CLB;
 GO
 
--- Câu 10: Đổi tên câu lạc bộ BECAMEX BÌNH DƯƠNG thành BÌNH DƯƠNG.
+-- Câu 10
+-- Đổi tên câu lạc bộ BECAMEX BÌNH DƯƠNG thành BÌNH DƯƠNG.
 
 UPDATE CAULACBO
 SET TENCLB = N'BÌNH DƯƠNG'
