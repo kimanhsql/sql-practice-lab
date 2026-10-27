@@ -1,9 +1,11 @@
-USE PRODUCT_SALES_MANAGEMENT_SYSTEM;
+-- ============================================================
+-- SALES MANAGEMENT SYSTEM
+-- DATA MANIPULATION LANGUAGE (DML)
+-- ============================================================
+
+USE SALES_DB;
 GO
 
--- ============================================================
--- INSERT DATA
--- ============================================================
 
 -- CUSTOMERS
 
@@ -21,6 +23,7 @@ INSERT INTO CUSTOMERS(CustomerID,FullName,Address,PhoneNumber,DateOfBirth,Regist
 		('KH10','Ha Duy Lap','34/34B Nguyen Trai, Q1, TphHCM','08768904','1983-5-02','2007-6-01',67500,'Vang lai');
 GO
 
+
 -- EMPLOYEES
 
 INSERT INTO EMPLOYEES(EmployeeID,FullName,PhoneNumber,HireDate)
@@ -31,6 +34,7 @@ INSERT INTO EMPLOYEES(EmployeeID,FullName,PhoneNumber,HireDate)
 		('NV04','Ngo Thanh Tuan','0913758498','2006-6-24'),
 		('NV05','Nguyen Thi Truc Thanh','0918590387','2006-7-20');
 GO
+
 
 -- PRODUCTS
 
@@ -62,6 +66,7 @@ INSERT INTO PRODUCTS(ProductID,ProductName,Unit,CountryOfOrigin,Price)
 		('ST10','But long',N'Cây',N'Trung Quốc',7000);
 GO
 
+
 -- INVOICES
 
 INSERT INTO INVOICES(InvoiceID, InvoiceDate, CustomerID, EmployeeID, TotalAmount)
@@ -90,6 +95,7 @@ INSERT INTO INVOICES(InvoiceID, InvoiceDate, CustomerID, EmployeeID, TotalAmount
 		(1022,'2007-01-16',NULL,'NV03',7000),
 		(1023,'2007-01-17',NULL,'NV01',330000);
 GO
+
 
 -- INVOICE DETAILS
 

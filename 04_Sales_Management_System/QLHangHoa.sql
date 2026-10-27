@@ -11,7 +11,8 @@ GO
 USE QLHANGHOA;
 GO
 
--- Câu 1: Tạo các bảng và thiết lập khóa chính, khóa ngoại.
+-- Câu 1
+-- Tạo các bảng và thiết lập khóa chính, khóa ngoại.
 
 CREATE TABLE KHACHHANG
 (
@@ -22,6 +23,7 @@ CREATE TABLE KHACHHANG
     NGSINH SMALLDATETIME,
     NGDK SMALLDATETIME,
     DOANHSO MONEY,
+
     CONSTRAINT PK_KHACHHANG PRIMARY KEY (MAKH)
 );
 GO
@@ -32,6 +34,7 @@ CREATE TABLE NHANVIEN
     HOTEN NVARCHAR(40),
     SODT VARCHAR(20),
     NGVL SMALLDATETIME,
+
     CONSTRAINT PK_NHANVIEN PRIMARY KEY (MANV)
 );
 GO
@@ -43,6 +46,7 @@ CREATE TABLE SANPHAM
     DVT NVARCHAR(20),
     NUOCSX NVARCHAR(40),
     GIA MONEY,
+
     CONSTRAINT PK_SANPHAM PRIMARY KEY (MASP)
 );
 GO
@@ -54,9 +58,12 @@ CREATE TABLE HOADON
     MAKH VARCHAR(4),
     MANV VARCHAR(4),
     TRIGIA MONEY,
+
     CONSTRAINT PK_HOADON PRIMARY KEY (SOHD),
+
     CONSTRAINT FK_KHACHHANG_HD FOREIGN KEY (MAKH)
         REFERENCES KHACHHANG (MAKH),
+
     CONSTRAINT FK_NHANVIEN_HD FOREIGN KEY (MANV)
         REFERENCES NHANVIEN (MANV)
 );
@@ -67,62 +74,71 @@ CREATE TABLE CTHD
     SOHD INT,
     MASP VARCHAR(4),
     SL INT,
+
     CONSTRAINT PK_CTHD PRIMARY KEY (SOHD, MASP),
+
     CONSTRAINT FK_HOADON_CTHD FOREIGN KEY (SOHD)
         REFERENCES HOADON (SOHD),
+
     CONSTRAINT FK_SANPHAM_CTHD FOREIGN KEY (MASP)
         REFERENCES SANPHAM (MASP)
 );
 GO
 
--- Câu 2: Thêm thuộc tính GHICHU kiểu VARCHAR(20) vào bảng SANPHAM.
+-- Câu 2
+-- Thêm thuộc tính GHICHU kiểu VARCHAR(20) vào bảng SANPHAM.
 
 ALTER TABLE SANPHAM
     ADD GHICHU VARCHAR(20);
 GO
 
--- Câu 3: Thêm thuộc tính LOAIKH kiểu TINYINT vào bảng KHACHHANG.
+-- Câu 3
+-- Thêm thuộc tính LOAIKH kiểu TINYINT vào bảng KHACHHANG.
 
 ALTER TABLE KHACHHANG
     ADD LOAIKH TINYINT;
 GO
 
--- Câu 4: Thay đổi kiểu dữ liệu của GHICHU thành VARCHAR(100).
+-- Câu 4
+-- Thay đổi kiểu dữ liệu của GHICHU thành VARCHAR(100).
 
 ALTER TABLE SANPHAM
     ALTER COLUMN GHICHU VARCHAR(100);
 GO
 
--- Câu 5: Xóa thuộc tính GHICHU khỏi bảng SANPHAM.
+-- Câu 5
+-- Xóa thuộc tính GHICHU khỏi bảng SANPHAM.
 
 ALTER TABLE SANPHAM
     DROP COLUMN GHICHU;
 GO
 
--- Câu 6: Giới hạn loại khách hàng thuộc các giá trị quy định.
+-- Câu 6
+-- Giới hạn loại khách hàng thuộc các giá trị quy định.
 
 ALTER TABLE KHACHHANG
     ADD CONSTRAINT CHK_LOAIKH
         CHECK (LOAIKH IN ('Vang lai', 'Thuong xuyen', 'Vip'));
 GO
 
--- Câu 7: Giới hạn đơn vị tính của sản phẩm.
+-- Câu 7
+-- Giới hạn đơn vị tính của sản phẩm.
 
 ALTER TABLE SANPHAM
     ADD CONSTRAINT CHK_DVT
         CHECK (DVT IN (N'Cây', 'hop', 'cai', 'quyen', 'chuc'));
 GO
 
--- Câu 8: Quy định giá bán sản phẩm phải từ 500 đồng trở lên.
+-- Câu 8
+-- Quy định giá bán sản phẩm phải từ 500 đồng trở lên.
 
 ALTER TABLE SANPHAM
     ADD CONSTRAINT CHK_GIA
         CHECK (GIA >= 500);
 GO
 
--- Câu 9: Đảm bảo mỗi hóa đơn có ít nhất một sản phẩm.
--- Lưu ý: Trigger gốc bên dưới đang kiểm tra theo MASP,
--- không phải theo SOHD. Xem phần lưu ý sau script.
+-- Câu 9
+-- Đảm bảo mỗi hóa đơn có ít nhất một sản phẩm.
 
 CREATE TRIGGER TRG_KHONGXOASPCUOI
 ON CTHD
@@ -147,15 +163,17 @@ BEGIN
 END;
 GO
 
--- Câu 10: Ngày đăng ký thành viên phải sau ngày sinh khách hàng.
+-- Câu 10
+-- Ngày đăng ký thành viên phải sau ngày sinh khách hàng.
 
 ALTER TABLE KHACHHANG
     ADD CONSTRAINT CHK_NGDK_NGSINH
         CHECK (NGDK > NGSINH);
 GO
 
--- Câu 11: Ngày lập hóa đơn phải lớn hơn hoặc bằng ngày đăng ký
--- thành viên của khách hàng.
+-- Câu 11
+-- Ngày lập hóa đơn phải lớn hơn hoặc bằng
+-- ngày đăng ký thành viên của khách hàng.
 
 CREATE TRIGGER TRG_KTNGAYMUAHANG
 ON HOADON
@@ -166,7 +184,8 @@ BEGIN
     (
         SELECT 1
         FROM inserted AS i
-        JOIN KHACHHANG AS kh ON i.MAKH = kh.MAKH
+        JOIN KHACHHANG AS kh
+            ON i.MAKH = kh.MAKH
         WHERE i.NGHD < kh.NGDK
     )
     BEGIN
@@ -176,8 +195,9 @@ BEGIN
 END;
 GO
 
--- Câu 12: Ngày lập hóa đơn phải lớn hơn hoặc bằng ngày
--- nhân viên bắt đầu làm việc.
+-- Câu 12
+-- Ngày lập hóa đơn phải lớn hơn hoặc bằng
+-- ngày nhân viên bắt đầu làm việc.
 
 CREATE TRIGGER TRG_KTNGAYBANHANG
 ON HOADON
@@ -188,7 +208,8 @@ BEGIN
     (
         SELECT 1
         FROM inserted AS i
-        JOIN NHANVIEN AS nv ON i.MANV = nv.MANV
+        JOIN NHANVIEN AS nv
+            ON i.MANV = nv.MANV
         WHERE i.NGHD < nv.NGVL
     )
     BEGIN
@@ -198,7 +219,8 @@ BEGIN
 END;
 GO
 
--- Câu 13: Đảm bảo mỗi hóa đơn có ít nhất một chi tiết hóa đơn.
+-- Câu 13
+-- Đảm bảo mỗi hóa đơn có ít nhất một chi tiết hóa đơn.
 
 CREATE TRIGGER TRG_TOITHIEUMOTCHITIET
 ON CTHD
@@ -223,8 +245,9 @@ BEGIN
 END;
 GO
 
--- Câu 14: Tự động cập nhật trị giá hóa đơn bằng tổng thành tiền
--- của các chi tiết hóa đơn (số lượng * đơn giá).
+-- Câu 14
+-- Tự động cập nhật trị giá hóa đơn bằng
+-- tổng thành tiền của các chi tiết hóa đơn (số lượng * đơn giá).
 
 CREATE TRIGGER TRG_CAPNHATTRIGIA_HOADON
 ON CTHD
@@ -238,7 +261,8 @@ BEGIN
     (
         SELECT ct.SOHD, SUM(ct.SL * sp.GIA) AS TongTien
         FROM CTHD AS ct
-        JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+        JOIN SANPHAM AS sp
+            ON ct.MASP = sp.MASP
         GROUP BY ct.SOHD
     ) AS BangTinhTien ON hd.SOHD = BangTinhTien.SOHD
     WHERE hd.SOHD IN
@@ -250,8 +274,9 @@ BEGIN
 END;
 GO
 
--- Câu 15: Tự động cập nhật doanh số khách hàng bằng tổng trị giá
--- các hóa đơn của khách hàng đó.
+-- Câu 15
+-- Tự động cập nhật doanh số khách hàng bằng
+-- tổng trị giá các hóa đơn của khách hàng đó.
 
 CREATE TRIGGER TRG_CAPNHATDOANHSO_KH
 ON HOADON
@@ -298,7 +323,9 @@ GO
 
 -- ============================================================
 -- PHẦN II: NHẬP DỮ LIỆU
--- Câu 1: Nhập dữ liệu vào các bảng của cơ sở dữ liệu QLHANGHOA.
+--
+-- Câu 1
+-- Nhập dữ liệu vào các bảng của cơ sở dữ liệu QLHANGHOA.
 -- ============================================================
 
 INSERT INTO KHACHHANG
@@ -456,7 +483,8 @@ GO
 SELECT * FROM CTHD;
 GO
 
--- Câu 2: Tạo SANPHAM1 và KHACHHANG1, sao chép toàn bộ dữ liệu
+-- Câu 2
+-- Tạo SANPHAM1 và KHACHHANG1, sao chép toàn bộ dữ liệu
 -- từ SANPHAM và KHACHHANG tương ứng.
 
 SELECT * INTO SANPHAM1
@@ -495,7 +523,8 @@ GO
 SELECT * FROM KHACHHANG1;
 GO
 
--- Câu 3: Tăng giá 5% cho sản phẩm do Thái Lan sản xuất trong SANPHAM1.
+-- Câu 3
+-- Tăng giá 5% cho sản phẩm do Thái Lan sản xuất trong SANPHAM1.
 
 UPDATE SANPHAM1
 SET GIA = GIA + (GIA * 0.05)
@@ -512,13 +541,14 @@ FROM SANPHAM1
 WHERE NUOCSX = 'Thai Lan';
 GO
 
--- Câu 4: Giảm giá 5% cho sản phẩm do Trung Quốc sản xuất,
+-- Câu 4
+-- Giảm giá 5% cho sản phẩm do Trung Quốc sản xuất,
 -- có giá không quá 10.000 đồng trong SANPHAM1.
 
 UPDATE SANPHAM1
 SET GIA = GIA - (GIA * 0.05)
 WHERE NUOCSX = N'Trung Quốc'
-  AND GIA <= 10000;
+    AND GIA <= 10000;
 GO
 
 SELECT NUOCSX, GIA
@@ -531,7 +561,8 @@ FROM SANPHAM1
 WHERE NUOCSX = N'Trung Quốc';
 GO
 
--- Câu 5: Cập nhật LOAIKH thành 'Vip' cho khách hàng thỏa mãn:
+-- Câu 5
+-- Cập nhật LOAIKH thành 'Vip' cho khách hàng thỏa mãn:
 -- - Đăng ký trước năm 2007 và có doanh số từ 10.000.000 trở lên;
 -- - Hoặc đăng ký từ năm 2007 và có doanh số từ 2.000.000 trở lên.
 -- Thực hiện trên bảng KHACHHANG1.
@@ -539,7 +570,7 @@ GO
 UPDATE KHACHHANG1
 SET LOAIKH = 'Vip'
 WHERE (NGDK < '2007-01-01' AND DOANHSO >= 10000000)
-   OR (NGDK >= '2007-01-01' AND DOANHSO >= 2000000);
+    OR (NGDK >= '2007-01-01' AND DOANHSO >= 2000000);
 GO
 
 SELECT MAKH, DOANHSO, NGDK, LOAIKH
@@ -552,131 +583,152 @@ GO
 
 -- ============================================================
 -- PHẦN III: BÀI TẬP DML
+--
+-- Câu 1
+-- Liệt kê mã và tên sản phẩm do Trung Quốc sản xuất.
 -- ============================================================
-
--- Câu 1: Liệt kê mã và tên sản phẩm do Trung Quốc sản xuất.
 
 SELECT MASP, TENSP
 FROM SANPHAM
 WHERE NUOCSX = N'Trung Quốc';
 GO
 
--- Câu 2: Liệt kê mã, tên sản phẩm có đơn vị tính là Cây hoặc quyển.
+-- Câu 2
+-- Liệt kê mã, tên sản phẩm có đơn vị tính là Cây hoặc quyển.
 
 SELECT MASP, TENSP, DVT
 FROM SANPHAM
 WHERE DVT IN (N'Cây', 'quyen');
 GO
 
--- Câu 3: Liệt kê sản phẩm có mã bắt đầu bằng B và kết thúc bằng 01.
+-- Câu 3
+-- Liệt kê sản phẩm có mã bắt đầu bằng B và kết thúc bằng 01.
 
 SELECT MASP, TENSP
 FROM SANPHAM
 WHERE MASP LIKE 'B%01';
 GO
 
--- Câu 4: Liệt kê sản phẩm do Trung Quốc sản xuất có giá
--- từ 30.000 đến 40.000 đồng.
+-- Câu 4
+-- Liệt kê sản phẩm do Trung Quốc sản xuất
+-- có giá từ 30.000 đến 40.000 đồng.
 
 SELECT MASP, TENSP
 FROM SANPHAM
 WHERE NUOCSX = N'Trung Quốc'
-  AND GIA BETWEEN 30000 AND 40000;
+    AND GIA BETWEEN 30000 AND 40000;
 GO
 
--- Câu 5: Liệt kê sản phẩm do Trung Quốc hoặc Thái Lan sản xuất,
+-- Câu 5
+-- Liệt kê sản phẩm do Trung Quốc hoặc Thái Lan sản xuất,
 -- có giá từ 30.000 đến 40.000 đồng.
 
 SELECT MASP, TENSP, NUOCSX, GIA
 FROM SANPHAM
 WHERE (NUOCSX = N'Trung Quốc' OR NUOCSX = 'Thai Lan')
-  AND GIA BETWEEN 30000 AND 40000;
+    AND GIA BETWEEN 30000 AND 40000;
 GO
 
--- Câu 6: Liệt kê số hóa đơn và trị giá hóa đơn lập ngày 01/01/2007
--- hoặc ngày 02/01/2007.
+-- Câu 6
+-- Liệt kê số hóa đơn và trị giá hóa đơn
+-- lập ngày 01/01/2007 hoặc ngày 02/01/2007.
 
 SELECT SOHD, TRIGIA
 FROM HOADON
 WHERE NGHD IN ('2007-01-01', '2007-01-02');
 GO
 
--- Câu 7: Liệt kê số hóa đơn và trị giá hóa đơn trong tháng 01/2007,
+-- Câu 7
+-- Liệt kê số hóa đơn và trị giá hóa đơn trong tháng 01/2007,
 -- sắp xếp ngày tăng dần và trị giá giảm dần.
 
 SELECT SOHD, TRIGIA
 FROM HOADON
 WHERE MONTH(NGHD) = 1
-  AND YEAR(NGHD) = 2007
+    AND YEAR(NGHD) = 2007
 ORDER BY NGHD ASC, TRIGIA DESC;
 GO
 
--- Câu 8: Liệt kê khách hàng đã mua hàng ngày 01/01/2007.
+-- Câu 8
+-- Liệt kê khách hàng đã mua hàng ngày 01/01/2007.
 
 SELECT kh.MAKH, kh.HOTEN
 FROM KHACHHANG AS kh
-JOIN HOADON AS hd ON kh.MAKH = hd.MAKH
+JOIN HOADON AS hd
+    ON kh.MAKH = hd.MAKH
 WHERE NGHD = '2007-01-01';
 GO
 
--- Câu 9: Liệt kê số hóa đơn và trị giá hóa đơn do nhân viên
+-- Câu 9
+-- Liệt kê số hóa đơn và trị giá hóa đơn do nhân viên
 -- Nguyen Van B lập ngày 28/10/2006.
 
 SELECT SOHD, TRIGIA
 FROM HOADON AS hd
-JOIN NHANVIEN AS nv ON hd.MANV = nv.MANV
+JOIN NHANVIEN AS nv
+    ON hd.MANV = nv.MANV
 WHERE HOTEN = 'Nguyen Van B'
-  AND NGHD = '2006-10-28';
+    AND NGHD = '2006-10-28';
 GO
 
--- Câu 10: Liệt kê sản phẩm được khách hàng Nguyen Van A mua
--- trong tháng 10/2006.
+-- Câu 10
+-- Liệt kê sản phẩm được
+-- khách hàng Nguyen Van A mua trong tháng 10/2006.
 
 SELECT sp.MASP, sp.TENSP
 FROM KHACHHANG AS kh
-JOIN HOADON AS hd ON kh.MAKH = hd.MAKH
-JOIN CTHD AS ct ON hd.SOHD = ct.SOHD
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN HOADON AS hd
+    ON kh.MAKH = hd.MAKH
+JOIN CTHD AS ct
+    ON hd.SOHD = ct.SOHD
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE kh.HOTEN = 'Nguyen Van A'
-  AND MONTH(hd.NGHD) = 10
-  AND YEAR(hd.NGHD) = 2006;
+    AND MONTH(hd.NGHD) = 10
+    AND YEAR(hd.NGHD) = 2006;
 GO
 
--- Câu 11: Tìm số hóa đơn mua sản phẩm BB01 hoặc BB02.
+-- Câu 11
+-- Tìm số hóa đơn mua sản phẩm BB01 hoặc BB02.
 
 SELECT SOHD, ct.MASP
 FROM CTHD AS ct
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE ct.MASP IN ('BB01', 'BB02');
 GO
 
--- Câu 12: Tìm số hóa đơn mua BB01 hoặc BB02,
+-- Câu 12
+-- Tìm số hóa đơn mua BB01 hoặc BB02,
 -- mỗi sản phẩm có số lượng từ 10 đến 20.
 
 SELECT SOHD, ct.MASP
 FROM CTHD AS ct
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE ct.MASP IN ('BB01', 'BB02')
-  AND SL BETWEEN 10 AND 20;
+    AND SL BETWEEN 10 AND 20;
 GO
 
--- Câu 13: Tìm hóa đơn mua đồng thời BB01 và BB02,
+-- Câu 13
+-- Tìm hóa đơn mua đồng thời BB01 và BB02,
 -- mỗi sản phẩm có số lượng từ 10 đến 20.
 
 SELECT SOHD
 FROM CTHD
 WHERE MASP = 'BB01'
-  AND SL BETWEEN 10 AND 20
+    AND SL BETWEEN 10 AND 20
 
 INTERSECT
 
 SELECT SOHD
 FROM CTHD
 WHERE MASP = 'BB02'
-  AND SL BETWEEN 10 AND 20;
+    AND SL BETWEEN 10 AND 20;
 GO
 
--- Câu 14: Liệt kê sản phẩm do Trung Quốc sản xuất hoặc
+-- Câu 14
+-- Liệt kê sản phẩm do Trung Quốc sản xuất hoặc
 -- được bán ra ngày 01/01/2007.
 
 SELECT MASP, TENSP
@@ -687,12 +739,15 @@ UNION
 
 SELECT sp.MASP, sp.TENSP
 FROM HOADON AS hd
-JOIN CTHD AS ct ON hd.SOHD = ct.SOHD
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN CTHD AS ct
+    ON hd.SOHD = ct.SOHD
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE NGHD = '2007-01-01';
 GO
 
--- Câu 15: Liệt kê sản phẩm chưa từng được bán.
+-- Câu 15
+-- Liệt kê sản phẩm chưa từng được bán.
 
 SELECT sp.MASP, sp.TENSP
 FROM SANPHAM AS sp
@@ -704,7 +759,8 @@ WHERE NOT EXISTS
 );
 GO
 
--- Câu 16: Liệt kê sản phẩm không bán được trong năm 2006.
+-- Câu 16
+-- Liệt kê sản phẩm không bán được trong năm 2006.
 
 SELECT sp.MASP, sp.TENSP
 FROM SANPHAM AS sp
@@ -712,13 +768,15 @@ WHERE NOT EXISTS
 (
     SELECT 1
     FROM CTHD AS ct
-    JOIN HOADON AS hd ON ct.SOHD = hd.SOHD
+    JOIN HOADON AS hd
+        ON ct.SOHD = hd.SOHD
     WHERE sp.MASP = ct.MASP
-      AND YEAR(hd.NGHD) = 2006
+        AND YEAR(hd.NGHD) = 2006
 );
 GO
 
--- Câu 17: Liệt kê sản phẩm do Trung Quốc sản xuất
+-- Câu 17
+-- Liệt kê sản phẩm do Trung Quốc sản xuất
 -- không bán được trong năm 2006.
 
 SELECT sp.MASP, sp.TENSP
@@ -727,18 +785,21 @@ WHERE NOT EXISTS
 (
     SELECT 1
     FROM CTHD AS ct
-    JOIN HOADON AS hd ON ct.SOHD = hd.SOHD
+    JOIN HOADON AS hd
+        ON ct.SOHD = hd.SOHD
     WHERE sp.MASP = ct.MASP
-      AND YEAR(hd.NGHD) = 2006
+        AND YEAR(hd.NGHD) = 2006
 )
 AND NUOCSX = N'Trung Quốc';
 GO
 
--- Câu 18: Tìm hóa đơn đã mua tất cả sản phẩm do Singapore sản xuất.
+-- Câu 18
+-- Tìm hóa đơn đã mua tất cả sản phẩm do Singapore sản xuất.
 
 SELECT SOHD
 FROM CTHD AS ct
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE NUOCSX = 'Singapore'
 GROUP BY SOHD
 HAVING COUNT(DISTINCT sp.MASP) =
@@ -749,40 +810,46 @@ HAVING COUNT(DISTINCT sp.MASP) =
 );
 GO
 
--- Câu 19: Tìm hóa đơn trong năm 2006 đã mua tất cả sản phẩm
--- do Singapore sản xuất.
+-- Câu 19
+-- Tìm hóa đơn trong năm 2006 đã mua
+-- tất cả sản phẩm do Singapore sản xuất.
 
 SELECT ct.SOHD
 FROM CTHD AS ct
-JOIN HOADON AS hd ON ct.SOHD = hd.SOHD
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN HOADON AS hd
+    ON ct.SOHD = hd.SOHD
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE YEAR(hd.NGHD) = 2006
-  AND NUOCSX = 'Singapore'
+    AND NUOCSX = 'Singapore'
 GROUP BY ct.SOHD
-HAVING COUNT(DISTINCT sp.MASP) =
-(
+HAVING COUNT(DISTINCT sp.MASP) = (
     SELECT COUNT(*)
     FROM SANPHAM
     WHERE NUOCSX = 'Singapore'
 );
 GO
 
--- Câu 20: Đếm số hóa đơn không thuộc khách hàng đăng ký thành viên.
+-- Câu 20
+-- Đếm số hóa đơn không thuộc khách hàng đăng ký thành viên.
 
 SELECT COUNT(*) AS HOADON_KP_TV
 FROM HOADON
 WHERE MAKH IS NULL;
 GO
 
--- Câu 21: Đếm số sản phẩm khác nhau được bán trong năm 2006.
+-- Câu 21
+-- Đếm số sản phẩm khác nhau được bán trong năm 2006.
 
 SELECT COUNT(DISTINCT MASP) AS SP_DUOCBAN_2006
 FROM CTHD AS ct
-JOIN HOADON AS hd ON ct.SOHD = hd.SOHD
+JOIN HOADON AS hd
+    ON ct.SOHD = hd.SOHD
 WHERE YEAR(hd.NGHD) = 2006;
 GO
 
--- Câu 22: Tìm trị giá hóa đơn cao nhất và thấp nhất.
+-- Câu 22
+-- Tìm trị giá hóa đơn cao nhất và thấp nhất.
 
 SELECT
     MAX(TRIGIA) AS GIA_CAO_NHAT,
@@ -790,56 +857,63 @@ SELECT
 FROM HOADON;
 GO
 
--- Câu 23: Tính trị giá trung bình của các hóa đơn trong năm 2006.
+-- Câu 23
+-- Tính trị giá trung bình của các hóa đơn trong năm 2006.
 
 SELECT AVG(TRIGIA) AS GIA_TB
 FROM HOADON
 WHERE YEAR(NGHD) = 2006;
 GO
 
--- Câu 24: Tính doanh thu bán hàng trong năm 2006.
+-- Câu 24
+-- Tính doanh thu bán hàng trong năm 2006.
 
 SELECT SUM(TRIGIA) AS DOANHTHU_2006
 FROM HOADON
 WHERE YEAR(NGHD) = 2006;
 GO
 
--- Câu 25: Tìm số hóa đơn có trị giá cao nhất trong năm 2006.
+-- Câu 25
+-- Tìm số hóa đơn có trị giá cao nhất trong năm 2006.
 
 SELECT SOHD
 FROM HOADON
 WHERE YEAR(NGHD) = 2006
-  AND TRIGIA =
-  (
-      SELECT MAX(TRIGIA)
-      FROM HOADON
-      WHERE YEAR(NGHD) = 2006
-  );
+    AND TRIGIA =
+    (
+        SELECT MAX(TRIGIA)
+        FROM HOADON
+        WHERE YEAR(NGHD) = 2006
+    );
 GO
 
--- Câu 26: Tìm khách hàng đã mua hóa đơn có trị giá cao nhất
+-- Câu 26
+-- Tìm khách hàng đã mua hóa đơn có trị giá cao nhất
 -- trong năm 2006.
 
 SELECT kh.MAKH, kh.HOTEN
 FROM KHACHHANG AS kh
-JOIN HOADON AS hd ON kh.MAKH = hd.MAKH
+JOIN HOADON AS hd
+    ON kh.MAKH = hd.MAKH
 WHERE YEAR(hd.NGHD) = 2006
-  AND hd.TRIGIA =
-  (
-      SELECT MAX(TRIGIA)
-      FROM HOADON
-      WHERE YEAR(NGHD) = 2006
-  );
+    AND hd.TRIGIA =
+    (
+        SELECT MAX(TRIGIA)
+        FROM HOADON
+        WHERE YEAR(NGHD) = 2006
+    );
 GO
 
--- Câu 27: Liệt kê 3 khách hàng có doanh số cao nhất.
+-- Câu 27
+-- Liệt kê 3 khách hàng có doanh số cao nhất.
 
 SELECT TOP 3 MAKH, HOTEN, DOANHSO
 FROM KHACHHANG
 ORDER BY DOANHSO DESC;
 GO
 
--- Câu 28: Liệt kê sản phẩm có giá thuộc 3 mức giá cao nhất.
+-- Câu 28
+-- Liệt kê sản phẩm có giá thuộc 3 mức giá cao nhất.
 
 SELECT MASP, TENSP, GIA
 FROM SANPHAM
@@ -851,36 +925,39 @@ WHERE GIA IN
 );
 GO
 
--- Câu 29: Liệt kê sản phẩm do Thái Lan sản xuất có giá thuộc
--- 3 mức giá cao nhất trong tất cả sản phẩm.
+-- Câu 29
+-- Liệt kê sản phẩm do Thái Lan sản xuất
+-- có giá thuộc 3 mức giá cao nhất trong tất cả sản phẩm.
 
 SELECT MASP, TENSP, GIA
 FROM SANPHAM
 WHERE NUOCSX = 'Thai Lan'
-  AND GIA IN
-  (
-      SELECT DISTINCT TOP 3 GIA
-      FROM SANPHAM
-      ORDER BY GIA DESC
-  );
+    AND GIA IN
+    (
+        SELECT DISTINCT TOP 3 GIA
+        FROM SANPHAM
+        ORDER BY GIA DESC
+    );
 GO
 
--- Câu 30: Liệt kê sản phẩm do Trung Quốc sản xuất có giá thuộc
--- 3 mức giá cao nhất của các sản phẩm Trung Quốc.
+-- Câu 30
+-- Liệt kê sản phẩm do Trung Quốc sản xuất
+-- có giá thuộc 3 mức giá cao nhất của các sản phẩm Trung Quốc.
 
 SELECT MASP, TENSP, GIA
 FROM SANPHAM
 WHERE NUOCSX = N'Trung Quốc'
-  AND GIA IN
-  (
-      SELECT DISTINCT TOP 3 GIA
-      FROM SANPHAM
-      WHERE NUOCSX = N'Trung Quốc'
-      ORDER BY GIA DESC
-  );
+    AND GIA IN
+    (
+        SELECT DISTINCT TOP 3 GIA
+        FROM SANPHAM
+        WHERE NUOCSX = N'Trung Quốc'
+        ORDER BY GIA DESC
+    );
 GO
 
--- Câu 31: Xếp hạng khách hàng theo doanh số và lấy các hạng 1 đến 3.
+-- Câu 31
+-- Xếp hạng khách hàng theo doanh số và lấy các hạng 1 đến 3.
 
 WITH XepHang_KH AS
 (
@@ -896,21 +973,24 @@ FROM XepHang_KH
 WHERE RankDoanhSo <= 3;
 GO
 
--- Câu 32: Đếm tổng số sản phẩm do Trung Quốc sản xuất.
+-- Câu 32
+-- Đếm tổng số sản phẩm do Trung Quốc sản xuất.
 
 SELECT COUNT(*) AS TONGSP_TQ
 FROM SANPHAM
 WHERE NUOCSX = N'Trung Quốc';
 GO
 
--- Câu 33: Đếm số sản phẩm của từng nước sản xuất.
+-- Câu 33
+-- Đếm số sản phẩm của từng nước sản xuất.
 
 SELECT NUOCSX, COUNT(*) AS TONGSP
 FROM SANPHAM
 GROUP BY NUOCSX;
 GO
 
--- Câu 34: Với từng nước sản xuất, tìm giá cao nhất,
+-- Câu 34
+-- Với từng nước sản xuất, tìm giá cao nhất,
 -- thấp nhất và trung bình của các sản phẩm.
 
 SELECT
@@ -922,29 +1002,34 @@ FROM SANPHAM
 GROUP BY NUOCSX;
 GO
 
--- Câu 35: Tính doanh thu bán hàng theo từng ngày.
+-- Câu 35
+-- Tính doanh thu bán hàng theo từng ngày.
 
 SELECT NGHD, SUM(TRIGIA) AS DOANHTHUNGAY
 FROM HOADON
 GROUP BY NGHD;
 GO
 
--- Câu 36: Tính tổng số lượng bán ra của từng sản phẩm
--- trong tháng 10/2006.
+-- Câu 36
+-- Tính tổng số lượng bán ra
+-- của từng sản phẩm trong tháng 10/2006.
 
 SELECT
     ct.MASP,
     sp.TENSP,
     SUM(SL) AS TONG_SL_BAN
 FROM CTHD AS ct
-JOIN HOADON AS hd ON ct.SOHD = hd.SOHD
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN HOADON AS hd
+    ON ct.SOHD = hd.SOHD
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE MONTH(hd.NGHD) = 10
-  AND YEAR(hd.NGHD) = 2006
+    AND YEAR(hd.NGHD) = 2006
 GROUP BY ct.MASP, sp.TENSP;
 GO
 
--- Câu 37: Tính doanh thu bán hàng theo từng tháng trong năm 2006.
+-- Câu 37
+-- Tính doanh thu bán hàng theo từng tháng trong năm 2006.
 
 SELECT
     MONTH(NGHD) AS THANG,
@@ -954,7 +1039,8 @@ WHERE YEAR(NGHD) = 2006
 GROUP BY MONTH(NGHD);
 GO
 
--- Câu 38: Tìm hóa đơn mua ít nhất 4 sản phẩm khác nhau.
+-- Câu 38
+-- Tìm hóa đơn mua ít nhất 4 sản phẩm khác nhau.
 
 SELECT SOHD
 FROM CTHD
@@ -962,18 +1048,21 @@ GROUP BY SOHD
 HAVING COUNT(DISTINCT MASP) >= 4;
 GO
 
--- Câu 39: Tìm hóa đơn mua đúng 3 sản phẩm khác nhau
+-- Câu 39
+-- Tìm hóa đơn mua đúng 3 sản phẩm khác nhau
 -- do Việt Nam sản xuất.
 
 SELECT SOHD
 FROM CTHD AS ct
-JOIN SANPHAM AS sp ON ct.MASP = sp.MASP
+JOIN SANPHAM AS sp
+    ON ct.MASP = sp.MASP
 WHERE NUOCSX = 'Viet Nam'
 GROUP BY SOHD
 HAVING COUNT(DISTINCT ct.MASP) = 3;
 GO
 
--- Câu 40: Tìm khách hàng có số lần mua hàng nhiều nhất.
+-- Câu 40
+-- Tìm khách hàng có số lần mua hàng nhiều nhất.
 
 WITH SoLanMua AS
 (
@@ -984,7 +1073,8 @@ WITH SoLanMua AS
 )
 SELECT kh.MAKH, kh.HOTEN, sl.SoLan
 FROM KHACHHANG AS kh
-JOIN SoLanMua AS sl ON kh.MAKH = sl.MAKH
+JOIN SoLanMua AS sl
+    ON kh.MAKH = sl.MAKH
 WHERE sl.SoLan =
 (
     SELECT MAX(SoLan)
@@ -992,7 +1082,8 @@ WHERE sl.SoLan =
 );
 GO
 
--- Câu 41: Tìm tháng có doanh thu bán hàng cao nhất trong năm 2006.
+-- Câu 41
+-- Tìm tháng có doanh thu bán hàng cao nhất trong năm 2006.
 
 WITH DoanhThuTheoThang AS
 (
@@ -1012,20 +1103,23 @@ WHERE TongDoanhThu =
 );
 GO
 
--- Câu 42: Tìm sản phẩm có tổng số lượng bán ra thấp nhất
--- trong năm 2006.
+-- Câu 42
+-- Tìm sản phẩm có tổng số lượng bán ra
+-- thấp nhất trong năm 2006.
 
 WITH TongBan26 AS
 (
     SELECT ct.MASP, SUM(SL) AS TongSL
     FROM CTHD AS ct
-    JOIN HOADON AS hd ON ct.SOHD = hd.SOHD
+    JOIN HOADON AS hd
+        ON ct.SOHD = hd.SOHD
     WHERE YEAR(hd.NGHD) = 2006
     GROUP BY ct.MASP
 )
 SELECT sp.MASP, sp.TENSP, t.TongSL
 FROM SANPHAM AS sp
-JOIN TongBan26 AS t ON sp.MASP = t.MASP
+JOIN TongBan26 AS t
+    ON sp.MASP = t.MASP
 WHERE t.TongSL =
 (
     SELECT MIN(TongSL)
@@ -1033,7 +1127,8 @@ WHERE t.TongSL =
 );
 GO
 
--- Câu 43: Tìm sản phẩm có giá cao nhất của từng nước sản xuất.
+-- Câu 43
+-- Tìm sản phẩm có giá cao nhất của từng nước sản xuất.
 
 WITH XepGiaTheoNuoc AS
 (
@@ -1054,7 +1149,8 @@ FROM XepGiaTheoNuoc
 WHERE rn = 1;
 GO
 
--- Câu 44: Tìm nước sản xuất có ít nhất 3 mức giá bán khác nhau.
+-- Câu 44
+-- Tìm nước sản xuất có ít nhất 3 mức giá bán khác nhau.
 
 SELECT NUOCSX
 FROM SANPHAM
@@ -1062,7 +1158,8 @@ GROUP BY NUOCSX
 HAVING COUNT(DISTINCT GIA) >= 3;
 GO
 
--- Câu 45: Trong 10 khách hàng có doanh số cao nhất,
+-- Câu 45
+-- Trong 10 khách hàng có doanh số cao nhất,
 -- tìm khách hàng có số lần mua hàng nhiều nhất.
 
 WITH Top10DS AS
@@ -1078,7 +1175,8 @@ DemLuotMua AS
         t.HOTEN,
         COUNT(hd.SOHD) AS SoLanMua
     FROM Top10DS AS t
-    JOIN HOADON AS hd ON t.MAKH = hd.MAKH
+    JOIN HOADON AS hd
+        ON t.MAKH = hd.MAKH
     GROUP BY t.MAKH, t.HOTEN
 )
 SELECT TOP 1 MAKH, HOTEN, SoLanMua

@@ -1,10 +1,11 @@
-USE PRODUCT_SALES_MANAGEMENT_SYSTEM;
+USE SALES_DB;
 GO
+
 
 -- ============================================================
 -- DML
 -- Data Manipulation Language and SELECT exercises.
--- Based on the Product Sales Management exercises from the textbook.
+-- Based on the Sales Management exercises from the textbook.
 -- ============================================================
 
 -- ============================================================

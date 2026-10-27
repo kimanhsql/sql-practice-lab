@@ -1,12 +1,11 @@
-USE PRODUCT_SALES_MANAGEMENT_SYSTEM;
+-- ============================================================
+-- SALES MANAGEMENT SYSTEM
+-- DATA DEFINITION LANGUAGE (DDL)s
+-- ============================================================
+
+USE SALES_DB;
 GO
 
--- ============================================================
--- CONSTRAINTS AND TRIGGERS
--- ============================================================
--- Business rules and data-integrity constraints for the
--- Product Sales Management database.
--- ============================================================
 
 ALTER TABLE PRODUCTS
 	ADD Notes VARCHAR(20);

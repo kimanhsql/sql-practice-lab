@@ -1,12 +1,15 @@
 -- ============================================================
--- PRODUCT SALES MANAGEMENT SYSTEM
+-- SALES MANAGEMENT SYSTEM
 -- CREATE DATABASE
 -- ============================================================
 
-
-CREATE DATABASE PRODUCT_SALES_MANAGEMENT_SYSTEM;
+USE master;
 GO
 
 
-USE PRODUCT_SALES_MANAGEMENT_SYSTEM;
+CREATE DATABASE SALES_DB;
+GO
+
+
+USE SALES_DB;
 GO
