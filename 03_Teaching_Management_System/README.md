@@ -1,25 +1,17 @@
 # Teaching Management System
 
-This project is a SQL Server database project based on the QLGiangDay exercises from the *Database Fundamentals* textbook.
-
-It is designed to practice relational database design, table relationships, schema modification, integrity constraints, and SQL data management through a teaching management database.
+This project is a SQL Server database project based on the `QLGiangDay` exercises from the *Database Fundamentals* textbook (`TH1207_GT.pdf`, page 100).
 
 ---
 
-## 1. Database Overview
+## 1. Database Overview & Structure
 
 **Database:** `QLGiangDay`
 
-The database manages information about:
+The database consists of 6 core tables managing information about teachers, subjects, classrooms, departments, classes, and teaching schedules.
 
-- Teachers
-- Subjects
-- Classrooms
-- Departments
-- Classes
-- Teaching Schedules
 
-### Tables
+### Table List
 
 ```text
 GIAOVIEN
@@ -30,98 +22,114 @@ LOP
 LICHDAY
 ```
 
-### Requirements
 
-The textbook exercises cover the following tasks:
+### Detailed Table Specifications & Constraints Note
 
-1. Create the `QLGiangDay` database.
-2. Create the required tables.
-3. Define primary keys and foreign keys.
-4. Review the relationships between tables.
-5. Add the following columns to `GIAOVIEN`:
-   - Date of birth
-   - Gender
-   - Age
-6. Add the `SucChua` (capacity) column to `PHONGHOC`.
-7. Add the following columns to `MONHOC`:
-   - `SoTC`
-   - `TCLT`
-   - `TCTH`
-8. Add the `SiSo` (class size) column to `LOP`.
-9. Define integrity constraints for:
-   - `SiSo`
-   - `SoTC`
-   - `TCLT`
-   - `TCTH`
-   - `SucChua`
-   - `TuoiGV`
+* **Primary Keys (PK):** Explicitly defined or derived from entity attributes and relationships in the textbook.
+* **Foreign Keys (FK):** Described through structural links between tables (e.g., teacher belongs to a department, class belongs to a department, schedule links teacher, subject, classroom, and class).
+* **Schema Modifications & Constraints:** Additional attributes (`NgaySinh`, `GioiTinh`, `Tuoi`, `SucChua`, `SoTC`, `TCLT`, `TCTH`, `SiSo`) and integrity constraints are explicitly required to be added via DDL modification statements (`ALTER TABLE`).
+  
+
+#### 1.1 GIAOVIEN (Teachers)
+
+* **Attributes & Data Types:** `MaGV`, `HoTen`, `MaKhoa` *(Plus added columns: `NgaySinh`, `GioiTinh`, `Tuoi`)*
+* **Primary Key:** `MaGV`
+* **Foreign Keys:** `MaKhoa` (references `KHOA`)
+* **Constraints & Business Rules:** Manages teacher profiles, departmental affiliations, personal attributes, and age constraints (`TuoiGV`).
 
 ---
 
-## 2. Source
+#### 1.2 MONHOC (Subjects)
 
-**Document:** `TH1207_GT.pdf`
-
-| Pages | Content |
-|---|---|
-| 100 | QLGiangDay database structure and exercises |
-
-The project is based on the original Vietnamese textbook exercises. The original terminology is preserved in the reference notes, while the SQL implementation is organized in English where appropriate.
+* **Attributes & Data Types:** `MaMH`, `TenMH` *(Plus added columns: `SoTC`, `TCLT`, `TCTH`)*
+* **Primary Key:** `MaMH`
+* **Foreign Keys:** None
+* **Constraints & Business Rules:** Manages subject details, total credits (`SoTC`), theory credits (`TCLT`), and practical credits (`TCTH`).
 
 ---
 
-## 3. Project Structure
+#### 1.3 PHONGHOC (Classrooms)
+
+* **Attributes & Data Types:** `Phong`, `ChucNang` *(Plus added column: `SucChua`)*
+* **Primary Key:** `Phong`
+* **Foreign Keys:** None
+* **Constraints & Business Rules:** Manages classroom identifiers, functions, and capacity (`SucChua`).
+
+---
+
+#### 1.4 KHOA (Departments)
+
+* **Attributes & Data Types:** `MaKhoa`, `TenKhoa`
+* **Primary Key:** `MaKhoa`
+* **Foreign Keys:** None
+* **Constraints & Business Rules:** Manages academic department information.
+
+---
+
+#### 1.5 LOP (Classes)
+
+* **Attributes & Data Types:** `MaLop`, `TenLop`, `MaKhoa` *(Plus added column: `SiSo`)*
+* **Primary Key:** `MaLop`
+* **Foreign Keys:** `MaKhoa` (references `KHOA`)
+* **Constraints & Business Rules:** Manages class profiles, departmental links, and class size (`SiSo`).
+
+---
+
+#### 1.6 LICHDAY (Teaching Schedules)
+
+* **Attributes & Data Types:** `MaGV`, `MaMH`, `Phong`, `MaLop`, `NgayDay`, `TuTiet`, `DenTiet`, `BaiDay`, `LyThuyet`, `GhiChu`
+* **Primary Key:** Composite key based on scheduling attributes (`MaGV`, `MaMH`, `Phong`, `MaLop`, `NgayDay`, `TuTiet`)
+* **Foreign Keys:** `MaGV` (references `GIAOVIEN`), `MaMH` (references `MONHOC`), `Phong` (references `PHONGHOC`), `MaLop` (references `LOP`)
+* **Constraints & Business Rules:** Tracks teaching assignments, schedule periods, and lesson details.
+
+---
+
+## 2. Textbook Exercises & Requirements
+
+### PART I: DATA DEFINITION LANGUAGE (DDL) & SCHEMA MODIFICATION
+
+*(Page 100)*
+
+* **Project Name:** Teaching Management Database (`QLGiangDay`)
+* **Requirements:**
+1. Create the database named `QLGiangDay`.
+2. Create all required tables (`GIAOVIEN`, `MONHOC`, `PHONGHOC`, `KHOA`, `LOP`, `LICHDAY`) with primary key and foreign key constraints.
+3. Review and view the relationship model (ERD) among the tables.
+4. Add columns for date of birth, gender, and age (`NgaySinh`, `GioiTinh`, `Tuoi`) to the `GIAOVIEN` table.
+5. Add the capacity column (`SucChua`) to the `PHONGHOC` table.
+6. Add credit columns (`SoTC`, `TCLT`, `TCTH`) to the `MONHOC` table.
+7. Add the class size column (`SiSo`) to the `LOP` table.
+8. Define integrity constraints for `SiSo`, `SoTC`, `TCLT`, `TCTH`, `SucChua`, and `TuoiGV`.
+
+---
+
+## 3. Project Structure & Workflow
 
 ```text
-Teaching_Management_System/
+03_Teaching_Management_System/
 ├── SQL/
-|
-├── Notes.md
 ├── QLGiangDay.sql
 └── README.md
+
 ```
 
-- `SQL/`: SQL scripts organized by topic or exercise.
-- `Notes.md`: Notes, explanations, and relevant information from the original exercises.
-- `QLGiangDay.sql`: Complete SQL script containing the database implementation and exercises.
-- `README.md`: Project documentation.
-
-The complete SQL script is preserved as a reference, while individual exercises are organized into separate files in the `SQL/` directory.
-
----
-
-## 4. Project Workflow
-
-The project follows these steps:
-
-1. Analyze the database requirements.
-2. Create the database and tables.
-3. Define primary keys, foreign keys, and constraints.
-4. Review the relationships between tables.
-5. Modify the existing tables by adding the required columns.
-6. Define and test integrity constraints.
-7. Verify the database structure and behavior.
-8. Organize SQL scripts and document the solutions.
+* **Workflow:**
+1. Analyze database requirements from the textbook.
+2. Create the database and tables with appropriate constraints.
+3. Review table relationships.
+4. Modify schema by adding new columns (`ALTER TABLE`).
+5. Implement data integrity constraints (`CHECK`, `DEFAULT`, etc.).
+6. Organize SQL scripts and finalize project documentation.
 
 ---
 
-## 5. Current Progress
+## 4. Current Progress
 
-- [x] Database creation
-- [x] Table creation
-- [x] Primary keys, foreign keys, and constraints
-- [x] Table relationship review
-- [x] Additional columns
-- [x] Integrity constraints
-- [x] SQL script organization
-- [x] Project documentation
-
----
-
-## 6. Notes
-
-This project is part of a collection of SQL Server database projects used to practice database design and SQL programming.
-
-The database structure and requirements are based on the textbook exercises. The project also focuses on understanding relational integrity, schema modification, and the practical application of SQL constraints.
-
-The original complete SQL script is preserved in `QLGiangDay.sql` for reference.
+* [x] Database creation
+* [x] Table creation
+* [x] Primary keys, foreign keys, and constraints
+* [x] Table relationship review
+* [x] Additional columns setup (`ALTER TABLE`)
+* [x] Integrity constraints implementation
+* [x] SQL script organization
+* [x] Project documentation (`README.md`)

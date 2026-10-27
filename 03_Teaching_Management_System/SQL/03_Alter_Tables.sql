@@ -1,12 +1,7 @@
-/*
-    Project: Teaching Management System
-
-    This file modifies the existing tables by adding
-    new columns and integrity constraints.
-
-    Source:
-    QLGiangDay exercise - Page 100
-*/
+-- ============================================================
+-- TEACHING MANAGEMENT SYSTEM
+-- DATA MANIPULATION LANGUAGE (DML)
+-- ============================================================
 
 USE TEACHING_DB;
 GO

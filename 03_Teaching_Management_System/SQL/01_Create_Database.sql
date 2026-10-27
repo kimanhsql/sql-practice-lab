@@ -3,6 +3,10 @@
 -- CREATE DATABASE
 -- ============================================================
 
+USE master;
+GO
+
+
 CREATE DATABASE TEACHING_DB;
 GO
 

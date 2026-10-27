@@ -10,6 +10,7 @@ This project is a SQL Server database project based on the `QLBongDa` exercises 
 
 The database consists of 9 core tables managing information about countries, stadiums, provinces, clubs, players, coaches, club-coaches, matches, and standings.
 
+
 ### Table List
 
 ```text
@@ -32,7 +33,6 @@ BANGXH
 - **Nullability:** Attributes marked as **NOT NULL** are strictly enforced. Unmarked attributes (such as `NGAYSINH`, `DIACHI`, `DIENTHOAI`) default to allowing `NULL` values unless constrained by business rules.
 - **Identity:** `MACT` (in `CAUTHU`) and `MATRAN` (in `TRANDAU`) are auto-incrementing fields.
 
----
 
 #### 1.1 CAUTHU (Players)
 
@@ -170,7 +170,7 @@ Each club can have a maximum of 2 head coaches (`'HLV chính'`).
 ## 3. Project Structure & Workflow
 
 ```text
-Football League Management System/
+01_Football League Management System/
 ├── Images/
 ├── SQL/
 ├── QLBongDa.sql
