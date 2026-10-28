@@ -1,16 +1,12 @@
+-- ============================================================
+-- SALES MANAGEMENT SYSTEM
+-- DATA QUERY LANGUAGE (DQL)
+-- ============================================================
+
 USE SALES_DB;
 GO
 
 
--- ============================================================
--- DML
--- Data Manipulation Language and SELECT exercises.
--- Based on the Sales Management exercises from the textbook.
--- ============================================================
-
--- ============================================================
--- PART III - DML EXERCISES
--- ============================================================
 -- Question 1
 -- Display the products (ProductID, ProductName)
 -- manufactured in China.

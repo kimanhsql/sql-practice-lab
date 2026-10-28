@@ -28,7 +28,7 @@ LICHDAY
 * **Primary Keys (PK):** Explicitly defined or derived from entity attributes and relationships in the textbook.
 * **Foreign Keys (FK):** Described through structural links between tables (e.g., teacher belongs to a department, class belongs to a department, schedule links teacher, subject, classroom, and class).
 * **Schema Modifications & Constraints:** Additional attributes (`NgaySinh`, `GioiTinh`, `Tuoi`, `SucChua`, `SoTC`, `TCLT`, `TCTH`, `SiSo`) and integrity constraints are explicitly required to be added via DDL modification statements (`ALTER TABLE`).
-  
+
 
 #### 1.1 GIAOVIEN (Teachers)
 
@@ -110,7 +110,6 @@ LICHDAY
 ├── SQL/
 ├── QLGiangDay.sql
 └── README.md
-
 ```
 
 * **Workflow:**

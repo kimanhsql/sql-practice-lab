@@ -7,6 +7,27 @@ USE SALES_DB;
 GO
 
 
+-- Modify the data type of `CustomerType` to store customer type names.
+
+ALTER TABLE CUSTOMERS
+    DROP CONSTRAINT CHK_CustomerType;
+GO
+
+ALTER TABLE CUSTOMERS
+    ALTER COLUMN CustomerType VARCHAR(20);
+GO
+
+ALTER TABLE CUSTOMERS
+    ADD CONSTRAINT CHK_CustomerType
+        CHECK (CustomerType IN ('Vang lai', 'Thuong xuyen', 'Vip'));
+GO
+
+-- Clear existing customer data before re-inserting sample data.
+
+DELETE FROM CUSTOMERS;
+GO
+
+
 -- CUSTOMERS
 
 INSERT INTO CUSTOMERS(CustomerID,FullName,Address,PhoneNumber,DateOfBirth,RegistrationDate,SalesAmount,LOAIKH)
@@ -149,4 +170,127 @@ INSERT INTO INVOICE_DETAILS(InvoiceID, ProductID, Quantity)
 		(1021,'TV02',10),
 		(1022,'ST07',1),
 		(1023,'ST04',6);
+GO
+
+
+-- Verify data after insertion.
+
+SELECT * FROM KHACHHANG;
+GO
+
+SELECT * FROM NHANVIEN;
+GO
+
+SELECT * FROM SANPHAM;
+GO
+
+SELECT * FROM HOADON;
+GO
+
+SELECT * FROM CTHD;
+GO
+
+
+-- Question 2
+-- Create PRODUCTS1 and CUSTOMERS1, copying all data 
+-- from PRODUCTS and CUSTOMERS respectively.
+
+SELECT * INTO PRODUCTS1
+FROM PRODUCTS;
+GO
+
+ALTER TABLE PRODUCTS1
+    ADD CONSTRAINT CHK_UNIT1
+        CHECK (Unit IN (N'Cây', 'hop', 'cai', 'quyen', 'chuc'));
+GO
+
+ALTER TABLE PRODUCTS1
+    ADD CONSTRAINT CHK_PRICE1
+        CHECK (Price >= 500);
+GO
+
+SELECT * INTO CUSTOMERS1
+FROM CUSTOMERS;
+GO
+
+ALTER TABLE CUSTOMERS1
+    ADD CONSTRAINT CHK_CustomerType1
+        CHECK (CustomerType IN ('Vang lai', 'Thuong xuyen', 'Vip'));
+GO
+
+ALTER TABLE CUSTOMERS1
+    ADD CONSTRAINT CHK_RegistrationDate_DateOfBirth1
+        CHECK (RegistrationDate > DateOfBirth);
+GO
+
+-- Verify data in the two new tables.
+
+SELECT * FROM PRODUCTS1;
+GO
+
+SELECT * FROM CUSTOMERS1;
+GO
+
+
+-- Question 3
+-- Increase the price by 5% for products manufactured
+-- in 'Thai Lan' in PRODUCTS1.
+
+UPDATE PRODUCTS1
+SET Price = Price + (Price * 0.05)
+WHERE CountryOfManufacture = 'Thai Lan';
+GO
+
+SELECT CountryOfManufacture, Price
+FROM PRODUCTS
+WHERE CountryOfManufacture = 'Thai Lan';
+GO
+
+SELECT CountryOfManufacture, Price
+FROM PRODUCTS1
+WHERE CountryOfManufacture = 'Thai Lan';
+GO
+
+
+-- Question 4
+-- Decrease the price by 5% for products manufactured in 'Trung Quoc' 
+-- with a price of 10,000 VND or less in PRODUCTS1.
+
+UPDATE PRODUCTS1
+SET Price = Price - (Price * 0.05)
+WHERE CountryOfManufacture = N'Trung Quốc'
+    AND Price <= 10000;
+GO
+
+SELECT CountryOfManufacture, Price
+FROM PRODUCTS
+WHERE CountryOfManufacture = N'Trung Quốc';
+GO
+
+SELECT CountryOfManufacture, Price
+FROM PRODUCTS1
+WHERE CountryOfManufacture = N'Trung Quốc';
+GO
+
+
+-- Question 5
+-- Update CustomerType to 'Vip' for customers meeting the conditions:
+-- - Registered before 2007 with total sales (SalesAmount)
+-- of 10,000,000 or more;
+-- - Or registered in/after 2007 with total sales of 2,000,000
+-- or more.
+-- Executed on the CUSTOMERS1 table.
+
+UPDATE CUSTOMERS1
+SET CustomerType = 'Vip'
+WHERE (RegistrationDate < '2007-01-01' AND SalesAmount >= 10000000)
+    OR (RegistrationDate >= '2007-01-01' AND SalesAmount >= 2000000);
+GO
+
+SELECT CustomerID, SalesAmount, RegistrationDate, CustomerType
+FROM CUSTOMERS;
+GO
+
+SELECT CustomerID, SalesAmount, RegistrationDate, CustomerType
+FROM CUSTOMERS1;
 GO
