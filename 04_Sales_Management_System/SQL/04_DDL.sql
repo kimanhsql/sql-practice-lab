@@ -6,6 +6,7 @@
 USE SALES_DB;
 GO
 
+
 -- Question 2
 -- Add the `Notes` column with data type `VARCHAR(20)`
 -- to the `PRODUCTS` table.

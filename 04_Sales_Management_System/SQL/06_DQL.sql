@@ -8,8 +8,7 @@ GO
 
 
 -- Question 1
--- Display the products (ProductID, ProductName)
--- manufactured in China.
+-- List products (`MASP`, `TENSP`) manufactured by 'Trung Quoc'.
 
 SELECT ProductID,ProductName
 	FROM PRODUCTS
@@ -18,8 +17,7 @@ GO
 
 
 -- Question 2
--- Display the products (ProductID, ProductName)
--- whose units are 'Cây' or 'Quyển'.
+-- List products (`MASP`, `TENSP`) with units 'Cây' or 'Quyển'.
 
 SELECT ProductID,ProductName,Unit
 	FROM PRODUCTS
@@ -28,8 +26,8 @@ GO
 
 
 -- Question 3
--- Display the products (ProductID, ProductName)
--- whose product ID starts with 'B' and ends with '01'.
+-- List products (`MASP`, `TENSP`) whose product code
+-- starts with 'B' and ends with '01'.
 
 SELECT ProductID,ProductName
 	FROM PRODUCTS
@@ -38,8 +36,8 @@ GO
 
 
 -- Question 4
--- Display the products (ProductID, ProductName)
--- manufactured in China with prices from 30,000 to 40,000 VND.
+-- List products (`MASP`, `TENSP`) manufactured by
+-- 'Trung Quoc' priced between 30,000 and 40,000.
 
 SELECT ProductID,ProductName
 	FROM PRODUCTS
@@ -49,8 +47,8 @@ GO
 
 
 -- Question 5
--- Display the products (ProductID, ProductName) manufactured in China
--- or Thailand with prices from 30,000 to 40,000 VND.
+-- List products (`MASP`, `TENSP`) manufactured by 'Trung Quoc'
+-- or 'Thai Lan' priced between 30,000 and 40,000.
 
 SELECT ProductID,ProductName,CountryOfOrigin,Price
 	FROM PRODUCTS
@@ -60,18 +58,18 @@ GO
 
 
 -- Question 6
--- Display the invoice IDs and total amounts of invoices
--- issued on January 1, 2007 and January 2, 2007.
+-- List invoice numbers and total values for invoices
+-- sold on `2007-01-01` and `2007-02-01`.
 
 SELECT InvoiceID,TotalAmount
 	FROM INVOICES
-	WHERE InvoiceDate IN('2007-01-01','2007-01-02');
+	WHERE InvoiceDate IN('2007-01-01','2007-02-01');
 GO
 
 
 -- Question 7
--- Display the invoice IDs and total amounts for January 2007,
--- sorted by invoice date ascending and total amount descending.
+-- List invoice numbers and values in January 2007,
+-- sorted by date (ascending) and invoice value (descending).
 
 SELECT InvoiceID,TotalAmount
 	FROM INVOICES
@@ -81,8 +79,8 @@ GO
 
 
 -- Question 8
--- Display the customers (CustomerID, FullName) who made a purchase
--- on January 1, 2007.
+-- List customers (`MAKH`, `HOTEN`) who made purchases
+-- on `2007-01-01`.
 
 SELECT kh.CustomerID,FullName
 	FROM CUSTOMERS kh
@@ -92,8 +90,8 @@ GO
 
 
 -- Question 9
--- Display the invoice IDs and total amounts of invoices issued
--- by the employee named 'Nguyen Van B' on October 28, 2006.
+-- List invoice numbers and values created by
+-- employee 'Nguyen Van B' on `2006-10-28`.
 
 SELECT InvoiceID,TotalAmount
 	FROM INVOICES hd
@@ -104,8 +102,8 @@ GO
 
 
 -- Question 10
--- Display the products (ProductID, ProductName) purchased
--- by the customer named 'Nguyen Van A' in October 2006.
+-- List products (`MASP`, `TENSP`) purchased by
+-- customer 'Nguyen Van A' in October 2006.
 
 SELECT sp.ProductID,sp.ProductName
 	FROM CUSTOMERS kh
@@ -119,7 +117,7 @@ GO
 
 
 -- Question 11
--- Find the invoice IDs that purchased product 'BB01' or 'BB02'.
+-- Find invoice numbers that purchased product 'BB01' or 'BB02'.
 
 SELECT InvoiceID,ct.ProductID
 	FROM INVOICE_DETAILS ct
@@ -129,8 +127,8 @@ GO
 
 
 -- Question 12
--- Find the invoice IDs that purchased product 'BB01' or 'BB02',
--- with a quantity from 10 to 20 for each product.
+-- Find invoice numbers that purchased product 'BB01' or 'BB02'
+-- with a quantity between 10 and 20 for each.
 
 SELECT InvoiceID,ct.ProductID
 	FROM INVOICE_DETAILS ct
@@ -141,8 +139,9 @@ GO
 
 
 -- Question 13
--- Find the invoice IDs that purchased both products 'BB01' and 'BB02',
--- with a quantity from 10 to 20 for each product.
+-- Find invoice numbers that simultaneously
+-- purchased both products 'BB01' and 'BB02'
+-- with quantities between 10 and 20 for each.
 
 SELECT InvoiceID
 	FROM INVOICE_DETAILS
@@ -157,8 +156,8 @@ GO
 
 
 -- Question 14
--- Display the products (ProductID, ProductName)
--- manufactured in China or sold on January 1, 2007.
+-- List products (`MASP`, `TENSP`) manufactured by 'Trung Quoc'
+-- or sold on `2007-01-01`.
 
 SELECT ProductID,ProductName
 	FROM PRODUCTS
@@ -175,8 +174,7 @@ GO
 
 
 -- Question 15
--- Display the products (ProductID, ProductName)
--- that have never been sold.
+-- List products (`MASP`, `TENSP`) that have never been sold.
 
 SELECT sp.ProductID,sp.ProductName
 	FROM PRODUCTS sp
@@ -190,8 +188,8 @@ GO
 
 
 -- Question 16
--- Display the products (ProductID, ProductName)
--- that were not sold in 2006.
+-- List products (`MASP`, `TENSP`)
+-- that were not sold in the year 2006.
 
 SELECT sp.ProductID,sp.ProductName
 	FROM PRODUCTS sp
@@ -207,8 +205,9 @@ GO
 
 
 -- Question 17
--- Display the products (ProductID, ProductName) manufactured in China
--- that were not sold in 2006.
+-- List products (`MASP`, `TENSP`)
+-- manufactured by 'Trung Quoc'
+-- that were not sold in the year 2006.
 
 SELECT sp.ProductID,sp.ProductName
 	FROM PRODUCTS sp
@@ -225,8 +224,8 @@ GO
 
 
 -- Question 18
--- Find the invoice IDs that purchased all products
--- manufactured in Singapore.
+-- Find invoice numbers that have purchased
+-- all products manufactured by Singapore.
 
 SELECT InvoiceID
 	FROM INVOICE_DETAILS ct
@@ -243,8 +242,8 @@ GO
 
 
 -- Question 19
--- Find the invoice IDs in 2006 that purchased at least all products
--- manufactured in Singapore.
+-- Find invoice numbers in 2006 that have purchased
+-- at least all products manufactured by Singapore.
 
 SELECT ct.InvoiceID
 	FROM INVOICE_DETAILS ct
@@ -263,7 +262,7 @@ GO
 
 
 -- Question 20
--- Count the invoices purchased by non-member customers.
+-- How many invoices were made by non-member (guest) customers?
 
 SELECT COUNT(*) AS NON_MEMBER_INVOICES
 	FROM INVOICES
@@ -272,7 +271,7 @@ GO
 
 
 -- Question 21
--- Count the distinct products sold in 2006.
+-- How many distinct products were sold in the year 2006?
 
 SELECT COUNT(DISTINCT ProductID) AS DISTINCT_PRODUCTS_SOLD_2006
 	FROM INVOICE_DETAILS ct
@@ -282,7 +281,7 @@ GO
 
 
 -- Question 22
--- Find the highest and lowest invoice total amounts.
+-- What are the maximum and minimum invoice values?
 
 SELECT MAX(TotalAmount) AS HIGHEST_AMOUNT,MIN(TotalAmount) AS LOWEST_AMOUNT
 	FROM INVOICES;
@@ -290,7 +289,8 @@ GO
 
 
 -- Question 23
--- Find the average invoice total amount for invoices issued in 2006.
+-- What is the average invoice value of
+-- all invoices sold in the year 2006?
 
 SELECT AVG(TotalAmount) AS AVERAGE_AMOUNT
 	FROM INVOICES
@@ -299,7 +299,7 @@ GO
 
 
 -- Question 24
--- Calculate the total sales revenue in 2006.
+-- Calculate total sales revenue for the year 2006.
 
 SELECT SUM(TotalAmount) AS SALES_REVENUE_2006
 	FROM INVOICES
@@ -308,7 +308,8 @@ GO
 
 
 -- Question 25
--- Find the invoice ID(s) with the highest total amount in 2006.
+-- Find the invoice number with
+-- the highest invoice value in the year 2006.
 
 SELECT InvoiceID
 	FROM INVOICES
@@ -323,8 +324,8 @@ GO
 
 
 -- Question 26
--- Find the customer(s) who purchased the invoice(s)
--- with the highest total amount in 2006.
+-- Find the customer name who purchased
+-- the highest-value invoice in the year 2006.
 
 SELECT kh.CustomerID,kh.FullName
 	FROM CUSTOMERS kh
@@ -340,7 +341,8 @@ GO
 
 
 -- Question 27
--- Display the top 3 customers (CustomerID, FullName) by sales amount.
+-- List the top 3 customers (`MAKH`, `HOTEN`)
+-- with the highest total sales (`DOANHSO`).
 
 SELECT TOP 3 CustomerID,FullName,SalesAmount
 	FROM CUSTOMERS
@@ -349,8 +351,8 @@ GO
 
 
 -- Question 28
--- Display the products (ProductID, ProductName) whose prices
--- are among the three highest distinct prices.
+-- List products (`MASP`, `TENSP`)
+-- whose price matches one of the top 3 highest prices.
 
 SELECT ProductID,ProductName,Price
 	FROM PRODUCTS
@@ -364,9 +366,9 @@ GO
 
 
 -- Question 29
--- Display the products (ProductID, ProductName) manufactured
--- in Thailand whose prices are among the three highest distinct
--- prices of all products.
+-- List products (`MASP`, `TENSP`) manufactured by 'Thai Lan'
+-- whose price matches one of the top 3 highest prices
+-- across all products.
 
 SELECT ProductID,ProductName,Price
 	FROM PRODUCTS
@@ -381,9 +383,9 @@ GO
 
 
 -- Question 30
--- Display the products (ProductID, ProductName) manufactured in China
--- whose prices are among the three highest distinct prices
--- of products manufactured in China.
+-- List products (`MASP`, `TENSP`) manufactured by 'Trung Quoc'
+-- whose price matches one of the top 3 highest prices
+-- among products manufactured by 'Trung Quoc'.
 
 SELECT ProductID,ProductName,Price
 	FROM PRODUCTS
@@ -399,7 +401,8 @@ GO
 
 
 -- Question 31
--- Display the top 3 customers by sales amount using ranking.
+-- List the top 3 customers with the highest sales
+-- using ranking functions.
 
 WITH CustomerRanking AS
 (
@@ -414,7 +417,8 @@ GO
 
 
 -- Question 32
--- Count the total number of products manufactured in China.
+-- Calculate the total number of products
+-- manufactured by 'Trung Quoc'.
 
 SELECT COUNT(*) AS TOTAL_PRODUCTS_CHINA
 	FROM PRODUCTS
@@ -423,7 +427,8 @@ GO
 
 
 -- Question 33
--- Count the total number of products for each country of origin.
+-- Calculate the total number of products
+-- for each country of manufacture.
 
 SELECT CountryOfOrigin,COUNT(*) AS TOTAL_PRODUCTS
 	FROM PRODUCTS
@@ -432,8 +437,8 @@ GO
 
 
 -- Question 34
--- For each country of origin, find the highest, lowest,
--- and average product price.
+-- For each country of manufacture, find the maximum,
+-- minimum, and average product prices.
 
 SELECT CountryOfOrigin,
 		MAX(Price) AS HIGHEST_PRICE,
@@ -445,7 +450,7 @@ GO
 
 
 -- Question 35
--- Calculate the sales revenue for each day.
+-- Calculate daily sales revenue.
 
 SELECT InvoiceDate,SUM(TotalAmount) AS DAILY_REVENUE
 	FROM INVOICES
@@ -454,7 +459,7 @@ GO
 
 
 -- Question 36
--- Calculate the total quantity sold for each product in October 2006.
+-- Calculate total quantity sold for each product in October 2006.
 
 SELECT ct.ProductID,sp.ProductName,SUM(Quantity) AS TOTAL_QUANTITY_SOLD
 	FROM INVOICE_DETAILS ct
@@ -466,7 +471,7 @@ GO
 
 
 -- Question 37
--- Calculate the sales revenue for each month in 2006.
+-- Calculate monthly sales revenue for each month in the year 2006.
 
 SELECT MONTH(InvoiceDate) AS MONTH_NUMBER,SUM(TotalAmount) AS MONTHLY_REVENUE
 	FROM INVOICES
@@ -476,7 +481,7 @@ GO
 
 
 -- Question 38
--- Find invoices that purchased at least four distinct products.
+-- Find invoices that purchased at least 4 different products.
 
 SELECT InvoiceID
 	FROM INVOICE_DETAILS
@@ -486,8 +491,8 @@ GO
 
 
 -- Question 39
--- Find invoices that purchased three distinct products
--- manufactured in Vietnam.
+-- Find invoices that purchased 3 different products
+-- manufactured by 'Viet Nam'.
 
 SELECT InvoiceID
 	FROM INVOICE_DETAILS ct
@@ -499,8 +504,8 @@ GO
 
 
 -- Question 40
--- Find the customer (CustomerID, FullName) with
--- the highest number of purchases.
+-- Find the customer (`MAKH`, `HOTEN`)
+-- with the highest number of purchases.
 
 WITH PurchaseCount AS
 (
@@ -521,7 +526,7 @@ GO
 
 
 -- Question 41
--- Find the month in 2006 with the highest sales revenue.
+-- Which month in 2006 had the highest sales revenue?
 
 WITH MonthlyRevenue AS
 (
@@ -541,8 +546,8 @@ GO
 
 
 -- Question 42
--- Find the product (ProductID, ProductName) with
--- the lowest total quantity sold in 2006.
+-- Find the product (`MASP`, `TENSP`)
+-- with the lowest total quantity sold in the year 2006.
 
 WITH ProductSales2006 AS
 (
@@ -564,9 +569,8 @@ GO
 
 
 -- Question 43
--- For each country of origin, find the product
--- (ProductID, ProductName)
--- with the highest selling price.
+-- For each country of manufacture,
+-- find the product (`MASP`, `TENSP`) with the highest price.
 
 WITH ProductPriceRanking AS
 (
@@ -585,8 +589,8 @@ GO
 
 
 -- Question 44
--- Find the countries of origin that have at least three products
--- with different selling prices.
+-- Find countries of manufacture that produce
+-- at least 3 products with different prices.
 
 SELECT CountryOfOrigin
 	FROM PRODUCTS
@@ -596,8 +600,8 @@ GO
 
 
 -- Question 45
--- Among the top 10 customers by sales amount,
--- find the customer with the highest number of purchases.
+-- Among the top 10 customers with the highest sales,
+-- find the customer with the most purchases.
 
 WITH Top10Customers AS
 (

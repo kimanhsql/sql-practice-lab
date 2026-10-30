@@ -22,6 +22,7 @@ ALTER TABLE CUSTOMERS
         CHECK (CustomerType IN ('Vang lai', 'Thuong xuyen', 'Vip'));
 GO
 
+
 -- Clear existing customer data before re-inserting sample data.
 
 DELETE FROM CUSTOMERS;
@@ -222,6 +223,7 @@ ALTER TABLE CUSTOMERS1
     ADD CONSTRAINT CHK_RegistrationDate_DateOfBirth1
         CHECK (RegistrationDate > DateOfBirth);
 GO
+
 
 -- Verify data in the two new tables.
 
