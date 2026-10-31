@@ -6,7 +6,7 @@ This project is a SQL Server database project based on the `QLGiangDay` exercise
 
 ## 1. Database Overview & Structure
 
-**Database:** `QLGiangDay`
+**Database:** `TEACHING_DB` (based on `QLGiangDay`)
 
 The database consists of 6 core tables managing information about teachers, subjects, classrooms, departments, classes, and teaching schedules.
 
@@ -14,72 +14,74 @@ The database consists of 6 core tables managing information about teachers, subj
 ### Table List
 
 ```text
-GIAOVIEN
-MONHOC
-PHONGHOC
-KHOA
-LOP
-LICHDAY
+DEPARTMENTS
+TEACHERS
+SUBJECTS
+CLASSROOMS
+CLASSES
+TEACHING_SCHEDULE
 ```
 
 
 ### Detailed Table Specifications & Constraints Note
 
-* **Primary Keys (PK):** Explicitly defined or derived from entity attributes and relationships in the textbook.
-* **Foreign Keys (FK):** Described through structural links between tables (e.g., teacher belongs to a department, class belongs to a department, schedule links teacher, subject, classroom, and class).
-* **Schema Modifications & Constraints:** Additional attributes (`NgaySinh`, `GioiTinh`, `Tuoi`, `SucChua`, `SoTC`, `TCLT`, `TCTH`, `SiSo`) and integrity constraints are explicitly required to be added via DDL modification statements (`ALTER TABLE`).
+* **Primary Keys (PK):** Explicitly defined for all tables (including a composite key for `TEACHING_SCHEDULE`).
+* **Foreign Keys (FK):** Explicitly defined linking related entities (e.g., teachers and classes to departments, teaching schedules to teachers, subjects, classrooms, and classes).
+* **Nullability:** Attributes marked with `NOT NULL` are strictly enforced. Unmarked attributes default to allowing `NULL` values unless constrained by business rules.
+* **Schema Modifications & Constraints:** Additional attributes (`DateOfBirth`, `Gender`, `Age`, `Capacity`, `Credits`, `TheoryCredits`, `PracticalCredits`, `ClassSize`) and integrity constraints are required to be added via DDL modification statements (`ALTER TABLE`).
 
+---
 
-#### 1.1 GIAOVIEN (Teachers)
+#### 1.1 TEACHERS
 
-* **Attributes & Data Types:** `MaGV`, `HoTen`, `MaKhoa` *(Plus added columns: `NgaySinh`, `GioiTinh`, `Tuoi`)*
-* **Primary Key:** `MaGV`
-* **Foreign Keys:** `MaKhoa` (references `KHOA`)
+* **Attributes & Data Types:** `TeacherID` (VARCHAR(5)), `FullName` (VARCHAR(100)), `DepartmentID` (VARCHAR(5)) *(Plus expected added columns: `DateOfBirth`, `Gender`, `Age`)*
+* **Primary Key:** `TeacherID`
+* **Foreign Keys:** `DepartmentID` (references `DEPARTMENTS`)
 * **Constraints & Business Rules:** Manages teacher profiles, departmental affiliations, personal attributes, and age constraints (`TuoiGV`).
 
 ---
 
-#### 1.2 MONHOC (Subjects)
+#### 1.2 SUBJECTS
 
-* **Attributes & Data Types:** `MaMH`, `TenMH` *(Plus added columns: `SoTC`, `TCLT`, `TCTH`)*
-* **Primary Key:** `MaMH`
+* **Attributes & Data Types:** `SubjectID` (VARCHAR(20)), `SubjectName` (VARCHAR(200)) *(Plus expected added columns: `Credits`, `TheoryCredits`, `PracticalCredits`)*
+* **Primary Key:** `SubjectID`
 * **Foreign Keys:** None
-* **Constraints & Business Rules:** Manages subject details, total credits (`SoTC`), theory credits (`TCLT`), and practical credits (`TCTH`).
+* **Constraints & Business Rules:** Manages subject details, total credits (`Credits`), theory credits (`TheoryCredits`), and practical credits (`PracticalCredits`).
 
 ---
 
-#### 1.3 PHONGHOC (Classrooms)
+#### 1.3 CLASSROOMS
 
-* **Attributes & Data Types:** `Phong`, `ChucNang` *(Plus added column: `SucChua`)*
-* **Primary Key:** `Phong`
+* **Attributes & Data Types:** `ClassroomID` (VARCHAR(5)), `FunctionDescription` (VARCHAR(200)) *(Plus expected added column: `Capacity`)*
+* **Primary Key:** `ClassroomID`
 * **Foreign Keys:** None
-* **Constraints & Business Rules:** Manages classroom identifiers, functions, and capacity (`SucChua`).
+* **Constraints & Business Rules:** Manages classroom identifiers, functions, and capacity (`Capacity`).
 
 ---
 
-#### 1.4 KHOA (Departments)
+#### 1.4 DEPARTMENTS
 
-* **Attributes & Data Types:** `MaKhoa`, `TenKhoa`
-* **Primary Key:** `MaKhoa`
+* **Attributes & Data Types:** `DepartmentID` (VARCHAR(5)), `DepartmentName` (VARCHAR(200))
+* **Primary Key:** `DepartmentID`
 * **Foreign Keys:** None
 * **Constraints & Business Rules:** Manages academic department information.
 
 ---
 
-#### 1.5 LOP (Classes)
+#### 1.5 CLASSES
 
-* **Attributes & Data Types:** `MaLop`, `TenLop`, `MaKhoa` *(Plus added column: `SiSo`)*
-* **Primary Key:** `MaLop`
-* **Foreign Keys:** `MaKhoa` (references `KHOA`)
-* **Constraints & Business Rules:** Manages class profiles, departmental links, and class size (`SiSo`).
+* **Attributes & Data Types:** `ClassID` (VARCHAR(5)), `ClassName` (VARCHAR(200)), `DepartmentID` (VARCHAR(5)) *(Plus expected added column: `ClassSize`)*
+* **Primary Key:** `ClassID`
+* **Foreign Keys:** `DepartmentID` (references `DEPARTMENTS`)
+* **Constraints & Business Rules:** Manages class profiles, departmental links, and class size (`ClassSize`).
 
 ---
 
-#### 1.6 LICHDAY (Teaching Schedules)
+#### 1.6 TEACHING_SCHEDULE
 
-* **Attributes & Data Types:** `MaGV`, `MaMH`, `Phong`, `MaLop`, `NgayDay`, `TuTiet`, `DenTiet`, `BaiDay`, `LyThuyet`, `GhiChu`
-* **Primary Key:** Composite key based on scheduling attributes (`MaGV`, `MaMH`, `Phong`, `MaLop`, `NgayDay`, `TuTiet`)
-* **Foreign Keys:** `MaGV` (references `GIAOVIEN`), `MaMH` (references `MONHOC`), `Phong` (references `PHONGHOC`), `MaLop` (references `LOP`)
+* **Attributes & Data Types:** `TeacherID` (VARCHAR(5)), `SubjectID` (VARCHAR(20)), `ClassroomID` (VARCHAR(5)), `ClassID` (VARCHAR(5)), `TeachingDate` (DATETIME), `StartPeriod` (INT), `EndPeriod` (INT), `Lesson` (VARCHAR(200)), `Theory` (VARCHAR(200)), `Notes` (VARCHAR(200))
+* **Primary Key:** Composite key (`TeacherID`, `SubjectID`, `ClassroomID`, `ClassID`)
+* **Foreign Keys:** `TeacherID` (references `TEACHERS`), `SubjectID` (references `SUBJECTS`), `ClassroomID` (references `CLASSROOMS`), `ClassID` (references `CLASSES`)
 * **Constraints & Business Rules:** Tracks teaching assignments, schedule periods, and lesson details.
 
 ---
@@ -90,16 +92,16 @@ LICHDAY
 
 *(Page 100)*
 
-* **Project Name:** Teaching Management Database (`QLGiangDay`)
+* **Project Name:** Teaching Management Database (`TEACHING_DB`)
 * **Requirements:**
-1. Create the database named `QLGiangDay`.
-2. Create all required tables (`GIAOVIEN`, `MONHOC`, `PHONGHOC`, `KHOA`, `LOP`, `LICHDAY`) with primary key and foreign key constraints.
+1. Create the database named `TEACHING_DB`.
+2. Create all required tables (`DEPARTMENTS`, `TEACHERS`, `SUBJECTS`, `CLASSROOMS`, `CLASSES`, `TEACHING_SCHEDULE`) with primary key and foreign key constraints.
 3. Review and view the relationship model (ERD) among the tables.
-4. Add columns for date of birth, gender, and age (`NgaySinh`, `GioiTinh`, `Tuoi`) to the `GIAOVIEN` table.
-5. Add the capacity column (`SucChua`) to the `PHONGHOC` table.
-6. Add credit columns (`SoTC`, `TCLT`, `TCTH`) to the `MONHOC` table.
-7. Add the class size column (`SiSo`) to the `LOP` table.
-8. Define integrity constraints for `SiSo`, `SoTC`, `TCLT`, `TCTH`, `SucChua`, and `TuoiGV`.
+4. Add columns for date of birth, gender, and age (`DateOfBirth`, `Gender`, `Age`) to the `TEACHERS` table.
+5. Add the capacity column (`Capacity`) to the `CLASSROOMS` table.
+6. Add credit columns (`Credits`, `TheoryCredits`, `PracticalCredits`) to the `SUBJECTS` table.
+7. Add the class size column (`ClassSize`) to the `CLASSES` table.
+8. Define integrity constraints for `ClassSize`, `Credits`, `TheoryCredits`, `PracticalCredits`, `Capacity`, and teacher age.
 
 ---
 
@@ -114,7 +116,7 @@ LICHDAY
 
 * **Workflow:**
 1. Analyze database requirements from the textbook.
-2. Create the database and tables with appropriate constraints.
+2. Create the database and tables with appropriate constraints in English.
 3. Review table relationships.
 4. Modify schema by adding new columns (`ALTER TABLE`).
 5. Implement data integrity constraints (`CHECK`, `DEFAULT`, etc.).
@@ -125,7 +127,7 @@ LICHDAY
 ## 4. Current Progress
 
 * [x] Database creation
-* [x] Table creation
+* [x] Table creation (English schema)
 * [x] Primary keys, foreign keys, and constraints
 * [x] Table relationship review
 * [x] Additional columns setup (`ALTER TABLE`)

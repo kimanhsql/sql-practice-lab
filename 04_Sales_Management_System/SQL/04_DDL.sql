@@ -101,8 +101,8 @@ GO
 
 
 -- Question 10
--- A member customer's registration date (`RegistrationDate`) must be later than
--- their date of birth (`DateOfBirth`).
+-- A member customer's registration date (`RegistrationDate`)
+-- must be later than their date of birth (`DateOfBirth`).
 
 ALTER TABLE CUSTOMERS
     ADD CONSTRAINT CHK_RegistrationDate_DateOfBirth

@@ -7,7 +7,8 @@ USE SALES_DB;
 GO
 
 
--- Modify the data type of `CustomerType` to store customer type names.
+-- Modify the data type of `CustomerType`
+-- to store customer type names.
 
 ALTER TABLE CUSTOMERS
     DROP CONSTRAINT CHK_CustomerType;

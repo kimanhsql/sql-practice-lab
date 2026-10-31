@@ -229,10 +229,8 @@ GO
 -- ============================================================
 
 
-/*
-    Exercise 2
-    Delete the player named 'Nguyen Vu Phong'.
-*/
+-- Exercise 2
+-- Delete the player named 'Nguyen Vu Phong'.
 
 DELETE FROM PLAYERS
 WHERE PLAYER_NAME = N'Nguyen Vu Phong';
@@ -243,10 +241,8 @@ FROM PLAYERS;
 GO
 
 
-/*
-    Exercise 3
-    Delete players who are older than 40 years.
-*/
+-- Exercise 3
+-- Delete players who are older than 40 years.
 
 DELETE FROM PLAYERS
 WHERE DATE_OF_BIRTH < DATEADD(YEAR, -40, GETDATE());
@@ -257,11 +253,9 @@ FROM PLAYERS;
 GO
 
 
-/*
-    Exercise 4
-    Delete players who are older than 35 years
-    and belong to club BBD.
-*/
+-- Exercise 4
+-- Delete players who are older than 35 years
+-- and belong to club BBD.
 
 DELETE FROM PLAYERS
 WHERE DATE_OF_BIRTH < DATEADD(YEAR, -35, GETDATE())
@@ -273,11 +267,9 @@ FROM PLAYERS;
 GO
 
 
-/*
-    Exercise 5
-    Delete players who are older than 35 years
-    and belong to 'BECAMEX BINH DUONG'.
-*/
+-- Exercise 5
+-- Delete players who are older than 35 years
+-- and belong to 'BECAMEX BINH DUONG'.
 
 DELETE FROM PLAYERS
 WHERE DATE_OF_BIRTH < DATEADD(YEAR, -35, GETDATE())
@@ -294,11 +286,9 @@ FROM PLAYERS;
 GO
 
 
-/*
-    Exercise 6
-    Change the playing position of
-    'Nguyen Truong Son' to 'Forward'.
-*/
+-- Exercise 6
+-- Change the playing position of
+-- 'Nguyen Truong Son' to 'Forward'.
 
 UPDATE PLAYERS
 SET POSITION = N'Forward'
@@ -310,11 +300,9 @@ FROM PLAYERS;
 GO
 
 
-/*
-    Exercise 7
-    Set the address of coach 'Le Huynh Duc'
-    to 'Ho Chi Minh City'.
-*/
+-- Exercise 7
+-- Set the address of coach 'Le Huynh Duc'
+-- to 'Ho Chi Minh City'.
 
 UPDATE COACHES
 SET ADDRESS = N'Ho Chi Minh City'
@@ -326,11 +314,9 @@ FROM COACHES;
 GO
 
 
-/*
-    Exercise 8
-    Swap the playing positions of
-    'Nguyen Cong Vinh' and 'Tran Tan Tai'.
-*/
+-- Exercise 8
+-- Swap the playing positions of
+-- 'Nguyen Cong Vinh' and 'Tran Tan Tai'.
 
 SELECT PLAYER_NAME, POSITION
 FROM PLAYERS
@@ -374,11 +360,9 @@ WHERE PLAYER_NAME IN
 GO
 
 
-/*
-    Exercise 9
-    Replace the current head coach of
-    'GACH DONG TAM LONG AN' with 'Nguyen Duc Thang'.
-*/
+-- Exercise 9
+-- Replace the current head coach of
+-- 'GACH DONG TAM LONG AN' with 'Nguyen Duc Thang'.
 
 INSERT INTO COACHES
 (
@@ -416,11 +400,9 @@ FROM CLUB_COACHES;
 GO
 
 
-/*
-    Exercise 10
-    Rename the club
-    'BECAMEX BINH DUONG' to 'BINH DUONG'.
-*/
+-- Exercise 10
+-- Rename the club
+-- 'BECAMEX BINH DUONG' to 'BINH DUONG'.
 
 UPDATE CLUBS
 SET CLUB_NAME = N'BINH DUONG'
