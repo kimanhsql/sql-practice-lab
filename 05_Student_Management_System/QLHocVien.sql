@@ -161,10 +161,10 @@ GO
 
 -- ============================================================
 -- PHẦN II: SỬA ĐỔI CẤU TRÚC VÀ RÀNG BUỘC TOÀN VẸN
--- ============================================================
 
 -- Câu 1
--- Thêm vào 3 thuộc tính GHICHU, DIEMTB, XEPLOAI cho quan hệ HOCVIEN. 
+-- Thêm vào 3 thuộc tính GHICHU, DIEMTB, XEPLOAI cho quan hệ HOCVIEN.
+-- ============================================================
 
 ALTER TABLE HOCVIEN ADD GHICHU NVARCHAR(20);
 GO
