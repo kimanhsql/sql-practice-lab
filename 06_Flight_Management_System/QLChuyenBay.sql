@@ -327,19 +327,67 @@ GO
 -- của các phi công đã từng lái máy bay loại B747.
 -- ============================================================
 
+SELECT DISTINCT
+    nv.MANV,
+    TEN,
+    DCHI,
+    DTHOAI
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN LICHBAY l
+    ON l.NGAYDI = pc.NGAYDI
+        AND l.MACB = pc.MACB
+WHERE LOAINV = 1 AND MALOAI = 'B747';
+GO
 
 -- Câu 2
 -- Cho biết mã số và ngày đi của các chuyến bay xuất phát
 -- từ sân bay DCA trong khoảng thời gian từ 14 giờ đến 18 giờ.
+
+SELECT
+    l.MACB,
+    l.NGAYDI
+FROM LICHBAY l
+INNER JOIN CHUYENBAY c
+    ON c.MACB = l.MACB
+WHERE c.SBDI = 'DCA' AND
+    (c.GIODI BETWEEN '14:00:00' AND '18:00:00');
+GO
 
 -- Câu 3
 -- Cho biết tên những nhân viên được phân công trên chuyến bay
 -- có mã số 100 xuất phát tại sân bay SLC.
 -- Các dòng dữ liệu xuất ra không được phép trùng lắp.
 
+SELECT DISTINCT
+    nv.MANV,
+    nv.TEN,
+    p.MACB
+FROM PHANCONG p
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = p.MANV
+INNER JOIN CHUYENBAY c
+    ON c.MACB = p.MACB
+WHERE c.MACB = '100'
+    AND c.SBDI = 'SLC';
+GO
+
 -- Câu 4
 -- Cho biết mã loại và số hiệu máy bay đã từng xuất phát tại sân bay MIA.
 -- Các dòng dữ liệu xuất ra không được phép trùng lắp.
+
+SELECT DISTINCT
+    mb.MALOAI,
+    mb.SOHIEU
+FROM MAYBAY mb
+INNER JOIN LICHBAY l
+    ON l.MALOAI = mb.MALOAI
+        AND l.SOHIEU = mb.SOHIEU
+INNER JOIN CHUYENBAY c
+    ON c.MACB = l.MACB
+WHERE c.SBDI = 'MIA';
+GO
 
 -- Câu 5
 -- Cho biết mã chuyến bay, ngày đi, cùng với tên, địa chỉ, điện thoại
