@@ -392,12 +392,14 @@ GO
 -- Câu 5
 -- Cho biết mã chuyến bay, ngày đi, cùng với tên, địa chỉ, điện thoại
 -- của tất cả các hành khách đi trên chuyến bay đó.
--- Sắp xếp theo thứ tự tăng dần của mã chuyến bay và theo ngày đi giảm dần.
+-- Sắp xếp theo thứ tự tăng dần của mã chuyến bay
+-- và theo ngày đi giảm dần.
 
 -- Câu 6
 -- Cho biết mã chuyến bay, ngày đi, cùng với tên, địa chỉ, điện thoại
 -- của tất cả những nhân viên được phân công trong chuyến bay đó.
--- Sắp xếp theo thứ tự tăng dần của mã chuyến bay và theo ngày đi giảm dần.
+-- Sắp xếp theo thứ tự tăng dần của mã chuyến bay
+-- và theo ngày đi giảm dần.
 
 -- Câu 7
 -- Cho biết mã chuyến bay, ngày đi, mã số và tên của những phi công
