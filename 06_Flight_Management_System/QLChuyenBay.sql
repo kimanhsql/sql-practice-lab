@@ -395,19 +395,81 @@ GO
 -- Sắp xếp theo thứ tự tăng dần của mã chuyến bay
 -- và theo ngày đi giảm dần.
 
+SELECT
+    l.MACB,
+    l.NGAYDI,
+    k.TEN,
+    k.DCHI,
+    k.DTHOAI
+FROM LICHBAY l
+INNER JOIN DATCHO dc
+    ON l.MACB = dc.MACB
+        AND l.NGAYDI = dc.NGAYDI
+INNER JOIN KHACHHANG k
+    ON k.MAKH = dc.MAKH
+ORDER BY l.MACB ASC, l.NGAYDI DESC;
+GO
+
 -- Câu 6
 -- Cho biết mã chuyến bay, ngày đi, cùng với tên, địa chỉ, điện thoại
 -- của tất cả những nhân viên được phân công trong chuyến bay đó.
 -- Sắp xếp theo thứ tự tăng dần của mã chuyến bay
 -- và theo ngày đi giảm dần.
 
+SELECT
+    l.MACB,
+    l.NGAYDI,
+    nv.TEN,
+    nv.DCHI,
+    nv.DTHOAI
+FROM LICHBAY l
+INNER JOIN PHANCONG pc
+    ON pc.MACB = l.MACB
+        AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+ORDER BY l.MACB ASC, l.NGAYDI DESC;
+GO
+
 -- Câu 7
 -- Cho biết mã chuyến bay, ngày đi, mã số và tên của những phi công
 -- được phân công vào chuyến bay hạ cánh xuống sân bay ORD.
 
+SELECT
+    l.MACB,
+    l.NGAYDI,
+    nv.MANV,
+    nv.TEN
+FROM LICHBAY l
+INNER JOIN CHUYENBAY cb
+    ON cb.MACB = l.MACB
+INNER JOIN PHANCONG pc
+    ON pc.MACB = l.MACB
+        AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+WHERE nv.LOAINV = 1
+    AND cb.SBDEN = 'ORD';
+GO
+
 -- Câu 8
 -- Cho biết các chuyến bay (mã số chuyến bay, ngày đi và tên của phi công)
 -- trong đó phi công có mã 1001 được phân công lái.
+
+SELECT
+    l.MACB,
+    l.NGAYDI,
+    nv.TEN
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN PHANCONG pc
+    ON pc.MACB = cb.MACB
+        AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+WHERE pc.MANV = '1001';
+GO
 
 -- Câu 9
 -- Cho biết thông tin (mã chuyến bay, sân bay đi, giờ đi, giờ đến, ngày đi)
