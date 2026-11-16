@@ -472,18 +472,60 @@ WHERE pc.MANV = '1001';
 GO
 
 -- Câu 9
--- Cho biết thông tin (mã chuyến bay, sân bay đi, giờ đi, giờ đến, ngày đi)
--- của những chuyến bay hạ cánh xuống DEN. Các chuyến bay được liệt kê theo
--- ngày đi giảm dần và sân bay xuất phát (SBDI) tăng dần.
+-- Cho biết thông tin (mã chuyến bay, sân bay đi, giờ đi,
+-- giờ đến, ngày đi) của những chuyến bay hạ cánh xuống DEN.
+-- Các chuyến bay được liệt kê theo ngày đi giảm dần
+-- và sân bay xuất phát (SBDI) tăng dần.
+
+SELECT
+    cb.MACB,
+    cb.SBDI,
+    cb.GIODI,
+    cb.GIODEN,
+    l.NGAYDI
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+WHERE cb.SBDEN = 'DEN'
+ORDER BY l.NGAYDI DESC, cb.SBDI ASC;
+GO
 
 -- Câu 10
 -- Với mỗi phi công, cho biết hãng sản xuất và mã loại máy bay
 -- mà phi công này có khả năng bay được. Xuất ra tên phi công,
 -- hãng sản xuất và mã loại máy bay.
 
+SELECT
+    nv.TEN,
+    l.HANGSX,
+    l.MALOAI
+FROM LOAIMB l
+INNER JOIN KHANANG k
+    ON k.MALOAI = l.MALOAI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = k.MANV
+WHERE nv.LOAINV = 1;
+GO
+
 -- Câu 11
 -- Cho biết mã phi công, tên phi công đã lái máy bay trong chuyến bay
 -- mã số 100 vào ngày 11/01/2000.
+
+SELECT
+    nv.MANV,
+    nv.TEN
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN PHANCONG pc
+    ON pc.MACB = cb.MACB
+        AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+WHERE nv.LOAINV = 1
+    AND cb.MACB = '100'
+    AND l.NGAYDI = '2000-01-11'
+GO
 
 -- Câu 12
 -- Cho biết mã chuyến bay, mã nhân viên, tên nhân viên
