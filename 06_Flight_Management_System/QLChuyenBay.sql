@@ -532,19 +532,90 @@ GO
 -- được phân công vào chuyến bay xuất phát ngày 10/31/2000
 -- tại sân bay MIA vào lúc 20:30.
 
+SELECT
+    cb.MACB,
+    nv.MANV,
+    nv.TEN
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN PHANCONG pc
+    ON pc.MACB = cb.MACB
+        AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+WHERE l.NGAYDI = '2000-10-31'
+    AND cb.SBDI = 'MIA'
+    AND cb.GIODI = '20:30:00';
+GO
+
 -- Câu 13
 -- Cho biết thông tin về chuyến bay (mã chuyến bay, số hiệu, mã loại,
 -- hãng sản xuất) mà phi công ‘Quang’ đã lái.
 
+SELECT
+    cb.MACB,
+    l.SOHIEU,
+    l.MALOAI,
+    m.HANGSX
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN LOAIMB m
+    ON m.MALOAI = l.MALOAI
+INNER JOIN PHANCONG pc
+    ON pc.MACB = cb.MACB
+        AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+WHERE nv.TEN = N'Quang';
+GO
+
 -- Câu 14
--- Cho biết tên của những phi công chưa được phân công lái chuyến bay nào.
+-- Cho biết tên của những phi công chưa được phân công lái
+-- chuyến bay nào.
+
+SELECT nv.TEN
+FROM NHANVIEN nv
+WHERE nv.LOAINV = 1 
+    AND NOT EXISTS
+    (
+        SELECT 1 
+        FROM PHANCONG pc 
+        WHERE pc.MANV = nv.MANV
+    );
+GO
 
 -- Câu 15
--- Cho biết tên khách hàng đã đi chuyến bay trên máy bay của hãng ‘Boeing’.
+-- Cho biết tên khách hàng đã đi chuyến bay trên máy bay
+-- của hãng ‘Boeing’.
+
+SELECT DISTINCT k.TEN
+FROM KHACHHANG k
+INNER JOIN DATCHO d
+    ON d.MAKH = k.MAKH
+INNER JOIN LICHBAY l
+    ON l.MACB = d.MACB
+        AND l.NGAYDI = d.NGAYDI
+INNER JOIN LOAIMB m
+    ON m.MALOAI = l.MALOAI
+WHERE m.HANGSX = N'Boeing';
+GO
 
 -- Câu 16
 -- Cho biết mã các chuyến bay chỉ bay với máy bay
 -- số hiệu 10 và mã loại B747.
+
+SELECT MACB
+FROM LICHBAY
+WHERE SOHIEU = 10 AND MALOAI = 'B747'
+
+EXCEPT
+
+SELECT MACB
+FROM LICHBAY
+WHERE SOHIEU <> 10 AND MALOAI <> 'B747';
+GO
 
 -- Câu 17
 -- Với mỗi sân bay (SBDEN), cho biết số lượng chuyến bay hạ cánh
