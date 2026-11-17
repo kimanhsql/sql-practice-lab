@@ -622,21 +622,76 @@ GO
 -- xuống sân bay đó. Kết quả được sắp xếp theo thứ tự tăng dần
 -- của sân bay đến.
 
+SELECT
+    SBDEN,
+    COUNT(MACB) AS SL_CB_HA_CANH
+FROM CHUYENBAY
+GROUP BY SBDEN
+ORDER BY SBDEN ASC;
+GO
+
 -- Câu 18
 -- Với mỗi sân bay (SBDI), cho biết số lượng chuyến bay xuất phát
 -- từ sân bay đó, sắp xếp theo thứ tự tăng dần của sân bay xuất phát.
+
+SELECT
+    SBDI,
+    COUNT(MACB) AS SL_CB_XUAT_PHAT
+FROM CHUYENBAY
+GROUP BY SBDI
+ORDER BY SBDI ASC;
+GO
 
 -- Câu 19
 -- Với mỗi sân bay (SBDI), cho biết số lượng chuyến bay xuất phát
 -- theo từng ngày. Xuất ra mã sân bay đi, ngày và số lượng.
 
+SELECT
+    cb.SBDI,
+    l.NGAYDI,
+    COUNT(cb.MACB) AS SL_CB_XUAT_PHAT
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+GROUP BY
+    cb.SBDI,
+    l.NGAYDI;
+GO
+
 -- Câu 20
 -- Với mỗi sân bay (SBDEN), cho biết số lượng chuyến bay hạ cánh
 -- theo từng ngày. Xuất ra mã sân bay đến, ngày và số lượng.
 
+SELECT
+    cb.SBDEN,
+    l.NGAYDI,
+    COUNT(cb.MACB) AS SL_CB_HA_CANH
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+GROUP BY
+    cb.SBDEN,
+    l.NGAYDI;
+GO
+
 -- Câu 21
 -- Với mỗi lịch bay, cho biết mã chuyến bay, ngày đi cùng với
 -- số lượng nhân viên không phải là phi công của chuyến bay đó.
+
+SELECT
+    l.MACB,
+    l.NGAYDI,
+    SUM(CASE WHEN nv.LOAINV = 0 THEN 1 ELSE 0 END) AS SL_NV_KP_PHI_CONG
+FROM LICHBAY l
+LEFT JOIN PHANCONG pc
+    ON pc.MACB = l.MACB
+        AND pc.NGAYDI = l.NGAYDI
+LEFT JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+GROUP BY
+    l.MACB,
+    l.NGAYDI;
+GO
 
 -- Câu 22
 -- Số lượng chuyến bay xuất phát từ sân bay MIA vào ngày 11/01/2000.
