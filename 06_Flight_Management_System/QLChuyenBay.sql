@@ -759,22 +759,63 @@ SELECT
 FROM CHUYENBAY cb
 INNER JOIN LICHBAY l
     ON l.MACB = cb.MACB
-
+INNER JOIN PHANCONG pc
+    ON pc.MACB = cb.MACB
+    AND pc.NGAYDI = l.NGAYDI
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pc.MANV
+GROUP BY
+    cb.MACB,
+    l.NGAYDI
+ORDER BY SUM(nv.LUONG) ASC;
+GO
 
 -- Câu 26
 -- Cho biết lương trung bình của các nhân viên không phải là phi công.
 
+SELECT AVG(LUONG) AS LUONG_TB
+FROM NHANVIEN
+WHERE LOAINV = 0;
+GO
+
 -- Câu 27
 -- Cho biết mức lương trung bình của các phi công.
+
+SELECT AVG(LUONG) AS LUONG_TB
+FROM NHANVIEN
+WHERE LOAINV = 1;
+GO
 
 -- Câu 28
 -- Với mỗi loại máy bay, cho biết số lượng chuyến bay đã bay
 -- trên loại máy bay đó hạ cánh xuống sân bay ORD.
 -- Xuất ra mã loại máy bay, số lượng chuyến bay.
 
+SELECT
+    l.MALOAI,
+    COUNT(cb.MACB) AS SL_CHUYENBAY
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN MAYBAY m
+    ON m.SOHIEU = l.SOHIEU
+    AND m.MALOAI = l.MALOAI
+WHERE cb.SBDEN = 'ORD'
+GROUP BY l.MALOAI;
+GO
+
 -- Câu 29
 -- Cho biết sân bay (SBDI) và số lượng chuyến bay
 -- có nhiều hơn 2 chuyến bay xuất phát trong khoảng 10 giờ đến 22 giờ.
+
+SELECT
+    cb.SBDI,
+    COUNT(cb.MACB) AS SL_CHUYENBAY
+FROM CHUYENBAY cb
+WHERE cb.GIODI BETWEEN '10:00:00' AND '22:00:00'
+GROUP BY cb.SBDI
+HAVING COUNT(cb.MACB) > 2;
+GO
 
 -- Câu 30
 -- Cho biết tên phi công được phân công vào ít nhất 2 chuyến bay
