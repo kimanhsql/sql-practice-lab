@@ -337,7 +337,7 @@ INNER JOIN PHANCONG pc
     ON pc.MANV = nv.MANV
 INNER JOIN LICHBAY l
     ON l.NGAYDI = pc.NGAYDI
-        AND l.MACB = pc.MACB
+    AND l.MACB = pc.MACB
 WHERE LOAINV = 1 AND MALOAI = 'B747';
 GO
 
@@ -383,7 +383,7 @@ SELECT DISTINCT
 FROM MAYBAY mb
 INNER JOIN LICHBAY l
     ON l.MALOAI = mb.MALOAI
-        AND l.SOHIEU = mb.SOHIEU
+    AND l.SOHIEU = mb.SOHIEU
 INNER JOIN CHUYENBAY c
     ON c.MACB = l.MACB
 WHERE c.SBDI = 'MIA';
@@ -404,7 +404,7 @@ SELECT
 FROM LICHBAY l
 INNER JOIN DATCHO dc
     ON l.MACB = dc.MACB
-        AND l.NGAYDI = dc.NGAYDI
+    AND l.NGAYDI = dc.NGAYDI
 INNER JOIN KHACHHANG k
     ON k.MAKH = dc.MAKH
 ORDER BY l.MACB ASC, l.NGAYDI DESC;
@@ -425,7 +425,7 @@ SELECT
 FROM LICHBAY l
 INNER JOIN PHANCONG pc
     ON pc.MACB = l.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 INNER JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 ORDER BY l.MACB ASC, l.NGAYDI DESC;
@@ -445,7 +445,7 @@ INNER JOIN CHUYENBAY cb
     ON cb.MACB = l.MACB
 INNER JOIN PHANCONG pc
     ON pc.MACB = l.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 INNER JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 WHERE nv.LOAINV = 1
@@ -465,7 +465,7 @@ INNER JOIN LICHBAY l
     ON l.MACB = cb.MACB
 INNER JOIN PHANCONG pc
     ON pc.MACB = cb.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 INNER JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 WHERE pc.MANV = '1001';
@@ -519,7 +519,7 @@ INNER JOIN LICHBAY l
     ON l.MACB = cb.MACB
 INNER JOIN PHANCONG pc
     ON pc.MACB = cb.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 INNER JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 WHERE nv.LOAINV = 1
@@ -541,7 +541,7 @@ INNER JOIN LICHBAY l
     ON l.MACB = cb.MACB
 INNER JOIN PHANCONG pc
     ON pc.MACB = cb.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 INNER JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 WHERE l.NGAYDI = '2000-10-31'
@@ -565,7 +565,7 @@ INNER JOIN LOAIMB m
     ON m.MALOAI = l.MALOAI
 INNER JOIN PHANCONG pc
     ON pc.MACB = cb.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 INNER JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 WHERE nv.TEN = N'Quang';
@@ -596,7 +596,7 @@ INNER JOIN DATCHO d
     ON d.MAKH = k.MAKH
 INNER JOIN LICHBAY l
     ON l.MACB = d.MACB
-        AND l.NGAYDI = d.NGAYDI
+    AND l.NGAYDI = d.NGAYDI
 INNER JOIN LOAIMB m
     ON m.MALOAI = l.MALOAI
 WHERE m.HANGSX = N'Boeing';
@@ -685,7 +685,7 @@ SELECT
 FROM LICHBAY l
 LEFT JOIN PHANCONG pc
     ON pc.MACB = l.MACB
-        AND pc.NGAYDI = l.NGAYDI
+    AND pc.NGAYDI = l.NGAYDI
 LEFT JOIN NHANVIEN nv
     ON nv.MANV = pc.MANV
 GROUP BY
@@ -696,19 +696,70 @@ GO
 -- Câu 22
 -- Số lượng chuyến bay xuất phát từ sân bay MIA vào ngày 11/01/2000.
 
+SELECT COUNT(cb.MACB)
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+WHERE cb.SBDI = 'MIA'
+    AND l.NGAYDI = '2000-01-11';
+GO
+
 -- Câu 23
--- Với mỗi chuyến bay, cho biết mã chuyến bay, ngày đi, số lượng nhân viên
--- được phân công trên chuyến bay đó, sắp theo thứ tự giảm dần của số lượng.
+-- Với mỗi chuyến bay, cho biết mã chuyến bay, ngày đi,
+-- số lượng nhân viên được phân công trên chuyến bay đó, 
+-- sắp xếp theo thứ tự giảm dần của số lượng.
+
+SELECT
+    cb.MACB,
+    l.NGAYDI,
+    COUNT(pc.MANV) AS SL_NV
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN PHANCONG pc
+    ON pc.MACB = cb.MACB
+    AND pc.NGAYDI = l.NGAYDI
+GROUP BY
+    cb.MACB,
+    l.NGAYDI
+ORDER BY 
+    COUNT(pc.MANV) DESC;
+GO
 
 -- Câu 24
 -- Với mỗi chuyến bay, cho biết mã chuyến bay, ngày đi, cùng với
 -- số lượng hành khách đã đặt chỗ của chuyến bay đó, sắp theo
 -- thứ tự giảm dần của số lượng.
 
+SELECT
+    cb.MACB,
+    l.NGAYDI,
+    COUNT(d.MAKH) AS SL_HANHKHACH
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+INNER JOIN DATCHO d
+    ON d.MACB = cb.MACB
+    AND d.NGAYDI = l.NGAYDI
+GROUP BY
+    cb.MACB,
+    l.NGAYDI
+ORDER BY COUNT(d.MAKH) DESC;
+GO
+
 -- Câu 25
 -- Với mỗi chuyến bay, cho biết mã chuyến bay, ngày đi, tổng lương
 -- của phi hành đoàn (các nhân viên được phân công trong chuyến bay),
 -- sắp xếp theo thứ tự tăng dần của tổng lương.
+
+SELECT
+    cb.MACB,
+    l.NGAYDI,
+    SUM(nv.LUONG) AS TONG_LUONG
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+
 
 -- Câu 26
 -- Cho biết lương trung bình của các nhân viên không phải là phi công.
@@ -718,12 +769,12 @@ GO
 
 -- Câu 28
 -- Với mỗi loại máy bay, cho biết số lượng chuyến bay đã bay
--- trên loại máy bay đó hạ cánh xuống sân bay ORD. Xuất ra mã loại máy bay,
--- số lượng chuyến bay.
+-- trên loại máy bay đó hạ cánh xuống sân bay ORD.
+-- Xuất ra mã loại máy bay, số lượng chuyến bay.
 
 -- Câu 29
--- Cho biết sân bay (SBDI) và số lượng chuyến bay có nhiều hơn 2 chuyến bay
--- xuất phát trong khoảng 10 giờ đến 22 giờ.
+-- Cho biết sân bay (SBDI) và số lượng chuyến bay
+-- có nhiều hơn 2 chuyến bay xuất phát trong khoảng 10 giờ đến 22 giờ.
 
 -- Câu 30
 -- Cho biết tên phi công được phân công vào ít nhất 2 chuyến bay
