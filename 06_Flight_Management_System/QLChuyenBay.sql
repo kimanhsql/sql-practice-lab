@@ -900,31 +900,108 @@ GO
 -- Câu 35
 -- Cho biết tên nhân viên được phân công đi nhiều chuyến bay nhất.
 
-
+SELECT TOP 1 WITH TIES
+    nv.TEN
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+GROUP BY
+    nv.MANV,
+    nv.TEN
+ORDER BY COUNT(pc.MACB) DESC;
+GO
 
 -- Câu 36
--- Cho biết thông tin của phi công (tên, địa chỉ, điện thoại) lái
--- nhiều chuyến bay nhất.
+-- Cho biết thông tin của phi công (tên, địa chỉ, điện thoại)
+-- lái nhiều chuyến bay nhất.
+
+SELECT TOP 1 WITH TIES
+    nv.TEN,
+    nv.DCHI,
+    nv.DTHOAI
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+WHERE nv.LOAINV = 1
+GROUP BY
+    nv.MANV,
+    nv.TEN,
+    nv.DCHI,
+    nv.DTHOAI
+ORDER BY COUNT(pc.MACB) DESC;
+GO
 
 -- Câu 37
 -- Cho biết sân bay (SBDEN) và số lượng chuyến bay của sân bay
 -- có ít chuyến bay đáp xuống nhất.
 
+SELECT TOP 1 WITH TIES
+    cb.SBDEN,
+    COUNT(l.MACB) AS SL_CHUYENBAY_DEN
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+GROUP BY cb.SBDEN
+ORDER BY COUNT(l.MACB) ASC;
+GO
+
 -- Câu 38
 -- Cho biết sân bay (SBDI) và số lượng chuyến bay của sân bay
 -- có nhiều chuyến bay xuất phát nhất.
+
+SELECT TOP 1 WITH TIES
+    cb.SBDI,
+    COUNT(l.MACB) AS SL_CHUYENBAY_DI
+FROM CHUYENBAY cb
+INNER JOIN LICHBAY l
+    ON l.MACB = cb.MACB
+GROUP BY cb.SBDI
+ORDER BY COUNT(l.MACB) DESC;
+GO
 
 -- Câu 39
 -- Cho biết tên, địa chỉ, và điện thoại
 -- của khách hàng đã đi trên nhiều chuyến bay nhất.
 
+SELECT TOP 1 WITH TIES
+    k.TEN,
+    k.DCHI,
+    k.DTHOAI
+FROM KHACHHANG k
+INNER JOIN DATCHO d
+    ON d.MAKH = k.MAKH
+GROUP BY
+    k.MAKH,
+    k.TEN,
+    k.DCHI,
+    k.DTHOAI
+ORDER BY COUNT(d.MAKH) DESC;
+GO
+
 -- Câu 40
 -- Cho biết mã số, tên và lương của các phi công
 -- có khả năng lái nhiều loại máy bay nhất.
 
+SELECT TOP 1 WITH TIES
+    nv.MANV,
+    nv.TEN,
+    nv.LUONG
+FROM NHANVIEN nv
+INNER JOIN KHANANG k
+    ON k.MANV = nv.MANV
+WHERE nv.LOAINV = 1
+GROUP BY
+    nv.MANV,
+    nv.TEN,
+    nv.LUONG
+ORDER BY COUNT(k.MALOAI) DESC;
+GO
+
 -- Câu 41
 -- Cho biết thông tin (mã nhân viên, tên, lương)
 -- của nhân viên có mức lương cao nhất.
+
+
 
 -- Câu 42
 -- Cho biết tên, địa chỉ của các nhân viên có lương cao nhất
