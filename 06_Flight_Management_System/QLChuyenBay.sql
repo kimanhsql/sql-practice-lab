@@ -821,24 +821,86 @@ GO
 -- Cho biết tên phi công được phân công vào ít nhất 2 chuyến bay
 -- trong cùng một ngày.
 
+SELECT nv.TEN
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+WHERE nv.LOAINV = 1
+GROUP BY
+    nv.MANV,
+    nv.TEN,
+    pc.NGAYDI
+HAVING COUNT(cb.MACB) >= 2;
+GO
+
 -- Câu 31
 -- Cho biết mã chuyến bay và ngày đi của những chuyến bay
 -- có ít hơn 3 hành khách đặt chỗ.
+
+SELECT
+    l.MACB,
+    l.NGAYDI
+FROM LICHBAY l
+LEFT JOIN DATCHO d
+    ON d.MACB = l.MACB
+    AND d.NGAYDI = l.NGAYDI
+GROUP BY
+    l.MACB,
+    l.NGAYDI
+HAVING COUNT(d.MAKH) < 3;
+GO
 
 -- Câu 32
 -- Cho biết số hiệu máy bay và loại máy bay mà phi công có mã 1001
 -- được phân công lái trên 2 lần.
 
+SELECT
+    l.SOHIEU,
+    l.MALOAI
+FROM LICHBAY l
+INNER JOIN PHANCONG pc
+    ON pc.MACB = l.MACB
+    AND pc.NGAYDI = l.NGAYDI
+WHERE pc.MANV = '1001'
+GROUP BY
+    l.SOHIEU,
+    l.MALOAI
+HAVING COUNT(*) > 2;
+GO
+
 -- Câu 33
 -- Với mỗi hãng sản xuất, cho biết số lượng loại máy bay mà hãng đó
 -- đã sản xuất. Xuất ra hãng sản xuất và số lượng.
+
+SELECT
+    l.HANGSX,
+    COUNT(l.MALOAI) AS SL_LOAIMB_DA_SX
+FROM LOAIMB l
+GROUP BY l.HANGSX;
+GO
 
 -- Câu 34
 -- Cho biết hãng sản xuất, mã loại và số hiệu của máy bay
 -- đã được sử dụng nhiều nhất.
 
+SELECT TOP 1 WITH TIES
+    lmb.HANGSX,
+    l.MALOAI,
+    l.SOHIEU
+FROM LICHBAY l
+INNER JOIN LOAIMB lmb
+    ON lmb.MALOAI = l.MALOAI
+GROUP BY
+    lmb.HANGSX,
+    l.MALOAI,
+    l.SOHIEU
+ORDER BY COUNT(*) DESC;
+GO
+
 -- Câu 35
 -- Cho biết tên nhân viên được phân công đi nhiều chuyến bay nhất.
+
+
 
 -- Câu 36
 -- Cho biết thông tin của phi công (tên, địa chỉ, điện thoại) lái
