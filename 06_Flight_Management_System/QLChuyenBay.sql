@@ -1001,33 +1001,130 @@ GO
 -- Cho biết thông tin (mã nhân viên, tên, lương)
 -- của nhân viên có mức lương cao nhất.
 
-
+SELECT
+    MANV,
+    TEN,
+    LUONG
+FROM NHANVIEN
+WHERE LUONG = 
+(
+    SELECT MAX(LUONG)
+    FROM NHANVIEN
+);
+GO
 
 -- Câu 42
 -- Cho biết tên, địa chỉ của các nhân viên có lương cao nhất
--- trong phi hành đoàn (các nhân viên được phân công trong một chuyến bay)
--- mà người đó tham gia.
+-- trong phi hành đoàn (các nhân viên được phân công
+-- trong một chuyến bay) mà người đó tham gia.
+
+SELECT DISTINCT
+    nv1.TEN,
+    nv1.DCHI
+FROM PHANCONG pc1
+INNER JOIN NHANVIEN nv1
+    ON nv1.MANV = pc1.MANV
+WHERE nv1.LUONG =
+(
+    SELECT MAX(nv2.LUONG)
+    FROM PHANCONG pc2
+    INNER JOIN NHANVIEN nv2
+        ON nv2.MANV = pc2.MANV
+    WHERE pc2.MACB = pc1.MACB
+    AND pc2.NGAYDI = pc1.NGAYDI
+);
+GO
 
 -- Câu 43
 -- Cho biết mã chuyến bay, giờ đi và giờ đến
 -- của chuyến bay bay sớm nhất trong ngày.
 
+SELECT
+    l1.NGAYDI,
+    cb1.MACB,
+    cb1.GIODI,
+    cb1.GIODEN
+FROM LICHBAY l1
+INNER JOIN CHUYENBAY cb1
+    ON cb1.MACB = l1.MACB
+WHERE cb1.GIODI =
+(
+    SELECT MIN(cb2.GIODI)
+    FROM LICHBAY l2
+    INNER JOIN CHUYENBAY cb2
+        ON cb2.MACB = l2.MACB
+    WHERE cb2.NGAYDI = l2.NGAYDI
+);
+GO
+
 -- Câu 44
--- Cho biết mã chuyến bay có thời gian bay dài nhất. Xuất ra mã chuyến bay
--- và thời gian bay (tính bằng phút).
+-- Cho biết mã chuyến bay có thời gian bay dài nhất.
+-- Xuất ra mã chuyến bay và thời gian bay (tính bằng phút).
+
+SELECT
+    MACB,
+    DATEDIFF(minute,GIODI,GIODEN) AS THOI_GIAN_BAY
+FROM CHUYENBAY
+WHERE DATEDIFF(minute,GIODI,GIODEN) =
+(
+    SELECT MAX(DATEDIFF(minute,GIODI,GIODEN))
+    FROM CHUYENBAY
+);
+GO
 
 -- Câu 45
--- Cho biết mã chuyến bay có thời gian bay ít nhất. Xuất ra mã chuyến bay
--- và thời gian bay.
+-- Cho biết mã chuyến bay có thời gian bay ít nhất.
+-- Xuất ra mã chuyến bay và thời gian bay.
+
+SELECT
+    MACB,
+    DATEDIFF(minute,GIODI,GIODEN)
+FROM CHUYENBAY
+WHERE DATEDIFF(minute,GIODI,GIODEN) =
+(
+    SELECT MIN(DATEDIFF(minute,GIODI,GIODEN))
+    FROM CHUYENBAY
+);
+GO
 
 -- Câu 46
 -- Cho biết mã chuyến bay và ngày đi của những chuyến bay
 -- bay trên loại máy bay B747 nhiều nhất.
 
+SELECT
+    l.MACB,
+    l.NGAYDI
+FROM LICHBAY l
+WHERE l.MALOAI = 'B747'
+    AND l.MACB IN
+    (
+        SELECT TOP 1 WITH TIES
+            MACB
+        FROM LICHBAY
+        WHERE MALOAI = 'B747'
+        GROUP BY MACB
+        ORDER BY COUNT(MACB) DESC
+    );
+GO
+
 -- Câu 47
 -- Với mỗi chuyến bay có trên 3 hành khách, cho biết mã chuyến bay
 -- và số lượng nhân viên trên chuyến bay đó. Xuất ra mã chuyến bay
 -- và số lượng nhân viên.
+
+SELECT
+    l.MACB,
+    COUNT(DISTINCT pc.MANV) AS SL_NHANVIEN
+FROM LICHBAY l
+INNER JOIN PHANCONG pc
+    ON pc.MACB = l.MACB
+    AND pc.NGAYDI = l.NGAYDI
+INNER JOIN DATCHO d
+    ON d.MACB = l.MACB
+    AND d.NGAYDI = l.NGAYDI
+GROUP BY l.MACB
+HAVING COUNT(DISTINCT d.MAKH) > 3;
+GO
 
 -- Câu 48
 -- Với mỗi loại nhân viên có tổng lương trên 600000,
@@ -1044,7 +1141,8 @@ GO
 -- Xuất ra mã loại và số lượng.
 
 -- Câu 51
--- Cho biết mã những chuyến bay đã bay tất cả các máy bay của hãng ‘Boeing’.
+-- Cho biết mã những chuyến bay đã bay tất cả các máy bay
+-- của hãng ‘Boeing’.
 
 -- Câu 52
 -- Cho biết mã và tên phi công có khả năng lái tất cả các máy bay
