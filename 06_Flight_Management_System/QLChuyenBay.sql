@@ -1131,6 +1131,8 @@ GO
 -- cho biết số lượng nhân viên trong từng loại nhân viên đó.
 -- Xuất ra loại nhân viên, và số lượng nhân viên tương ứng.
 
+
+
 -- Câu 49
 -- Với mỗi chuyến bay có trên 3 nhân viên, cho biết mã chuyến bay
 -- và số lượng khách hàng đã đặt chỗ trên chuyến bay đó.
