@@ -1131,16 +1131,37 @@ GO
 -- cho biết số lượng nhân viên trong từng loại nhân viên đó.
 -- Xuất ra loại nhân viên, và số lượng nhân viên tương ứng.
 
-
+SELECT
+    LOAINV,
+    COUNT(MANV) AS SL_NV_TONGLUONG_TREN_600000
+FROM NHANVIEN
+GROUP BY LOAINV
+HAVING SUM(LUONG) > 600000;
+GO
 
 -- Câu 49
 -- Với mỗi chuyến bay có trên 3 nhân viên, cho biết mã chuyến bay
 -- và số lượng khách hàng đã đặt chỗ trên chuyến bay đó.
 
+SELECT
+    d.MACB,
+    COUNT(DISTINCT d.MAKH) AS SL_KH_DADATCHO
+FROM DATCHO d
+INNER JOIN PHANCONG pc
+    ON pc.MACB = d.MACB
+    AND pc.NGAYDI = d.NGAYDI
+GROUP BY d.MACB
+HAVING COUNT(DISTINCT pc.MANV) > 3;
+GO
+
 -- Câu 50
 -- Với mỗi loại máy bay có nhiều hơn một chiếc, cho biết
 -- số lượng chuyến bay đã được bố trí bay bằng loại máy bay đó.
 -- Xuất ra mã loại và số lượng.
+
+SELECT
+    MALOAI,
+    COUNT(DISTINCT)
 
 -- Câu 51
 -- Cho biết mã những chuyến bay đã bay tất cả các máy bay
