@@ -1160,16 +1160,42 @@ GO
 -- Xuất ra mã loại và số lượng.
 
 SELECT
-    MALOAI,
-    COUNT(DISTINCT)
+    m.MALOAI,
+    COUNT(DISTINCT l.MACB) AS SL_CB_BOTRIBAY
+FROM MAYBAY m
+LEFT JOIN LICHBAY l
+    ON l.MALOAI = m.MALOAI
+    AND l.SOHIEU = m.SOHIEU
+GROUP BY m.MALOAI
+HAVING COUNT(DISTINCT m.SOHIEU) > 1;
+GO
 
 -- Câu 51
 -- Cho biết mã những chuyến bay đã bay tất cả các máy bay
 -- của hãng ‘Boeing’.
 
+SELECT
+    l.MACB
+FROM LICHBAY l
+INNER JOIN LOAIMB lmb
+    ON lmb.MALOAI = l.MALOAI
+WHERE lmb.HANGSX = N'Boeing'
+GROUP BY l.MACB
+HAVING COUNT(DISTINCT CONCAT(l.MALOAI,' - ',l.SOHIEU)) =
+(
+    SELECT COUNT(*)
+    FROM MAYBAY m
+    INNER JOIN LOAIMB lmb2
+        ON lmb2.MALOAI = m.MALOAI
+    WHERE lmb2.HANGSX = 'Boeing'
+);
+GO
+
 -- Câu 52
 -- Cho biết mã và tên phi công có khả năng lái tất cả các máy bay
 -- của hãng ‘Airbus’.
+
+
 
 -- Câu 53
 -- Cho biết tên nhân viên (không phải là phi công) được phân công bay
