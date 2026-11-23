@@ -211,7 +211,7 @@ CREW_ASSIGNMENTS
 * [x] Table creation, primary keys, and foreign keys
 * [x] Sample data setup
 * [x] DML exercises execution & updates
-* [ ] 56 SQL queries implementation and verification
+* [x] 56 SQL queries implementation and verification
 * [x] Integrity constraints & Triggers implementation
 * [x] SQL script organization
 * [x] Project documentation (`README.md`)
