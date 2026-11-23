@@ -1195,20 +1195,101 @@ GO
 -- Cho biết mã và tên phi công có khả năng lái tất cả các máy bay
 -- của hãng ‘Airbus’.
 
-
+SELECT
+    kn.MANV,
+    nv.TEN
+FROM KHANANG kn
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = kn.MANV
+INNER JOIN LOAIMB lmb
+    ON lmb.MALOAI = kn.MALOAI
+WHERE nv.LOAINV = 1
+    AND lmb.HANGSX = 'Airbus'
+GROUP BY
+    kn.MANV,
+    nv.TEN
+HAVING COUNT(DISTINCT kn.MALOAI) =
+(
+    SELECT COUNT(MALOAI)
+    FROM LOAIMB
+    WHERE HANGSX = 'Airbus'
+);
+GO
 
 -- Câu 53
 -- Cho biết tên nhân viên (không phải là phi công) được phân công bay
 -- vào tất cả các chuyến bay có mã 100.
 
+SELECT nv.TEN
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+WHERE nv.LOAINV = 0
+    AND l.MACB = '100'
+GROUP BY
+    nv.MANV,
+    nv.TEN
+HAVING COUNT(DISTINCT pc.NGAYDI) =
+(
+    SELECT COUNT(DISTINCT NGAYDI)
+    FROM LICHBAY
+    WHERE MACB = '100'
+);
+GO
+
 -- Câu 54
 -- Cho biết ngày đi nào mà có tất cả các loại máy bay
 -- của hãng ‘Boeing’ tham gia.
+
+SELECT l.NGAYDI
+FROM LICHBAY l
+INNER JOIN LOAIMB lmb
+    ON lmb.MALOAI = l.MALOAI
+WHERE lmb.HANGSX = 'Boeing'
+GROUP BY l.NGAYDI
+HAVING COUNT(DISTINCT lmb.MALOAI) =
+(
+    SELECT COUNT(DISTINCT MALOAI)
+    FROM LOAIMB
+    WHERE HANGSX = 'Boeing'
+);
+GO
 
 -- Câu 55
 -- Cho biết loại máy bay của hãng ‘Boeing’ nào có tham gia
 -- vào tất cả các ngày đi.
 
+SELECT lmb.MALOAI
+FROM LOAIMB lmb
+INNER JOIN LICHBAY l
+    ON l.MALOAI = lmb.MALOAI
+WHERE lmb.HANGSX = 'Boeing'
+GROUP BY lmb.MALOAI
+HAVING COUNT(DISTINCT l.NGAYDI) =
+(
+    SELECT COUNT(DISTINCT NGAYDI)
+    FROM LICHBAY
+);
+GO
+
 -- Câu 56
 -- Cho biết mã và tên các khách hàng có đặt chỗ
--- trong tất cả các ngày từ 31/10/2000 đến 1/1/2000.
+-- trong tất cả các ngày từ 31/10/2000 đến 1/1/2001.
+
+SELECT
+    d.MAKH,
+    kh.TEN
+FROM KHACHHANG kh
+INNER JOIN DATCHO d
+    ON d.MAKH = kh.MAKH
+WHERE d.NGAYDI BETWEEN '2000-10-31' AND '2001-01-01'
+GROUP BY
+    d.MAKH,
+    kh.TEN
+HAVING COUNT(DISTINCT d.NGAYDI) =
+(
+    SELECT COUNT(DISTINCT NGAYDI)
+    FROM LICHBAY
+    WHERE NGAYDI BETWEEN '2000-10-31' AND '2001-01-01'
+);
+GO

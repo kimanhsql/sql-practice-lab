@@ -180,7 +180,7 @@ CREW_ASSIGNMENTS
 53. List names of non-pilot employees assigned to all flights with code '100'.
 54. List departure dates that feature all aircraft types manufactured by 'Boeing'.
 55. List aircraft types manufactured by 'Boeing' that have participated on all departure dates.
-56. List IDs and names of customers who have bookings on all dates from October 31, 2000, to January 1, 2000.
+56. List IDs and names of customers who have bookings on all dates from October 31, 2000, to January 1, 2001.
 
 ---
 
