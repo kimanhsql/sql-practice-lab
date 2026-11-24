@@ -633,83 +633,299 @@ GO
 -- Câu 25
 -- Cho biết số lượng đề án của công ty.
 
-
+SELECT COUNT(MADA) AS SL_DEAN
+FROM DEAN;
+GO
 
 -- Câu 26
 -- Cho biết số lượng đề án do phòng 'Nghiên Cứu' chủ trì.
 
+SELECT COUNT(d.MADA) AS SL_DEAN
+FROM DEAN d
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = d.PHONG
+WHERE pb.TENPHG = N'Nghiên Cứu';
+GO
+
 -- Câu 27
 -- Cho biết lương trung bình của tất cả các nữ nhân viên.
 
+SELECT AVG(MLUONG) AS LUONG_TB
+FROM NHANVIEN
+WHERE PHAI = N'Nữ';
+GO
+
 -- Câu 28
 -- Cho biết số thân nhân của nhân viên 'Đinh Bá Tiến'.
+
+SELECT COUNT(tn.TENTN) AS SO_THAN_NHAN
+FROM THANNHAN tn
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = tn.MANV
+WHERE CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) = N'Đinh Bá Tiến';
+GO
 
 -- Câu 29
 -- Với mỗi đề án, liệt kê tên đề án (TENDA)
 -- và tổng số giờ làm việc một tuần
 -- của tất cả các nhân viên tham dự đề án đó.
 
+SELECT
+    d.TENDA,
+    SUM(pc.THOIGIAN) AS TONGSOGIO_LV
+FROM DEAN d
+INNER JOIN PHANCONG pc
+    ON pc.MADA = d.MADA
+GROUP BY
+    d.MADA,
+    d.TENDA;
+GO
+
 -- Câu 30
 -- Với mỗi đề án, cho biết có bao nhiêu nhân viên tham gia
 -- đề án đó.
+
+SELECT
+    d.MADA,
+    d.TENDA,
+    COUNT(DISTINCT pc.MANV) AS SL_NV_THAMGIA
+FROM DEAN d
+INNER JOIN PHANCONG pc
+    ON pc.MADA = d.MADA
+GROUP BY
+    d.MADA,
+    d.TENDA;
+GO
 
 -- Câu 31
 -- Với mỗi đề án, cho biết tên đề án và số lượng công việc
 -- của đề án này.
 
+SELECT
+    d.TENDA,
+    COUNT(DISTINCT pc.MANV) AS SL_CONGVIEC
+FROM DEAN d
+INNER JOIN PHANCONG pc
+    ON pc.MADA = d.MADA
+GROUP BY
+    d.MADA,
+    d.TENDA;
+GO
+
 -- Câu 32
 -- Với mỗi công việc trong đề án có mã đề án là 'Đào Tạo',
 -- cho biết số lượng nhân viên được phân công.
+
+SELECT
+    d.MADA,
+    d.TENDA,
+    COUNT(DISTINCT pc.MANV) AS SL_NV_DUOCPC
+FROM DEAN d
+INNER JOIN PHANCONG pc
+    ON pc.MADA = d.MADA
+WHERE d.TENDA = N'Đào Tạo'
+GROUP BY
+    d.MADA,
+    d.TENDA;
+GO
 
 -- Câu 33
 -- Với mỗi nhân viên, cho biết họ và tên nhân viên
 -- và nhân viên đó có bao nhiêu thân nhân.
 
+SELECT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    COUNT(DISTINCT tn.TENTN) AS TN_CUANV
+FROM NHANVIEN nv
+LEFT JOIN THANNHAN tn
+    ON tn.MANV = nv.MANV
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV;
+GO
+
 -- Câu 34
 -- Với mỗi nhân viên, cho biết số lượng nhân viên
 -- mà nhân viên đó quản lý trực tiếp.
+
+SELECT
+    nv_ql.MANV,
+    CONCAT_WS(' ', nv_ql.HONV, nv_ql.TENLOT, nv_ql.TENNV) AS HOTEN_NQL,
+    COUNT(nv_duoi.MANV) AS SL_NV_DUOC_QL
+FROM NHANVIEN nv_ql
+LEFT JOIN NHANVIEN nv_duoi
+    ON nv_duoi.MA_NQL = nv_ql.MANV
+GROUP BY
+    nv_ql.MANV,
+    nv_ql.HONV,
+    nv_ql.TENLOT,
+    nv_ql.TENNV;
+GO
 
 -- Câu 35
 -- Với mỗi phòng ban, liệt kê tên phòng ban (TENPHG)
 -- và lương trung bình của những nhân viên làm việc
 -- cho phòng ban đó.
 
+SELECT
+    pb.TENPHG,
+    AVG(nv.MLUONG) AS LUONG_TB
+FROM PHONGBAN pb
+INNER JOIN NHANVIEN nv
+    ON nv.PHONG = pb.MAPHG
+GROUP BY
+    pb.MAPHG,
+    pb.TENPHG;
+GO
+
 -- Câu 36
 -- Với các phòng ban có mức lương trung bình trên 30,000,
 -- liệt kê tên phòng ban và số lượng nhân viên
 -- của phòng ban đó.
 
+SELECT
+    pb.TENPHG,
+    COUNT(nv.MANV) AS SL_NHANVIEN
+FROM PHONGBAN pb
+INNER JOIN NHANVIEN nv
+    ON nv.PHONG = pb.MAPHG
+GROUP BY
+    pb.MAPHG,
+    pb.TENPHG
+HAVING AVG(nv.MLUONG) > 30000;
+GO
+
 -- Câu 37
 -- Với mỗi phòng ban, cho biết tên phòng ban
 -- và số lượng đề án mà phòng ban đó chủ trì.
+
+SELECT
+    pb.TENPHG,
+    COUNT(d.MADA) AS SL_DEAN
+FROM PHONGBAN pb
+LEFT JOIN DEAN d
+    ON d.PHONG = pb.MAPHG
+GROUP BY
+    pb.MAPHG,
+    pb.TENPHG;
+GO
 
 -- Câu 38
 -- Với mỗi phòng ban, cho biết tên phòng ban,
 -- họ tên người trưởng phòng
 -- và số lượng đề án mà phòng ban đó chủ trì.
 
+SELECT
+    pb.TENPHG,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_TRGPHG,
+    COUNT(d.MADA) AS SL_DA
+FROM PHONGBAN pb
+LEFT JOIN NHANVIEN nv
+    ON nv.MANV = pb.TRGPHG
+LEFT JOIN DEAN d
+    ON d.PHONG = pb.MAPHG
+GROUP BY
+    pb.MAPHG,
+    pb.TENPHG,
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV;
+GO
+
 -- Câu 39
 -- Cho biết số đề án diễn ra tại từng địa điểm.
+
+SELECT
+    DDIEM_DA,
+    COUNT(MADA) AS SODEAN
+FROM DEAN
+GROUP BY DDIEM_DA;
+GO
 
 -- Câu 40
 -- Cho biết danh sách các đề án (MADA) có: nhân công với họ
 -- (HONV) là 'Dinh' hoặc có người trưởng phòng chủ trì đề án
 -- với họ (HONV) là 'Dinh'.
 
+SELECT DISTINCT d.MADA
+FROM DEAN d
+LEFT JOIN PHANCONG pc
+    ON pc.MADA = d.MADA
+INNER JOIN NHANVIEN nv_pc
+    ON nv_pc.MANV = pc.MANV
+LEFT JOIN PHONGBAN pb
+    ON pb.MAPHG = d.PHONG
+LEFT JOIN NHANVIEN nv_tp
+    ON nv_tp.MANV = pb.TRGPHG
+WHERE nv_pc.HONV = N'Đinh'
+    OR nv_tp.HONV = N'Đinh';
+GO
+
 -- Câu 41
 -- Danh sách những nhân viên (HONV, TENLOT, TENNV)
 -- có trên 2 thân nhân.
+
+SELECT
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+FROM NHANVIEN nv
+INNER JOIN THANNHAN tn
+    ON tn.MANV = nv.MANV
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(tn.TENTN) > 2;
 
 -- Câu 42
 -- Danh sách những nhân viên (HONV, TENLOT, TENNV)
 -- không có thân nhân nào.
 
+SELECT
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+FROM NHANVIEN nv
+LEFT JOIN THANNHAN tn
+    ON tn.MANV = nv.MANV
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(tn.TENTN) = 0;
+GO
+
 -- Câu 43
 -- Danh sách những trưởng phòng (HONV, TENLOT, TENNV)
 -- có tối thiểu một thân nhân.
 
+SELECT
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+FROM NHANVIEN nv
+INNER JOIN PHONGBAN pb
+    ON pb.TRGPHG = nv.MANV
+INNER JOIN THANNHAN tn
+    ON tn.MANV = nv.MANV
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(tn.TENTN) >= 1;
+GO
+
 -- Câu 44
 -- Tìm họ (HONV) của những trưởng phòng chưa có gia đình.
+
+
 
 -- Câu 45
 -- Cho biết họ tên nhân viên (HONV, TENLOT, TENNV)
