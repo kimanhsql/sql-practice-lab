@@ -551,7 +551,7 @@ GO
 
 -- Câu 13
 -- Cho biết thông tin về chuyến bay (mã chuyến bay, số hiệu, mã loại,
--- hãng sản xuất) mà phi công ‘Quang’ đã lái.
+-- hãng sản xuất) mà phi công 'Quang' đã lái.
 
 SELECT
     cb.MACB,
@@ -588,7 +588,7 @@ GO
 
 -- Câu 15
 -- Cho biết tên khách hàng đã đi chuyến bay trên máy bay
--- của hãng ‘Boeing’.
+-- của hãng 'Boeing'.
 
 SELECT DISTINCT k.TEN
 FROM KHACHHANG k
@@ -1172,7 +1172,7 @@ GO
 
 -- Câu 51
 -- Cho biết mã những chuyến bay đã bay tất cả các máy bay
--- của hãng ‘Boeing’.
+-- của hãng 'Boeing'.
 
 SELECT
     l.MACB
@@ -1193,7 +1193,7 @@ GO
 
 -- Câu 52
 -- Cho biết mã và tên phi công có khả năng lái tất cả các máy bay
--- của hãng ‘Airbus’.
+-- của hãng 'Airbus'.
 
 SELECT
     kn.MANV,
@@ -1239,7 +1239,7 @@ GO
 
 -- Câu 54
 -- Cho biết ngày đi nào mà có tất cả các loại máy bay
--- của hãng ‘Boeing’ tham gia.
+-- của hãng 'Boeing' tham gia.
 
 SELECT l.NGAYDI
 FROM LICHBAY l
@@ -1256,7 +1256,7 @@ HAVING COUNT(DISTINCT lmb.MALOAI) =
 GO
 
 -- Câu 55
--- Cho biết loại máy bay của hãng ‘Boeing’ nào có tham gia
+-- Cho biết loại máy bay của hãng 'Boeing' nào có tham gia
 -- vào tất cả các ngày đi.
 
 SELECT lmb.MALOAI
