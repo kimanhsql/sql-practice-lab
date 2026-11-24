@@ -328,98 +328,312 @@ GO
 -- làm việc ở phòng 'NC'.
 -- ============================================================
 
-
+SELECT
+    MANV,
+    HONV,
+    TENLOT,
+    TENNV
+FROM NHANVIEN
+WHERE PHONG = 'NC';
+GO
 
 -- Câu 2
 -- Tìm những nhân viên (MANV, HONV, TENLOT, TENNV, PHAI)
 -- có mức lương trên 2.000.000.
 
+SELECT
+    MANV,
+    HONV,
+    TENLOT,
+    TENNV,
+    PHAI
+FROM NHANVIEN
+WHERE MLUONG > 2000000;
+GO
+
 -- Câu 3
 -- Tìm họ tên nhân viên và tên phòng ban nhân viên đó
 -- trực thuộc có mức lương từ 2.000.000 đến 3.000.000.
+
+SELECT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    pb.TENPHG
+FROM NHANVIEN nv
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = nv.PHONG
+WHERE nv.MLUONG BETWEEN 2000000 AND 3000000;
+GO
 
 -- Câu 4
 -- Tìm các nhân viên có mức lương trên 2.500.000 ở phòng NC
 -- hoặc các nhân viên có mức lương trên 3.000.000 ở phòng DH.
 
+SELECT
+    MANV,
+    CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_NV
+FROM NHANVIEN
+WHERE (MLUONG > 2500000 AND PHONG = 'NC')
+    OR (MLUONG > 3000000 AND PHONG = 'DH');
+GO
+
 -- Câu 5
 -- Cho biết họ tên đầy đủ của các nhân viên ở 'Tp HCM'.
+
+SELECT CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_NV
+FROM NHANVIEN
+WHERE DCHI LIKE N'%Tp HCM%';
+GO
 
 -- Câu 6
 -- Cho biết họ tên đầy đủ của các nhân viên
 -- có họ bắt đầu bằng ký tự 'N'.
 
+SELECT CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_NV
+FROM NHANVIEN
+WHERE HONV LIKE N'N%';
+GO
+
 -- Câu 7
 -- Cho biết ngày sinh và địa chỉ của nhân viên 'Đinh Bá Tiến'.
+
+SELECT
+    NGSINH,
+    DCHI
+FROM NHANVIEN
+WHERE CONCAT_WS(' ',HONV,TENLOT,TENNV) = N'Đinh Bá Tiến';
+GO
 
 -- Câu 8
 -- Cho biết các nhân viên có năm sinh
 -- trong khoảng 1960 đến 1965.
 
+SELECT CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_NV
+FROM NHANVIEN
+WHERE YEAR(NGSINH) BETWEEN 1960 AND 1965;
+GO
+
 -- Câu 9
 -- Cho biết các nhân viên và tuổi của nhân viên.
+
+SELECT
+    CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_NV,
+    DATEDIFF(YEAR,NGSINH,GETDATE()) AS TUOI_NV
+FROM NHANVIEN;
+GO
 
 -- Câu 10
 -- Lập danh sách các thân nhân dưới 18 tuổi
 -- của các nhân viên có mã là '001'.
 
+SELECT
+    CONCAT_WS(' ',HOTN,TENTN) AS HOTEN_THANNHAN,
+    MANV
+FROM THANNHAN
+WHERE DATEDIFF(YEAR,NGAYSINH,GETDATE()) < 18
+    AND MANV = '001';
+GO
+
 -- Câu 11
 -- Danh sách tất cả các nhân viên nữ trên 30 tuổi.
+
+SELECT CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_NV
+FROM NHANVIEN
+WHERE PHAI = N'Nữ'
+    AND DATEDIFF(YEAR,NGSINH,GETDATE()) > 30;
+GO
 
 -- Câu 12
 -- Với mỗi phòng ban, cho biết tên phòng ban
 -- và địa điểm phòng.
 
+SELECT
+    pb.TENPHG,
+    ddp.DIADIEM
+FROM PHONGBAN pb
+INNER JOIN DIADIEMPHG ddp
+    ON ddp.MAPHG = pb.MAPHG;
+GO
+
 -- Câu 13
 -- Tìm tên những người trưởng phòng của từng phòng ban.
 
+SELECT DISTINCT
+    pb.TENPHG,
+    CONCAT_WS(' ',HONV,TENLOT,TENNV) AS HOTEN_TRUONGPHONG
+FROM PHONGBAN pb
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pb.TRGPHG;
+GO
+
 -- Câu 14
 -- Tìm TENDA, MADA, DDIEM_DA, TENPHG, MAPHG, TRPHG, NGNC.
+
+SELECT
+    d.TENDA,
+    d.MADA,
+    d.DDIEM_DA,
+    pb.TENPHG,
+    pb.MAPHG,
+    pb.TRGPHG,
+    pb.NGNC
+FROM DEAN d
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = d.PHONG;
+GO
 
 -- Câu 15
 -- Tìm tên và địa chỉ của tất cả các nhân viên
 -- của phòng 'Nghiên cứu'.
 
+SELECT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    nv.DCHI
+FROM NHANVIEN nv
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = nv.PHONG
+WHERE pb.TENPHG = N'Nghiên cứu';
+GO
+
 -- Câu 16
 -- Tìm tên những nữ nhân viên và tên người thân của họ.
+
+SELECT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    CONCAT_WS(' ',tn.HOTN,tn.TENTN) AS HOTEN_THANNHAN
+FROM NHANVIEN nv
+INNER JOIN THANNHAN tn
+    ON tn.MANV = nv.MANV
+WHERE nv.PHAI = N'Nữ';
+GO
 
 -- Câu 17
 -- Tìm mã số và tên những nhân viên thuộc phòng 'Nghiên Cứu'
 -- tham gia đề án 'Tin Học Hóa' với thời gian làm việc
 -- 20 giờ/tuần.
 
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = nv.PHONG
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE pb.TENPHG = N'Nghiên Cứu'
+    AND d.TENDA = N'Tin Học Hóa'
+    AND pc.THOIGIAN = 20;
+GO
+
 -- Câu 18
 -- Với mọi đề án ở 'Hà Nội', liệt kê các mã số đề án (MADA),
 -- tên phòng ban chủ trì đề án.
 
+SELECT
+    d.MADA,
+    pb.TENPHG
+FROM DEAN d
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = d.PHONG
+WHERE d.DDIEM_DA = N'Hà Nội';
+GO
+
 -- Câu 19
 -- Với mỗi đề án ở 'Hà Nội', cho biết tên đề án,
--- tên phòng ban, họ tên và ngày nhận chứccủa trưởng phòng
+-- tên phòng ban, họ tên và ngày nhậm chức của trưởng phòng
 -- của phòng ban chủ trì đề án đó.
+
+SELECT
+    d.TENDA,
+    pb.TENPHG,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_TRGPHONG,
+    pb.NGNC
+FROM DEAN d
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = d.PHONG
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pb.TRGPHG
+WHERE d.DDIEM_DA = N'Hà Nội';
+GO
 
 -- Câu 20
 -- Với mỗi đề án ở 'Hà Nội', cho biết tên phòng (PHONG),
 -- họ tên trưởng phòng (HONV, TENLOT, TENNV)
 -- cũng như địa chỉ (DCHI) và ngày sinh (NGSINH) của người ấy.
 
+SELECT
+    pb.TENPHG,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    nv.DCHI,
+    nv.NGSINH
+FROM PHONGBAN pb
+INNER JOIN DEAN d
+    ON d.PHONG = pb.MAPHG
+INNER JOIN NHANVIEN nv
+    ON nv.MANV = pb.TRGPHG
+WHERE d.DDIEM_DA = N'Hà Nội';
+GO
+
 -- Câu 21
 -- Với mỗi nhân viên, cho biết họ tên nhân viên
 -- và họ tên người quản lý trực tiếp của nhân viên đó.
+
+SELECT
+    CONCAT_WS(' ',nv1.HONV,nv1.TENLOT,nv1.TENNV) AS HOTEN_NV,
+    CONCAT_WS(' ',nv2.HONV,nv2.TENLOT,nv2.TENNV) AS HOTEN_NQUANLY
+FROM NHANVIEN nv1
+LEFT JOIN NHANVIEN nv2
+    ON nv2.MANV = nv1.MA_NQL;
+GO
 
 -- Câu 22
 -- Với mỗi nhân viên, cho biết họ tên nhân viên và họ tên
 -- trưởng phòng của phòng ban mà nhân viên đó làm việc.
 
+SELECT
+    CONCAT_WS(' ',nv1.HONV,nv1.TENLOT,nv1.TENNV) AS HOTEN_NV,
+    CONCAT_WS(' ',nv2.HONV,nv2.TENLOT,nv2.TENNV) AS HOTEN_TRGPHG
+FROM NHANVIEN nv1
+LEFT JOIN PHONGBAN pb
+    ON pb.MAPHG = nv1.PHONG
+LEFT JOIN NHANVIEN nv2
+    ON nv2.MANV = pb.TRGPHG;
+GO
+
 -- Câu 23
 -- Cho biết họ tên nhân viên (HONV, TENLOT, TENNV)
 -- và tên các đề án mà nhân viên ấy tham gia nếu có.
+
+SELECT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    d.TENDA
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA;
+GO
 
 -- Câu 24
 -- Cho biết tên các đề án mà nhân viên 'Đinh Bá Tiến'
 -- đã tham gia.
 
+SELECT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    d.TENDA
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) = N'Đinh Bá Tiến';
+GO
+
 -- Câu 25
 -- Cho biết số lượng đề án của công ty.
+
+
 
 -- Câu 26
 -- Cho biết số lượng đề án do phòng 'Nghiên Cứu' chủ trì.
