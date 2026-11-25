@@ -1004,33 +1004,210 @@ GO
 -- làm việc cho một đề án ở một thành phố nhưng phòng ban
 -- mà họ trực thuộc lại không toạ lạc ở thành phố đó.
 
-
+SELECT DISTINCT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    nv.DCHI
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE d.DDIEM_DA IS NOT NULL
+    AND NOT EXISTS
+    (
+        SELECT 1
+        FROM DIADIEMPHG dd
+        WHERE dd.MAPHG = nv.PHONG
+            AND dd.DIADIEM = d.DDIEM_DA
+    );
+GO
 
 -- Câu 49
 -- Danh sách những nhân viên (HONV, TENLOT, TENNV)
--- làm việc trong mọi  đề án của công ty.
+-- làm việc trong mọi đề án của công ty.
+
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+WHERE (SELECT COUNT(*) FROM DEAN) > 0
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(DISTINCT pc.MADA) =
+(
+    SELECT COUNT(*)
+    FROM DEAN
+);
+GO
 
 -- Câu 50
 -- Danh sách những nhân viên (HONV, TENLOT, TENNV)
 -- được phân công tất cả đề án do phòng số 'Nghien cuu'
 -- chủ trì.
 
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+INNER JOIN PHONGBAN pb
+    ON pb.MAPHG = d.PHONG
+WHERE pb.TENPHG = N'Nghiên cứu'
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(DISTINCT pc.MADA) =
+(
+    SELECT COUNT(*)
+    FROM DEAN d2
+    INNER JOIN PHONGBAN pb2
+        ON pb2.MAPHG = d2.PHONG
+    WHERE pb2.TENPHG = N'Nghiên cứu'
+);
+GO
+
 -- Câu 51
 -- Tìm họ tên nhân viên tham gia tất cả các đề án
 -- do phòng ban của nhân viên đó trực thuộc chủ trì.
+
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE d.PHONG = nv.PHONG
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV,
+    nv.PHONG
+HAVING COUNT(DISTINCT pc.MADA) =
+(
+    SELECT COUNT(*)
+    FROM DEAN d2
+    WHERE d2.PHONG = nv.PHONG
+);
+GO
 
 -- Câu 52
 -- Tìm những nhân viên (HONV, TENLOT, TENNV)
 -- được phân công tất cả đề án mà nhân viên 'Đinh Bá Tiến'
 -- làm việc.
 
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+WHERE pc.MADA IN
+(
+    SELECT pc2.MADA
+    FROM PHANCONG pc2
+    INNER JOIN NHANVIEN nv2
+        ON nv2.MANV = pc2.MANV
+    WHERE CONCAT_WS(' ',nv2.HONV,nv2.TENLOT,nv2.TENNV) = N'Đinh Bá Tiến'
+)
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(DISTINCT pc.MADA) =
+(
+    SELECT COUNT(DISTINCT pc3.MADA)
+    FROM PHANCONG pc3
+    INNER JOIN NHANVIEN nv3
+        ON nv3.MANV = pc3.MANV
+    WHERE CONCAT_WS(' ',nv3.HONV,nv3.TENLOT,nv3.TENNV) = N'Đinh Bá Tiến'
+);
+GO
+
 -- Câu 53
 -- Cho biết những nhân được phân công cho tất cả
 -- các công việc trong đề án 'Sản phẩm X'.
+
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE d.TENDA = N'Sản phẩm X'
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(*) =
+(
+    SELECT COUNT(*)
+    FROM PHANCONG pc2
+    INNER JOIN DEAN d2
+        ON d2.MADA = pc2.MADA
+    WHERE d2.TENDA = N'Sản phẩm X'
+);
+GO
 
 -- Câu 54
 -- Cho biết danh sách nhân viên tham gia vào
 -- tất cả các đề án ở TP HCM.
 
+SELECT
+    nv.MANV,
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE d.DDIEM_DA LIKE N'%Tp HCM%'
+GROUP BY
+    nv.MANV,
+    nv.HONV,
+    nv.TENLOT,
+    nv.TENNV
+HAVING COUNT(DISTINCT pc.MADA) =
+(
+    SELECT COUNT(*)
+    FROM DEAN d2
+    WHERE d2.DDIEM_DA LIKE N'%Tp HCM%'
+);
+GO
+
 -- Câu 55
 -- Cho biết phòng ban chủ trì tất cả các đề án ở TP HCM.
+
+SELECT
+    pb.MAPHG,
+    pb.TENPHG
+FROM PHONGBAN pb
+INNER JOIN DEAN d
+    ON d.PHONG = pb.MAPHG
+WHERE d.DDIEM_DA LIKE N'%Tp HCM%'
+GROUP BY
+    pb.MAPHG,
+    pb.TENPHG
+HAVING COUNT(DISTINCT d.MADA) =
+(
+    SELECT COUNT(*)
+    FROM DEAN d2
+    WHERE d2.DDIEM_DA LIKE N'%Tp HCM%'
+);
+GO
