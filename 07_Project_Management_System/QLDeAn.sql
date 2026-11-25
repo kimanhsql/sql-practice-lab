@@ -881,6 +881,7 @@ GROUP BY
     nv.TENLOT,
     nv.TENNV
 HAVING COUNT(tn.TENTN) > 2;
+GO
 
 -- Câu 42
 -- Danh sách những nhân viên (HONV, TENLOT, TENNV)
