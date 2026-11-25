@@ -925,16 +925,55 @@ GO
 -- Câu 44
 -- Tìm họ (HONV) của những trưởng phòng chưa có gia đình.
 
-
+SELECT DISTINCT nv.HONV
+FROM NHANVIEN nv
+INNER JOIN PHONGBAN pb
+    ON pb.TRGPHG = nv.MANV
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM THANNHAN tn
+    WHERE tn.MANV = nv.MANV
+);
+GO
 
 -- Câu 45
 -- Cho biết họ tên nhân viên (HONV, TENLOT, TENNV)
 -- có mức lương trên mức lương trung bình
 -- của phòng 'Nghiên cứu'.
 
+SELECT CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV
+FROM NHANVIEN nv
+WHERE nv.MLUONG >
+(
+    SELECT (nv2.MLUONG)
+    FROM NHANVIEN nv2
+    INNER JOIN PHONGBAN pb
+        ON pb.MAPHG = nv2.PHONG
+    WHERE pb.TENPHG = N'Nghiên cứu'
+);
+GO
+
 -- Câu 46
 -- Cho biết tên phòng ban và họ tên trưởng phòng
 -- của phòng ban có đông nhân viên nhất.
+
+SELECT TOP 1
+    pb.TENPHG,
+    CONCAT_WS(' ',nv_tp.HONV,nv_tp.TENLOT,nv_tp.TENNV) AS HOTEN_TRGPHG
+FROM PHONGBAN pb
+INNER JOIN NHANVIEN nv
+    ON nv.PHONG = pb.MAPHG
+INNER JOIN NHANVIEN nv_tp
+    ON nv_tp.MANV = pb.TRGPHG
+GROUP BY
+    pb.MAPHG,
+    pb.TENPHG,
+    nv_tp.HONV,
+    nv_tp.TENLOT,
+    nv_tp.TENNV
+ORDER BY COUNT(nv.MANV) DESC;
+GO
 
 -- Câu 47
 -- Tìm họ tên (HONV, TENLOT, TENNV) và địa chỉ (DCHI)
@@ -942,10 +981,30 @@ GO
 -- nhưng phòng ban mà họ trực thuộc lại không tọa lạc ở 
 -- thành phố 'TP HCM'.
 
+SELECT DISTINCT
+    CONCAT_WS(' ',nv.HONV,nv.TENLOT,nv.TENNV) AS HOTEN_NV,
+    nv.DCHI
+FROM NHANVIEN nv
+INNER JOIN PHANCONG pc
+    ON pc.MANV = nv.MANV
+INNER JOIN DEAN d
+    ON d.MADA = pc.MADA
+WHERE d.DDIEM_DA LIKE N'%Tp HCM%'
+    AND NOT EXISTS
+    (
+        SELECT 1
+        FROM DIADIEMPHG dd
+        WHERE dd.MAPHG = nv.PHONG
+            AND dd.DIADIEM LIKE N'%Tp HCM%'
+    );
+GO
+
 -- Câu 48
 -- Tổng quát câu 47, tìm họ tên và địa chỉ của các nhân viên
 -- làm việc cho một đề án ở một thành phố nhưng phòng ban
 -- mà họ trực thuộc lại không toạ lạc ở thành phố đó.
+
+
 
 -- Câu 49
 -- Danh sách những nhân viên (HONV, TENLOT, TENNV)
